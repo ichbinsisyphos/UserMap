@@ -11,10 +11,11 @@ import sys
 import time
 import random
 import string
+import codecs
 
 
 def coordinateString(newLat, newLng):
-	return "%0.7f, %0.7f, %0.7f" % (float(newLng), float(newLat), 0.0)
+	return "%0.7f, %0.7f, %0.7f" % (newLng, newLat, 0.0)
 
 def nameList(Placemarks):
 	return [ placemark.name for placemark in Placemarks ]
@@ -46,7 +47,10 @@ if len(sys.argv) != 5:
 
 #Kommandozeilenargumente auslesen: Reihenfolge Benutzername, Beschreibung, latitude- und longitude- Koordinaten
 #single quotes im Eingabeformular verbieten/filtern
-newName, newDescription, newLat, newLng = sys.argv[1:]
+newName = sys.argv[1].decode("utf-8")
+newDescription = sys.argv[2].decode("utf-8")
+newLat = float(sys.argv[3])
+newLng = float(sys.argv[4])
 
 #die letzten beiden zum Koordinatenstring zusammenfügen, höhe wird 0 gesetzt
 #Achtung: KML verlangt umgekehrte Reihenfolge

@@ -17,16 +17,16 @@ while os.path.isfile(lockPath):
 open(lockPath,"w").close()
 
 
-returnString = "None"
+returnString = u"None"
 
 if len(sys.argv) == 2 and sys.argv[1]:
 	g = geopy.geocoders.GoogleV3()
-	locationList = [ result[0] + "%" + str(result[1][0]) + "%" \
-			+ str(result[1][1]) for result in g.geocode(sys.argv[1], \
+	locationList = [ unicode(result[0]) + u"%" + unicode(result[1][0]) + u"%" \
+			+ unicode(result[1][1]) for result in g.geocode(sys.argv[1], \
 			exactly_one=False) ]
 
 	if len(locationList) > 0:
-		returnString = "$".join(locationList)
+		returnString = u"$".join(locationList)
 
 sys.stdout.write(returnString)
 
