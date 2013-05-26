@@ -82,5 +82,12 @@
 				}
 			?>
 		</form>
+		<?php
+			$hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
+			$kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+			$mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
+			echo "<br>";
+			echo "<a href='" . $mapUrl . "'>current map</a>";
+		?>
 	</body>
 </html>
