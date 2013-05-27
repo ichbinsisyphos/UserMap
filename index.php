@@ -2,6 +2,7 @@
 <html>
 
 	<head>
+
 		<link rel="stylesheet" type="text/css" href="style.css" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 		<title>UserMap</title>
@@ -57,8 +58,9 @@
 			</div>
 
 			<br>
-			Benutzername
-			<input type="text" name="formName">
+			<div id="userName">
+				Benutzername <input type="text" name="formName">
+			</div>
 			<br>
 			Beschreibungstext
 			<br>
