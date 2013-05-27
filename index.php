@@ -2,17 +2,23 @@
 <html>
 
 	<head>
-
+		<link rel="stylesheet" type="text/css" href="style.css" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
 		<title>UserMap</title>
 
 	</head>
 
 	<body>
-
+		<div id="head">
+			<h1>UserMap</h1>
+		</div>
+		
+		<div id="mainForm">
 		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-			<input type="text" name="formSearchString" maxlength="50" size="42">
-			<input type="submit" name="formSearchStringSubmit" value="Search">
+			
+			<div id="searchForm">
+			<input type="text" name="formSearchString">
+			<input type="submit" name="formSearchStringSubmit" value="Search" class="button">
 			<br>
 			<select name="locationSelect">
 
@@ -47,15 +53,18 @@
 			?>
 
 			</select>
+			
+			</div>
+
 			<br>
-			Dein Benutzername
-			<input type="text" name="formName" maxlength="50" size="30">
+			Benutzername
+			<input type="text" name="formName">
 			<br>
-			Beschreibungstext für deinen Eintrag
+			Beschreibungstext
 			<br>
-			<textarea name="formDescription" rows="10" cols="59"></textarea>
+			<textarea name="formDescription" rows="10"></textarea>
 			<br>
-			<input type="submit" name="formSubmit" value="Submit">
+			<input type="submit" name="formSubmit" value="Submit" class="button">
 			<br>
 
 		    <?php
@@ -98,12 +107,12 @@
 				}
 			?>
 		</form>
+		</div>
 		<?php
 		 	header('Content-type: text/html; charset=utf-8');
 			$hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
 			$kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
 			$mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
-			echo "<br>";
 			echo "<a href='" . $mapUrl . "'>current map</a>";
 		?>
 
