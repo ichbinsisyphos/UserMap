@@ -25,7 +25,7 @@
                 {
                   $varSearchString = escapeshellarg($_POST["formSearchString"]);
 
-                  $command = "export PYTHONIOENCODING=UTF-8; python ./geoCoder.py " . $varSearchString;
+                  $command = "export PYTHONIOENCODING=UTF-8; python ./geoCoder.py " . $varSearchString; #bringts ned
 
                   $returnString = utf8_decode(shell_exec($command));
                   #exec($command, $returnString); #bringts ned
