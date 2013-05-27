@@ -15,19 +15,19 @@ import codecs
 
 
 def coordinateString(newLat, newLng):
-	return "%0.7f, %0.7f, %0.7f" % (newLng, newLat, 0.0)
+  return "%0.7f, %0.7f, %0.7f" % (newLng, newLat, 0.0)
 
 def nameList(Placemarks):
-	return [ placemark.name for placemark in Placemarks ]
+  return [ placemark.name for placemark in Placemarks ]
 
 def coordinateList(Placemarks):
-	return [ placemark.Point.coordinates for placemark in Placemarks ]
+  return [ placemark.Point.coordinates for placemark in Placemarks ]
 
 def randString(length):
-	return "".join(random.choice(string.ascii_lowercase + string.digits) for x in range(length))
+  return "".join(random.choice(string.ascii_lowercase + string.digits) for x in range(length))
 
 def getKmlFilePath():
-	return "var/UserMap_" + randString(6) + "_" + str(int(time.time())) + ".kml"
+  return "var/UserMap_" + randString(6) + "_" + str(int(time.time())) + ".kml"
 
 
 #Pfad zum lockfile
@@ -42,8 +42,8 @@ filep.close()
 
 #Anzahl der Argumente checken, wenn nicht 5, dann Fehlerausgabe und Abbruch
 if len(sys.argv) != 5:
-	sys.stdout.write("wrong_arguments")
-	exit()
+  sys.stdout.write("wrong_arguments")
+  exit()
 
 #Kommandozeilenargumente auslesen: Reihenfolge Benutzername, Beschreibung, latitude- und longitude- Koordinaten
 #single quotes im Eingabeformular verbieten/filtern
@@ -60,7 +60,7 @@ newCoordinates = coordinateString(newLat, newLng)
 
 #wenn lockfile existiert, 1 Sekunde warten und nochmal checken, sonst weiter
 while os.path.isfile(lockPath):
-	time.sleep(1)
+  time.sleep(1)
 
 #lockfile erstellen
 open(lockPath,"w").close()
@@ -85,43 +85,43 @@ coordinates = coordinateList(Placemarks)
 
 #Abfrage ob ein Eintrag unter dem Namen bereits existiert
 if newName not in names:
-	#neuen Koordinatenpunkt
-	newPoint = KML.Point(KML.coordinates(newCoordinates))
+  #neuen Koordinatenpunkt
+  newPoint = KML.Point(KML.coordinates(newCoordinates))
 
-	#und damit neuen placemark erzeugen
-	newPlacemark = KML.Placemark(
-			KML.name(newName),
-			KML.description(newDescription),
-			newPoint
-			)
+  #und damit neuen placemark erzeugen
+  newPlacemark = KML.Placemark(
+      KML.name(newName),
+      KML.description(newDescription),
+      newPoint
+      )
 
-	#im alten Baum dazuhängen
-	root.Document.append(newPlacemark)
+  #im alten Baum dazuhängen
+  root.Document.append(newPlacemark)
 
-	#neuen KML-Dateinamen erzeugen: UserMap-prefix, 6 Zufallszeichen und Zeit in Sekunden
-	newKmlFilePath = getKmlFilePath()
+  #neuen KML-Dateinamen erzeugen: UserMap-prefix, 6 Zufallszeichen und Zeit in Sekunden
+  newKmlFilePath = getKmlFilePath()
 
-	#diesen namen in Kontrolldatei schreiben
-	filep = open(kmlFilenamePath, "w")
-	filep.write(newKmlFilePath)
-	filep.close()
-	del filep
-	
-	#unter diesem Dateinamen die KML-Datei neu erzeugen und neunen Baum reinschreiben
-	filep = open(newKmlFilePath,"w")
-	filep.write(etree.tostring(root, pretty_print=True))
-	filep.close()
-	del filep
+  #diesen namen in Kontrolldatei schreiben
+  filep = open(kmlFilenamePath, "w")
+  filep.write(newKmlFilePath)
+  filep.close()
+  del filep
+  
+  #unter diesem Dateinamen die KML-Datei neu erzeugen und neunen Baum reinschreiben
+  filep = open(newKmlFilePath,"w")
+  filep.write(etree.tostring(root, pretty_print=True))
+  filep.close()
+  del filep
 
-	#alte KML-Datei loeschen
-	os.remove(kmlFilePath)
+  #alte KML-Datei loeschen
+  os.remove(kmlFilePath)
 
-	#Erfolgsmeldung ausgeben
-	sys.stdout.write("success")
-	
+  #Erfolgsmeldung ausgeben
+  sys.stdout.write("success")
+  
 else:
-	#Benutzername hat schon einen Eintrag
-	sys.stdout.write("name_taken")
+  #Benutzername hat schon einen Eintrag
+  sys.stdout.write("name_taken")
 
 #Am Schluss lockfile loeschen
 os.remove(lockPath)
