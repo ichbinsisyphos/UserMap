@@ -5,6 +5,7 @@ import geopy
 import sys
 import os
 import time
+import codecs
 
 #Pfad zum lockfile
 lockPath = "var/geoCoder.lock"
@@ -21,14 +22,15 @@ returnString = u"None"
 
 if len(sys.argv) == 2 and sys.argv[1]:
   g = geopy.geocoders.GoogleV3()
-  locationList = [ unicode(result[0]) + u"%" + unicode(result[1][0]) + u"%" \
-      + unicode(result[1][1]) for result in g.geocode(sys.argv[1], \
+  locationList = [ unicode(result[0]) + u"%" \
+      + unicode(result[1][0]) + u"%" + unicode(result[1][1]) \
+      for result in g.geocode(sys.argv[1].decode("utf-8"), \
       exactly_one=False) ]
 
   if len(locationList) > 0:
     returnString = u"$".join(locationList)
 
-sys.stdout.write(returnString)
+sys.stdout.write(returnString.encode("utf-8"))
 
 #Am Schluss lockfile loeschen
 os.remove(lockPath)

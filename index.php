@@ -16,12 +16,12 @@
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
           <div id="searchForm">
             <input type="text" name="formSearchString">
-            <input type="submit" name="formSearchStringSubmit" value="Search" class="button">
+            <input type="submit" name="formSearchStringSubmit" value="Ort suchen" class="button">
             <br>
             <select name="locationSelect">
               <?php
                 header('Content-type: text/html; charset=utf-8');
-                if($_POST['formSearchStringSubmit'] == "Search")
+                if($_POST['formSearchStringSubmit'] == "Ort suchen")
                 {
                   $varSearchString = escapeshellarg($_POST["formSearchString"]);
 
@@ -30,6 +30,7 @@
                   $returnString = utf8_decode(shell_exec($command));
                   #exec($command, $returnString); #bringts ned
                   #$returnString = $returnString[0];
+                  echo "STRLEN: " . strlen($returnString);
 
                   $results = explode("$" , $returnString, "10");
 
@@ -56,11 +57,11 @@
           <br>
           <textarea name="formDescription" rows="10"></textarea>
           <br>
-          <input type="submit" name="formSubmit" value="Submit" class="button">
+          <input type="submit" name="formSubmit" value="Abschicken" class="button">
           <br>
           <?php
             header('Content-type: text/html; charset=utf-8');
-            if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Submit")
+            if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Abschicken")
             {
               $varName = $_POST['formName'];
               $varDescription = $_POST['formDescription'];
@@ -104,7 +105,7 @@
           $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
           $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
           $mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
-          echo "<a href='" . $mapUrl . "'>current map</a>";
+          echo "<a href='" . $mapUrl . "'>bisherige Karte</a>";
         ?>
       </div>
     </div>

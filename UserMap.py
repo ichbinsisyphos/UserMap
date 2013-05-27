@@ -89,6 +89,10 @@ if newName not in names:
   newPoint = KML.Point(KML.coordinates(newCoordinates))
 
   #und damit neuen placemark erzeugen
+  #für html in der description muss der text in ein "<!CDATA[" -> "]]" paar
+  #gepackt werden, das ist aber nicht so einfach: fertigen KML-tree in etree
+  #umwandeln und Beschreibungstext durch etree.CDATA(beschreibungstext)
+  #ersetzen?
   newPlacemark = KML.Placemark(
       KML.name(newName),
       KML.description(newDescription),
