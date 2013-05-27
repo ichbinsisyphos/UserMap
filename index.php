@@ -25,15 +25,12 @@
                 {
                   $varSearchString = escapeshellarg($_POST["formSearchString"]);
 
-                  $command = "export PYTHONIOENCODING=UTF-8; python ./geoCoder.py " . $varSearchString; #bringts ned
+                  $command = "export PYTHONIOENCODING=UTF-8; python ./geoCoder.py " . $varSearchString;
 
-                  $returnString = shell_exec($command);
+                  $returnString = utf8_decode(shell_exec($command));
                   #exec($command, $returnString); #bringts ned
                   #$returnString = $returnString[0];
-                  #print_r($returnString); #bringts ned
 
-                  $returnString = utf8_decode($returnString);
-                  
                   $results = explode("$" , $returnString, "10");
 
                   foreach($results as $result)
@@ -73,10 +70,10 @@
               $varLng = $coords[1];
 
               $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
-              . escapeshellarg($varName) . " "
-              . escapeshellarg($varDescription) . " "
-              . escapeshellarg($varLat) . " "
-              . escapeshellarg($varLng);
+                    . escapeshellarg($varName) . " "
+                    . escapeshellarg($varDescription) . " "
+                    . escapeshellarg($varLat) . " "
+                    . escapeshellarg($varLng);
 
               $outputVar = shell_exec($command);
 
@@ -84,7 +81,8 @@
               {
                 $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
                 $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-                header("Location: https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile);
+                header("Location: https://maps.google.at/maps?source=embed&q=" 
+                      . $hostName . "/UserMap/" . $kmlFile);
               }
               elseif ($outputVar == "name_taken")
               {
