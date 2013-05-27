@@ -21,11 +21,18 @@ open(lockPath,"w").close()
 returnString = u"None"
 
 if len(sys.argv) == 2 and sys.argv[1]:
+
+  locationList = []
+  
   g = geopy.geocoders.GoogleV3()
-  locationList = [ unicode(result[0]) + u"%" \
-      + unicode(result[1][0]) + u"%" + unicode(result[1][1]) \
-      for result in g.geocode(sys.argv[1].decode("utf-8"), \
-      exactly_one=False) ]
+  
+  try:
+    locationList = [ unicode(result[0]) + u"%" \
+        + unicode(result[1][0]) + u"%" + unicode(result[1][1]) \
+        for result in g.geocode(sys.argv[1].decode("utf-8"), \
+        exactly_one=False) ]
+  except geopy.geocoders.googlev3.GQueryError:
+    pass
 
   if len(locationList) > 0:
     returnString = u"$".join(locationList)
