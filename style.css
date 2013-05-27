@@ -1,31 +1,36 @@
 body
 {
 	color:#3e3e3e;
-	background-color:#e9e9e9;
+	background-color:#f2f2f2;
 	font-size:90%;
-	width:500px;
 	margin-left:auto;
 	margin-right:auto;
 }
 
-#userName
+#all
 {
-	width:100%;
-}
-
-#searchForm
-{
-	width:100%;
+	background-color:#e9e9e9;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:auto;
+	margin-bottom:auto;	
+	width:98%;
+	height:98%;
+	border-radius:20px;
+	padding-bottom:20px;
+	padding-top:20px;
 }
 
 #mainForm, #head
 {
 	border-radius:10px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 #mainForm
 {
-	background-color:#ffffff;
+	background-color:#f3f3f3;
 	padding:20px;
 	width:460px;
 }
@@ -33,6 +38,7 @@ body
 #head
 {
 	background-color:#bccce1;
+	width:500px;
 }
 
 .button
