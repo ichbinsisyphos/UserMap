@@ -26,11 +26,11 @@
         return allFilled;
       }
 
-      function searchLocation() {
+      /*function searchLocation() {
         if (window.document.mainForm.locationInput.value == "") {
           alert("bitte einen Suchbegriff für ihren Heimatort angeben");
         }
-      }
+      }*/
       function addLink() {
           startIndex = window.document.mainForm.descriptionInput.selectionStart;
           endIndex = window.document.mainForm.descriptionInput.selectionEnd;
