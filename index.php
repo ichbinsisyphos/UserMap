@@ -11,34 +11,14 @@
 
     <script language="JavaScript">
     <!--
-      var userLocation = "";
-      var userFinalLocation = "";
-      var userName = "";
-      var userDescription = "";
-
       function obligatoryFieldsFilled() {
-        return (window.document.mainForm.nameInput.value != "" &&
-                window.document.mainForm.locationSelect.length > 0);
-      }
+        if (window.document.mainForm.nameInput.value != "" &&
+                window.document.mainForm.locationSelect.length > 0)
+        {
+          window.document.mainForm.formSubmit.disabled = false;
+        }
+        else window.document.mainForm.formSubmit.disabled = true;
 
-      function searchLocation() {
-
-      }
-
-      function setUserLocation(l) {
-        userLocation = l;
-      }
-
-      function setUserFinalLocation(lf) {
-        userFinalLocation = lf;
-      }
-
-      function setUserName(n) {
-        userName = n;
-      }
-
-      function setUserDescription(d) {
-        userDescription = d;
       }
 
       function searchLocation() {
@@ -87,6 +67,10 @@
           post = window.document.mainForm.descriptionInput.value.slice(endIndex,len);
 
           window.document.mainForm.descriptionInput.value = pre + open + selected + close + post;
+          window.document.mainForm.descriptionInput.focus();
+          window.document.mainForm.descriptionInput.selectionStart = endIndex + open.length + close.length;
+          window.document.mainForm.descriptionInput.selectionEnd = endIndex + open.length + close.length;
+
       }
 
       function previewDescription() {
@@ -100,32 +84,52 @@
         this.previewWindow.document.write(html);
       }
 
-      // function setCookie(name, value, duration) { //duration in Sekunden, also gegebenenfalls multiplizieren
-      //   now = new Date();
-      //   diesAt = new Date(now.getTime() + duration);
-      //   document.cookie = name + "=" + value + ";expires=" + diesAt.toGMTString() + ";";
-      //   delete now;
-      // }
+      function setCookie() { //duration in Sekunden, also gegebenenfalls multiplizieren
+        duration = 60000; // milliseconds
+        now = new Date();
+        diesAt = new Date(now.getTime() + duration);
+        name = "formValues";
 
-      // function readCookie() {
-      //   value = "";
-      //   if(document.cookie) {
-      //     valueStart = document.cookie.indexOf("=") + 1;
-      //     valueEnd = document.cookie.indexOf(";");
-      //     if(valueEnd == -1) {
-      //       valueEnd = document.cookie.length;
-      //     }
-      //     value = document.cookie.substring(valueStart, valueEnd);
-      //   }
-      //   return value;
-      // }
+        userName = window.document.mainForm.nameInput.value;
+        userLocation = window.document.mainForm.locationInput.value;
+        userDescription = window.document.mainForm.descriptionInput.value;
+
+        value = userName + "$&$" + userLocation + "$&$" + userDescription;
+        document.cookie = name + "=" + value + ";expires=" + diesAt.toGMTString() + ";";
+        
+        delete now;
+        obligatoryFieldsFilled()
+      }
+
+      function readCookie() {
+        value = "";
+
+        if(document.cookie) {
+          valueStart = document.cookie.indexOf("=") + 1;
+          valueEnd = document.cookie.indexOf(";");
+          if(valueEnd == -1) {
+            valueEnd = document.cookie.length;
+          }
+          value = document.cookie.substring(valueStart, valueEnd);
+          
+          tempArray = value.split("$&$");
+
+          window.document.mainForm.nameInput.value = tempArray[0];
+          window.document.mainForm.locationInput.value = tempArray[1];
+          window.document.mainForm.descriptionInput.value = tempArray[2];
+
+          delete tempArray;
+          //obligatoryFieldsFilled();
+        }
+        //else { alert("cookie nicht gesetzt!"); }
+      }
 
     //-->
     </script>
 
   </head>
 
-  <body>
+  <body onload="readCookie()">
 
     <div id="all">
       <div id="head">
@@ -134,10 +138,10 @@
       <div id="mainForm">
         <form name="mainForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
           Ort
-            <input type="text" name="locationInput">
-            <input type="submit" name="locationSearch" value="Ort suchen" class="button" onClick="searchLocation()">
+            <input type="text" name="locationInput" onChange="obligatoryFieldsFilled()">
+            <input type="submit" name="locationSearch" value="Ort suchen" class="button" onClick="setCookie()">
             <br>
-            <select name="locationSelect">
+            <select name="locationSelect" onFocus="obligatoryFieldsFilled()">
               <?php
                 //header('Content-type: text/html; charset=utf-8');
                 if(isset($_POST['locationSearch']) AND $_POST['locationSearch'] == "Ort suchen")
@@ -168,7 +172,7 @@
             </select>
           <br>
           <br>
-            Benutzername <input type="text" name="nameInput">
+            Benutzername <input type="text" name="nameInput" onChange="obligatoryFieldsFilled()">
           <br>
           <br>
           Beschreibungstext (optional, HTML möglich)
@@ -183,45 +187,55 @@
           <br>
           <textarea name="descriptionInput" rows="10"></textarea>
           <br>
-          <input type="submit" name="formSubmit" value="Abschicken" class="button">
+          <input type="submit" name="formSubmit" value="Abschicken" class="button" onClicked="setCookie()">
           <br>
           <?php
             //header('Content-type: text/html; charset=utf-8');
             if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Abschicken")
             {
-              $varName = $_POST['nameInput'];
-              $varDescription = $_POST['descriptionInput'];
-
-              $coords = explode(",", $_POST['locationSelect']);
-              $varLat = $coords[0];
-              $varLng = $coords[1];
-
-              $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
-                    . escapeshellarg($varName) . " "
-                    . escapeshellarg($varDescription) . " "
-                    . escapeshellarg($varLat) . " "
-                    . escapeshellarg($varLng);
-
-              $outputVar = shell_exec($command);
-
-              if ($outputVar == "success")
+              if($_POST['nameInput'] != "" AND isset($_POST['locationSelect']))
               {
-                $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-                $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-                header("Location: https://maps.google.at/maps?source=embed&q=" 
-                      . $hostName . "/UserMap/" . $kmlFile);
-              }
-              elseif ($outputVar == "name_taken")
-              {
-                echo("This username is already on the map.\n");
-              }
-              elseif ($outputVar == "wrong_arguments")
-              {
-                echo("Please fill out all forms before submitting.\n");
+                $varName = $_POST['nameInput'];
+                $varDescription = $_POST['descriptionInput'];
+
+                $coords = explode(",", $_POST['locationSelect']);
+                $varLat = $coords[0];
+                $varLng = $coords[1];
+
+                $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
+                      . escapeshellarg($varName) . " "
+                      . escapeshellarg($varDescription) . " "
+                      . escapeshellarg($varLat) . " "
+                      . escapeshellarg($varLng);
+
+                $outputVar = shell_exec($command);
+
+                if ($outputVar == "success")
+                {
+                  $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
+                  $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+                  $redirectUrl = "https://maps.google.at/maps?source=embed&q=" 
+                                    . $hostName . "/UserMap/" . $kmlFile;
+
+                  echo '<META HTTP-EQUIV="Refresh" Content="0; URL=' . $redirectUrl . '">';    
+                  exit;
+                }
+                elseif ($outputVar == "name_taken")
+                {
+                  echo('<div class="error">This username is already on the map.</div>');
+                }
+                elseif ($outputVar == "wrong_arguments")
+                {
+                  echo('<div class="error">Please fill out all forms before submitting.</div>');
+                }
+                else
+                {
+                  echo('<div class="error">unclassified error.</div>');
+                }
               }
               else
               {
-                echo("unclassified error.\n");
+                echo('<div class="error">Please fill out all forms before submitting.</div>');
               }
             }
           ?>
@@ -235,5 +249,8 @@
         ?>
       </div>
     </div>
+    <!--<script language="JavaScript">
+      obligatoryFieldsFilled();
+    </script>-->
   </body>
 </html>

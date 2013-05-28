@@ -78,6 +78,12 @@ body
   width:auto;
   float:right;
 }
+
+.error {
+  font-size:100%;
+  color:#aa0000;
+}
+
 input, textarea, select
 {
   background-color:#f5f5f5;
