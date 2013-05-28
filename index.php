@@ -11,14 +11,19 @@
 
     <script language="JavaScript">
     <!--
+
+    /* TODO: MENÜAUSWAHL AUCH IN COOKIE SCHREIBEN */
+
       function obligatoryFieldsFilled() {
-        if (window.document.mainForm.nameInput.value != "" &&
+        allFilled = (window.document.mainForm.nameInput.value != "" &&
                 window.document.mainForm.locationSelect.length > 0)
+        if (allFilled)
         {
           window.document.mainForm.formSubmit.disabled = false;
         }
         else window.document.mainForm.formSubmit.disabled = true;
-
+ 
+        return allFilled;
       }
 
       function searchLocation() {
@@ -187,7 +192,7 @@
           <br>
           <textarea name="descriptionInput" rows="10"></textarea>
           <br>
-          <input type="submit" name="formSubmit" value="Abschicken" class="button" onClicked="setCookie()">
+          <input type="submit" name="formSubmit" value="Abschicken" class="button" onSubmit="return obligatoryFieldsFilled()" onClicked="setCookie()">
           <br>
           <?php
             //header('Content-type: text/html; charset=utf-8');
