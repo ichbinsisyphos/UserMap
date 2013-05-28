@@ -39,45 +39,71 @@ body
 {
   background-color:#bccce1;
   width:500px;
+  color:#425769;
+  text-align:center;
+  font-family:"Times New Roman", serif;
+  font-variant:small-caps;
+  font-weight:bold;
+  text-shadow:2px 2px 3px #999;
+  font-size:300%;
+  margin-bottom:20px;
 }
 
-.button
-{
+.button {
   background-color:#f0f0f0;
   width:auto;
   float:right;
 }
 
+.italictext, .boldtext, .underlinedtext, .strikethroughtext, .plaintext {
+  width:auto;
+  font-size:75%;
+}
+.italictext {
+  font-style:italic;
+}
+.boldtext {
+  font-weight:bold;
+}
+.underlinedtext {
+  text-decoration:underline;
+}
+.strikethroughtext {
+  text-decoration:line-through;
+}
+
+.preview {
+  font-size:75%;
+  background-color:#f0f0f0;
+  width:auto;
+  float:right;
+}
 input, textarea, select
 {
   background-color:#f5f5f5;
   border-style:solid;
   border-color:#777777;
   border-width:1px;
-  width:72%;
   border-radius:5px;
-  margin:1px;
+
+  width:72%;
+
+  padding:2px;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:1px;
+  margin-bottom:1px;
 }
 
-textarea
+textarea, select
 {
   width:100%;
   resize:none;
 }
 
-select
+textarea
 {
-  width:100%;
-}
-
-h1
-{
-  color:#425769;
-  text-align:center;
-  font-family:"Times New Roman",Serif;
-  font-variant:small-caps;
-  text-shadow:2px 2px 3px #aaa;
-  font-size:300%;
+  width:454px;
 }
 
 p
