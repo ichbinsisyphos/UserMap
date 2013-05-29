@@ -57,6 +57,10 @@ body
   #border-width:1px;
 }
 
+#locationInput, #nameInput {
+  width:95%;
+}
+
 .button {
   background-color:#f0f0f0;
   width:auto;

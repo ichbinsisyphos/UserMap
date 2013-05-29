@@ -4,33 +4,29 @@
 -->
 
 <!DOCTYPE html>
+
 <html>
 
   <head>
-
     <link rel="stylesheet" type="text/css" href="style.css" />
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-
     <title>UserMap</title>
-
     <script language="JavaScript" src="UserMap.js" type="text/javascript"></script>
-
   </head>
 
   <body onload="readCookie()">
-
     <div id="all">
-
       <div id="head">UserMap</div>
-
       <div id="mainForm">
 
         <form name="locationForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validateLocationString();">
-          Ort
-          <input type="text" name="locationInput">
-          <input type="submit" name="locationSearch" value="Ort suchen" class="button">
-          <br>
+          <table border="0" width="100%">
+            <tr>
+              <td align="left">Ort</td>
+              <td width="100%" align="center"><input type="text" id="locationInput" name="locationInput"></td>
+              <td align="right"><input type="submit" name="locationSearch" value="Ort suchen" class="button"></td>
+            </tr>
+          </table>
         </form>
 
         <form name="submitForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validate();">
@@ -61,9 +57,14 @@
           </select>
           <br>
           <br>
-            Benutzername
-            <input type="text" name="nameInput">
-          <br>
+
+          <table border="0" width="100%">
+            <tr>
+              <td align="left">Benutzername</td>
+              <td width="100%" align="right"><input type="text" id="nameInput" name="nameInput"></td>
+            </tr>
+          </table>
+
           <br>
           Beschreibungstext (optional, HTML möglich)
           <br>         
@@ -77,8 +78,21 @@
           <br>
           <textarea name="descriptionInput" rows="10"></textarea>
           <br>
-          <input type="submit" name="formSubmit" value="Abschicken" class="button">
-          <br>
+
+          <table border="0" width="100%">
+            <tr>
+              <td align="left">
+                <?php
+                  $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
+                  $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+                  $mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
+                  echo "<a href='" . $mapUrl . "'>bisherige Karte</a>";
+                ?>
+              </td>
+              <td align="right"><input type="submit" name="formSubmit" value="Abschicken" class="button"></td>
+            </tr>
+          </table>
+
           <?php
             if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Abschicken")
             {
@@ -109,28 +123,20 @@
                 }
                 elseif ($outputVar == "name_taken")
                 {
-                  //echo('<div class="error">Dieser Benutzername existiert bereits.</div>');
                   echo('<script language=javascript>alert("Dieser Benutzername ist bereits eingetragen.")</script>');
                 }
                 elseif ($outputVar == "wrong_arguments")
                 {
-                  //echo('<div class="error">Argumente nicht verstanden.</div>');
                   echo('<script language=javascript>alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
                 }
                 else
                 {
-                  //echo('<div class="error">Unbekannter Fehler.</div>');
                   echo('<script language=javascript>alert("Unbekannter Fehler.")</script>');
                 }
             }
           ?>
         </form>
-        <?php
-          $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-          $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-          $mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
-          echo "<a href='" . $mapUrl . "'>bisherige Karte</a>";
-        ?>
+
       </div>
     </div>
   </body>
