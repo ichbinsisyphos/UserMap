@@ -1,3 +1,8 @@
+<!-- TODO: SERVERSEITIGE ÜBERPRÜFUNG UND FEHLER ABFANGEN
+      - AUCH WENN, WENN ALLES GUTGEHT JAVASCRIPT SOLCHE 
+        ANFRANGEN GAR NICHT ERST RAUS LASSEN SOLLTE
+-->
+
 <!DOCTYPE html>
 <html>
 
@@ -9,175 +14,55 @@
 
     <title>UserMap</title>
 
-    <script language="JavaScript">
-    <!--
-
-    /* TODO: MENÜAUSWAHL AUCH IN COOKIE SCHREIBEN */
-
-      function obligatoryFieldsFilled() {
-        allFilled = (window.document.mainForm.nameInput.value != "" &&
-                window.document.mainForm.locationSelect.length > 0)
-        if (allFilled)
-        {
-          window.document.mainForm.formSubmit.disabled = false;
-        }
-        else window.document.mainForm.formSubmit.disabled = true;
- 
-        return allFilled;
-      }
-
-      /*function searchLocation() {
-        if (window.document.mainForm.locationInput.value == "") {
-          alert("bitte einen Suchbegriff für ihren Heimatort angeben");
-        }
-      }*/
-      function addLink() {
-          startIndex = window.document.mainForm.descriptionInput.selectionStart;
-          endIndex = window.document.mainForm.descriptionInput.selectionEnd;
-          selectedText = window.document.mainForm.descriptionInput.value.slice(startIndex, endIndex);
-          
-          urlText = "";
-
-          if(selectedText.slice(0,7) != "http://") {
-            urlText = "http://";
-          }
-
-          if (startIndex == endIndex) {
-            urlText += "LINKGOESHERE";
-          }
-
-          insertDescriptionFormatting('<a href="' + urlText, '">TEXTGOESHERE</a>');
-      }
-      function addBold() {
-          insertDescriptionFormatting("<b>","</b>");
-      }
-      function addUnderline() {
-          insertDescriptionFormatting("<u>","</u>");
-      }
-      function addItalic() {
-          insertDescriptionFormatting("<i>","</i>");
-      }
-      function addStrikethrough() {
-          insertDescriptionFormatting("<strike>", "</strike>");
-      }
-      function addNewLine() {
-          insertDescriptionFormatting("", "<br>");
-      }
-      function insertDescriptionFormatting(open, close) {
-          len = window.document.mainForm.descriptionInput.value.length;
-          startIndex = window.document.mainForm.descriptionInput.selectionStart;
-          endIndex = window.document.mainForm.descriptionInput.selectionEnd;
-          pre = window.document.mainForm.descriptionInput.value.slice(0,startIndex);
-          selected = window.document.mainForm.descriptionInput.value.slice(startIndex,endIndex);
-          post = window.document.mainForm.descriptionInput.value.slice(endIndex,len);
-
-          window.document.mainForm.descriptionInput.value = pre + open + selected + close + post;
-          window.document.mainForm.descriptionInput.focus();
-          window.document.mainForm.descriptionInput.selectionStart = endIndex + open.length + close.length;
-          window.document.mainForm.descriptionInput.selectionEnd = endIndex + open.length + close.length;
-
-      }
-
-      function previewDescription() {
-        if (this.previewWindow) {
-          this.previewWindow.close();
-        }
-
-        this.previewWindow = window.open("", "Textausgabe", "width=500,height=200");
-        this.previewWindow.value="";
-        html = window.document.mainForm.descriptionInput.value;
-        this.previewWindow.document.write(html);
-      }
-
-      function setCookie() { //duration in Sekunden, also gegebenenfalls multiplizieren
-        duration = 60000; // milliseconds
-        now = new Date();
-        diesAt = new Date(now.getTime() + duration);
-        name = "formValues";
-
-        userName = window.document.mainForm.nameInput.value;
-        userLocation = window.document.mainForm.locationInput.value;
-        userDescription = window.document.mainForm.descriptionInput.value;
-
-        value = userName + "$&$" + userLocation + "$&$" + userDescription;
-        document.cookie = name + "=" + value + ";expires=" + diesAt.toGMTString() + ";";
-        
-        delete now;
-        obligatoryFieldsFilled()
-      }
-
-      function readCookie() {
-        value = "";
-
-        if(document.cookie) {
-          valueStart = document.cookie.indexOf("=") + 1;
-          valueEnd = document.cookie.indexOf(";");
-          if(valueEnd == -1) {
-            valueEnd = document.cookie.length;
-          }
-          value = document.cookie.substring(valueStart, valueEnd);
-          
-          tempArray = value.split("$&$");
-
-          window.document.mainForm.nameInput.value = tempArray[0];
-          window.document.mainForm.locationInput.value = tempArray[1];
-          window.document.mainForm.descriptionInput.value = tempArray[2];
-
-          delete tempArray;
-          //obligatoryFieldsFilled();
-        }
-        //else { alert("cookie nicht gesetzt!"); }
-      }
-
-    //-->
-    </script>
+    <script language="JavaScript" src="UserMap.js" type="text/javascript"></script>
 
   </head>
 
   <body onload="readCookie()">
 
     <div id="all">
-      <div id="head">
-        UserMap
-      </div>
+
+      <div id="head">UserMap</div>
+
       <div id="mainForm">
-        <form name="mainForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
+        <form name="locationForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validateLocationString();">
           Ort
-            <input type="text" name="locationInput" onChange="obligatoryFieldsFilled()">
-            <input type="submit" name="locationSearch" value="Ort suchen" class="button" onClick="setCookie()">
-            <br>
-            <select name="locationSelect" onFocus="obligatoryFieldsFilled()">
-              <?php
-                //header('Content-type: text/html; charset=utf-8');
-                if(isset($_POST['locationSearch']) AND $_POST['locationSearch'] == "Ort suchen")
+          <input type="text" name="locationInput">
+          <input type="submit" name="locationSearch" value="Ort suchen" class="button">
+          <br>
+        </form>
+
+        <form name="submitForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validate();">
+          <select name="locationSelect">
+            <?php
+              if(isset($_POST['locationSearch']) AND $_POST['locationSearch'] == "Ort suchen")
+              {
+                $varSearchString = escapeshellarg($_POST["locationInput"]);
+
+                $command = "export PYTHONIOENCODING=UTF-8; python ./geoCoder.py " . $varSearchString;
+
+                $returnString = utf8_decode(shell_exec($command));
+
+                $results = explode("$" , $returnString, "10");
+
+                foreach($results as $result)
                 {
-                  $varSearchString = escapeshellarg($_POST["locationInput"]);
-
-                  $command = "export PYTHONIOENCODING=UTF-8; python ./geoCoder.py " . $varSearchString; #bringts ned
-
-                  $returnString = utf8_decode(shell_exec($command));
-                  #exec($command, $returnString); #bringts ned
-                  #$returnString = $returnString[0];
-                  echo "STRLEN: " . strlen($returnString);
-
-                  $results = explode("$" , $returnString, "10");
-
-                  foreach($results as $result)
+                  if($result != "None")
                   {
-                    if($result != "None")
-                    {
-                      $elements = explode("%" , $result);
-                      $displayString = $elements[0] . " (" . $elements[1] . ", " . $elements[2] . ")";
-                      $coordString = $elements[1] . ", " . $elements[2];
-                      echo(utf8_encode("<option value='" . $coordString . "'>" . $displayString . "</option>"));
-                    }
+                    $elements = explode("%" , $result);
+                    $displayString = $elements[0] . " (" . $elements[1] . ", " . $elements[2] . ")";
+                    $coordString = $elements[1] . ", " . $elements[2];
+                    echo(utf8_encode("<option value='" . $coordString . "'>" . $displayString . "</option>"));
                   }
                 }
-              ?>
-            </select>
+              }
+            ?>
+          </select>
           <br>
           <br>
-            Benutzername <input type="text" name="nameInput" onChange="obligatoryFieldsFilled()">
+            Benutzername
+            <input type="text" name="nameInput">
           <br>
           <br>
           Beschreibungstext (optional, HTML möglich)
@@ -188,18 +73,15 @@
           <input name="underline" type="button" value="underline" class="underlinedtext" onClick="addUnderline()">
           <input name="strikethrough" type="button" value="strikethrough" class="strikethroughtext" onClick="addStrikethrough()">
           <input name="newline" type="button" value="newline" class="plaintext" onClick="addNewLine()">
-          <input name="preview" type="button" value="preview" class="preview" onClick="previewDescription()">
+          <input name="preview" type="button" value="Vorschau" class="preview" onClick="previewDescription()">
           <br>
           <textarea name="descriptionInput" rows="10"></textarea>
           <br>
-          <input type="submit" name="formSubmit" value="Abschicken" class="button" onSubmit="return obligatoryFieldsFilled()" onClicked="setCookie()">
+          <input type="submit" name="formSubmit" value="Abschicken" class="button">
           <br>
           <?php
-            //header('Content-type: text/html; charset=utf-8');
             if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Abschicken")
             {
-              if($_POST['nameInput'] != "" AND isset($_POST['locationSelect']))
-              {
                 $varName = $_POST['nameInput'];
                 $varDescription = $_POST['descriptionInput'];
 
@@ -227,26 +109,20 @@
                 }
                 elseif ($outputVar == "name_taken")
                 {
-                  echo('<div class="error">This username is already on the map.</div>');
+                  echo('<div class="error">Dieser Benutzername existiert bereits.</div>');
                 }
                 elseif ($outputVar == "wrong_arguments")
                 {
-                  echo('<div class="error">Please fill out all forms before submitting.</div>');
+                  echo('<div class="error">Argumente nicht verstanden.</div>');
                 }
                 else
                 {
-                  echo('<div class="error">unclassified error.</div>');
+                  echo('<div class="error">Unbekannter Fehler.</div>');
                 }
-              }
-              else
-              {
-                echo('<div class="error">Please fill out all forms before submitting.</div>');
-              }
             }
           ?>
         </form>
         <?php
-          //header('Content-type: text/html; charset=utf-8');
           $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
           $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
           $mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
@@ -254,8 +130,5 @@
         ?>
       </div>
     </div>
-    <!--<script language="JavaScript">
-      obligatoryFieldsFilled();
-    </script>-->
   </body>
 </html>

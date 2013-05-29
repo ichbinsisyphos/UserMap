@@ -15,18 +15,23 @@ import codecs
 
 
 def coordinateString(newLat, newLng):
+  """ erzeugt Koordinaten-String aus Gleitkomma-Koordinatenpaar """
   return "%0.7f, %0.7f, %0.7f" % (newLng, newLat, 0.0)
 
 def nameList(Placemarks):
+  """ erzeugt Liste aller Namen aus Liste aller Placemark-Nodes """
   return [ placemark.name for placemark in Placemarks ]
 
 def coordinateList(Placemarks):
+  """ erzeugt Liste aller koordinaten-Strings aus Liste aller Placemark-Nodes """
   return [ placemark.Point.coordinates for placemark in Placemarks ]
 
 def randString(length):
+  """ erzeugt Zufalls-String mit angegebener Länge """
   return "".join(random.choice(string.ascii_lowercase + string.digits) for x in range(length))
 
 def getKmlFilePath():
+  """ erzeugt neuen KML-Dateinamen """
   return "var/UserMap_" + randString(6) + "_" + str(int(time.time())) + ".kml"
 
 
