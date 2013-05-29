@@ -1,0 +1,33 @@
+body
+{
+  color:#000000;
+  background-color:#ffffff;
+  font-family:"Arial", Sans-Serif;
+
+  font-size:90%;
+  margin:10px;
+}
+
+a:link
+{
+  color:#2200c1;
+  text-decoration:none;
+}
+
+a:visited
+{
+  color:#6611cc;
+  text-decoration:none;
+}
+
+a:hover
+{
+  color:#2200c1;
+  text-decoration:underline;
+}
+
+a:active
+{
+  color:#2200c1;
+  text-decoration:none;
+}
