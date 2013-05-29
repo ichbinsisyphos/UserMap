@@ -89,17 +89,17 @@ function previewDescription() {
     this.previewWindow.close();
   }
 
-var preHTML=["<!DOCTYPE html>",
-  "<html>",
-    "<head>",
-      '<link rel="stylesheet" type="text/css" href="preview.css" />',
-      '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" >',
-      "<title>Description Preview</title>",
-    "</head>",
-    "<body>"].join("\n");
+  var preHTML=["<!DOCTYPE html>",
+  "  <html>",
+  "    <head>",
+  '      <link rel="stylesheet" type="text/css" href="preview.css" />',
+  '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >',
+  "      <title>Description Preview</title>",
+  "    </head>",
+  "    <body>\n"].join("\n");
 
-var postHTML=["</body>",
-"</html>"].join("\n");
+  var postHTML=["    </body>",
+  "  </html>\n"].join("\n");
 
   this.previewWindow = window.open("", "Beschreibungsvorschau", "width=500,height=200");
   this.previewWindow.value="";
