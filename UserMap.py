@@ -92,7 +92,7 @@ coordinates = coordinateList(Placemarks)
 if newName not in names:
   #neuen Koordinatenpunkt
   newPoint = KML.Point(KML.coordinates(newCoordinates))
-  newPoint.append(KML.true_coordinates(coordinateString(newLng, newLat)))
+  newPoint.append(KML.true_coordinates(newCoordinates))
 
   #und damit neuen placemark erzeugen
   #für html in der description muss der text in ein "<!CDATA[" -> "]]" paar
