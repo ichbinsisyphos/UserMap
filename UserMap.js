@@ -89,22 +89,29 @@ function previewDescription() {
     this.previewWindow.close();
   }
 
-  var preHTML=["<!DOCTYPE html>",
-  "  <html>",
-  "    <head>",
-  '      <link rel="stylesheet" type="text/css" href="preview.css" />',
-  '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >',
-  "      <title>Description Preview</title>",
-  "    </head>",
-  "    <body>\n"].join("\n");
+  text = window.document.submitForm.descriptionInput.value;
 
-  var postHTML=["    </body>",
-  "  </html>\n"].join("\n");
+  if(text != "") {
+    var preHTML=["<!DOCTYPE html>",
+    "  <html>",
+    "    <head>",
+    '      <link rel="stylesheet" type="text/css" href="preview.css" />',
+    '      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >',
+    "      <title>Description Preview</title>",
+    "    </head>",
+    "    <body>\n"].join("\n");
 
-  this.previewWindow = window.open("", "Beschreibungsvorschau", "width=500,height=200");
-  this.previewWindow.value="";
-  html = preHTML + window.document.submitForm.descriptionInput.value + postHTML;
-  this.previewWindow.document.write(html);
+    var postHTML=["    </body>",
+    "  </html>\n"].join("\n");
+
+    this.previewWindow = window.open("", "Beschreibungsvorschau", "width=500,height=200");
+    this.previewWindow.value="";
+    html = preHTML + text + postHTML;
+    this.previewWindow.document.write(html);
+  }
+  else {
+    alert("Kein Text anzuzeigen.");
+  }
 }
 
 function setCookie() { //duration in Sekunden, also gegebenenfalls multiplizieren
