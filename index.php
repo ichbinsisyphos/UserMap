@@ -109,15 +109,18 @@
                 }
                 elseif ($outputVar == "name_taken")
                 {
-                  echo('<div class="error">Dieser Benutzername existiert bereits.</div>');
+                  //echo('<div class="error">Dieser Benutzername existiert bereits.</div>');
+                  echo('<script language=javascript>alert("Dieser Benutzername ist bereits eingetragen.")</script>');
                 }
                 elseif ($outputVar == "wrong_arguments")
                 {
-                  echo('<div class="error">Argumente nicht verstanden.</div>');
+                  //echo('<div class="error">Argumente nicht verstanden.</div>');
+                  echo('<script language=javascript>alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
                 }
                 else
                 {
-                  echo('<div class="error">Unbekannter Fehler.</div>');
+                  //echo('<div class="error">Unbekannter Fehler.</div>');
+                  echo('<script language=javascript>alert("Unbekannter Fehler.")</script>');
                 }
             }
           ?>

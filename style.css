@@ -33,6 +33,9 @@ body
   background-color:#f3f3f3;
   padding:20px;
   width:460px;
+  #border-style:solid;
+  #border-color:#606065;
+  #border-width:1px;
 }
 
 #head
@@ -47,6 +50,11 @@ body
   text-shadow:2px 2px 3px #999;
   font-size:300%;
   margin-bottom:20px;
+  padding-top:10px;
+  padding-bottom:10px;
+  #border-style:solid;
+  #border-color:#555560;
+  #border-width:1px;
 }
 
 .button {
