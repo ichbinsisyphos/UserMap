@@ -1,0 +1,64 @@
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>malthy2</name>
+      <description>dies ist nur ein test</description>
+      <Point>
+        <coordinates>8.2106028, 53.1477390, 0.0000000</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>malthy</name>
+      <description>&lt;a href="http://www.roboternetz.de/community/members/1745-malthy"&gt;Link zum Profil im Roboternetz&lt;/a&gt;&lt;p&gt;&lt;/p&gt;
+&lt;a href="http://www.mtahlers.de"&gt;private Homepage&lt;/a&gt;</description>
+      <Point>
+        <coordinates>8.2106028, 53.1477390, 0.0000000</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bammel</name>
+      <description>DAU, Noob, Geek</description>
+      <Point>
+        <coordinates>10.4093453, 47.6021822, 0.0000000</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>ichbinsisyphos</name>
+      <description/>
+      <Point>
+        <coordinates>15.4395040, 47.0707140, 0.0000000</coordinates>
+        <true_coordinates>47.0707140, 15.4395040, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>ichbinsisyphosNewlineTest</name>
+      <description>fgs \n saf
+
+
+dfg \\n dsf</description>
+      <Point>
+        <coordinates>16.3738189, 48.2081743, 0.0000000</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>ichbinsisyphosHTMLLinebreakTest</name>
+      <description>fgs &lt;br&gt; saf&lt;br&gt;&lt;br&gt;
+
+
+dfg &lt;br&gt; dsf</description>
+      <Point>
+        <coordinates>16.3738189, 48.2081743, 0.0000000</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>ichbinsisyphos2</name>
+      <description><![CDATA[<a href="http://derstandard.at/1369362056010/Finanzexperte-Orescharski-wird-neuer-Regierungschef-Bulgariens">standard.at</a><br><br>]]></description>
+      <Point>
+        <coordinates>16.3738189, 48.2081743, 0.0000000</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
