@@ -1,0 +1,157 @@
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>malthy2</name>
+      <description>dies ist nur ein test</description>
+      <Point>
+        <coordinates>8.2106028, 53.1477390, 0.0000000</coordinates>
+        <true_coordinates>8.2106028, 53.1477390, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>malthy</name>
+      <description>&lt;a href="http://www.roboternetz.de/community/members/1745-malthy"&gt;Link zum Profil im Roboternetz&lt;/a&gt;&lt;p&gt;&lt;/p&gt;
+&lt;a href="http://www.mtahlers.de"&gt;private Homepage&lt;/a&gt;</description>
+      <Point>
+        <coordinates>8.2106028, 53.1477390, 0.0000000</coordinates>
+        <true_coordinates>8.2106028, 53.1477390, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bammel</name>
+      <description>DAU, Noob, Geek</description>
+      <Point>
+        <coordinates>10.4093453, 47.6021822, 0.0000000</coordinates>
+        <true_coordinates>10.4093453, 47.6021822, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm1</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3738189,48.2081743,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm2</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.4868189,48.2081743,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm3</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.4253189,48.2973723,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm4</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3273189,48.2887123,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm5</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.2908189,48.2081743,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm6</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3373189,48.1449563,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm7</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.4053189,48.1536163,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm8</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.4533189,48.2540723,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm9</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3738189,48.2826503,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm10</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3243189,48.2367523,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm11</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3393189,48.1882563,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm12</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3738189,48.1856583,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm13</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3783189,48.2055763,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm14</name>
+      <description>fdghsdfh</description>
+      <Point>
+        <coordinates>16.3778189,48.2081743,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm15</name>
+      <description>&lt;a href="http://dfgsdfgdsfgsdf"&gt;TEXTGOESHERE&lt;/a&gt;</description>
+      <Point>
+        <coordinates>16.3748189,48.2099063,0.0</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bimm16</name>
+      <description><![CDATA[<a href="http://dfgsdfgdsfgsdf">TEXTGOESHERE</a>]]></description>
+      <Point>
+        <coordinates>16.3738189, 48.2081743, 0.0000000</coordinates>
+        <true_coordinates>16.3738189, 48.2081743, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
