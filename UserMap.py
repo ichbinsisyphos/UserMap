@@ -12,13 +12,8 @@ import time
 import random
 import string
 import codecs
+import hexgen
 
-
-#GENERATOR FÜR KOORDINATEN ERZEUGEN ... unten aufräumen
-relocateX = [0, 1.0, 0.5,  -0.5,  -1.0, -0.5,    0.5,   1.5,   0.0,  -1.5,   -1.5,   -0.0,    1.5,   2.0, 1.0,  -1.0,  -2.0, -1.0,    1.0  ]
-relocateY = [0, 0.0, 0.866, 0.866, 0.0, -0.866, -0.866, 0.866, 1.732, 0.866, -0.866, -1.732, -0.866, 0.0, 1.732, 1.732, 0.0, -1.732, -1.732]
-relocateD = 2e-3
-#
 
 def coordinateString(newLat, newLng):
   """ erzeugt Koordinaten-String aus Gleitkomma-Koordinatenpaar """
@@ -103,12 +98,17 @@ for placemark in Placemarks:
     collision.append(placemark)
     #print "kollision"
 
+
+gen = hexgen.hexgen(newLat,newLng,1e-2)
+
 for nr,coll in enumerate(collision):
-  lat,lng,alt = coll.Point.coordinates.text.split(",")
-  lat = float(lat)
-  lng = float(lng)
-  coord = str(relocateD*(relocateX[nr]) + lat) + "," + str(relocateD*(relocateY[nr]) + lng) + "," + str(0.0)
-  newPoint = KML.Point(KML.coordinates(coord))
+  #lat,lng,alt = coll.Point.coordinates.text.split(",")
+  #lat = float(lat)
+  #lng = float(lng)
+  #coord = str(relocateD*(relocateX[nr]) + lat) + "," + str(relocateD*(relocateY[nr]) + lng) + "," + str(0.0)
+  relocateLat, relocateLng = gen.next()
+
+  newPoint = KML.Point(KML.coordinates(coordinateString(relocateLat, relocateLng)))
   coll.Point = newPoint
   trueCoord = KML.true_coordinates(newCoordinates)
   coll.Point.append(trueCoord)
