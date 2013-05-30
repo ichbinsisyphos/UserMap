@@ -14,6 +14,12 @@ import string
 import codecs
 
 
+#GENERATOR FÜR KOORDINATEN ERZEUGEN ... unten aufräumen
+relocateX = [0, 1.0, 0.5,  -0.5,  -1.0, -0.5,    0.5,   1.5,   0.0,  -1.5,   -1.5,   -0.0,    1.5,   2.0, 1.0,  -1.0,  -2.0, -1.0,    1.0  ]
+relocateY = [0, 0.0, 0.866, 0.866, 0.0, -0.866, -0.866, 0.866, 1.732, 0.866, -0.866, -1.732, -0.866, 0.0, 1.732, 1.732, 0.0, -1.732, -1.732]
+relocateD = 2e-3
+#
+
 def coordinateString(newLat, newLng):
   """ erzeugt Koordinaten-String aus Gleitkomma-Koordinatenpaar """
   return "%0.7f, %0.7f, %0.7f" % (newLng, newLat, 0.0)
@@ -87,6 +93,25 @@ names = nameList(Placemarks)
 
 #Koordinatenstrings herausfiltern
 coordinates = coordinateList(Placemarks)
+
+collision = []
+
+for placemark in Placemarks:
+  #if not placemark.Point.true_coordinates:
+   # placemark.Point.true_coordinates = placemark.Point.coordinates
+  if placemark.Point.true_coordinates == newCoordinates:
+    collision.append(placemark)
+    #print "kollision"
+
+for nr,coll in enumerate(collision):
+  lat,lng,alt = coll.Point.coordinates.text.split(",")
+  lat = float(lat)
+  lng = float(lng)
+  coord = str(relocateD*(relocateX[nr]) + lat) + "," + str(relocateD*(relocateY[nr]) + lng) + "," + str(0.0)
+  newPoint = KML.Point(KML.coordinates(coord))
+  coll.Point = newPoint
+  trueCoord = KML.true_coordinates(newCoordinates)
+  coll.Point.append(trueCoord)
 
 #Abfrage ob ein Eintrag unter dem Namen bereits existiert
 if newName not in names:
