@@ -19,13 +19,14 @@ def coordinateString(newLat, newLng):
   """ erzeugt Koordinaten-String aus Gleitkomma-Koordinatenpaar """
   return "%0.7f, %0.7f, %0.7f" % (newLng, newLat, 0.0)
 
-def nameList(Placemarks):
-  """ erzeugt Liste aller Namen aus Liste aller Placemark-Nodes """
-  return [ placemark.name for placemark in Placemarks ]
+def nameSet(Placemarks):
+  """ erzeugt Menge aller Namen aus Liste aller Placemark-Nodes """
+  #return [ placemark.name for placemark in Placemarks ]
+  names = set()
+  for placemark in Placemarks:
+    names.add(placemark.name)
 
-def coordinateList(Placemarks):
-  """ erzeugt Liste aller koordinaten-Strings aus Liste aller Placemark-Nodes """
-  return [ placemark.Point.coordinates for placemark in Placemarks ]
+  return names
 
 def randString(length):
   """ erzeugt Zufalls-String mit angegebener Länge """
@@ -38,7 +39,6 @@ def getKmlFilePath():
 
 #Pfad zum lockfile
 lockPath = "var/UserMap.lock"
-
 #hier wird der Pfad zur letzten KML-Datei mitgeschrieben
 kmlFilenamePath   = "var/kmlFilename.dat"
 filep = open(kmlFilenamePath, "r")
@@ -80,55 +80,46 @@ del filep
 #KML-Baum vom string erzeugen
 root = parser.fromstring(KMLText)
 
-#alle Kinder werden als placemarks angenommen
-Placemarks  = root.Document.getchildren()
+#alle placemarks
+Placemarks  = root.Document.findall("{http://www.opengis.net/kml/2.2}Placemark")
 
 #Benutzernamen herausfilterm
-names = nameList(Placemarks)
+names = nameSet(Placemarks)
 
-#Koordinatenstrings herausfiltern
-coordinates = coordinateList(Placemarks)
 
 collision = []
-
 for placemark in Placemarks:
-  #if not placemark.Point.true_coordinates:
-   # placemark.Point.true_coordinates = placemark.Point.coordinates
   if placemark.Point.true_coordinates == newCoordinates:
     collision.append(placemark)
-    #print "kollision"
-
 
 gen = hexgen.hexgen(newLat,newLng,1e-2)
 
-for nr,coll in enumerate(collision):
-  #lat,lng,alt = coll.Point.coordinates.text.split(",")
-  #lat = float(lat)
-  #lng = float(lng)
-  #coord = str(relocateD*(relocateX[nr]) + lat) + "," + str(relocateD*(relocateY[nr]) + lng) + "," + str(0.0)
-  relocateLat, relocateLng = gen.next()
+style = "#single"
+if len(collision) > 0:
+  style = "#multiple"
 
-  newPoint = KML.Point(KML.coordinates(coordinateString(relocateLat, relocateLng)))
-  coll.Point = newPoint
-  trueCoord = KML.true_coordinates(newCoordinates)
-  coll.Point.append(trueCoord)
+  if len(collision) > 5:
+    style = "#highdensity"
+
+  #kollisionskorrektur
+  for nr,coll in enumerate(collision):
+    relocateLat, relocateLng = gen.next()
+
+    coll.styleUrl = KML.styleUrl(style)
+    coll.Point.coordinates = KML.coordinates(coordinateString(relocateLat, relocateLng))
 
 #Abfrage ob ein Eintrag unter dem Namen bereits existiert
 if newName not in names:
-  #neuen Koordinatenpunkt
+  styleNode = KML.styleUrl(style)
   newPoint = KML.Point(KML.coordinates(newCoordinates))
   newPoint.append(KML.true_coordinates(newCoordinates))
-
-  #und damit neuen placemark erzeugen
-  #für html in der description muss der text in ein "<!CDATA[" -> "]]" paar
-  #gepackt werden.
   descNode = etree.Element("description")
   descNode.text = etree.CDATA(newDescription)
 
   newPlacemark = KML.Placemark(
       KML.name(newName),
+      styleNode,
       descNode,
-      #KML.description(newDescription),
       newPoint
       )
 
@@ -146,6 +137,7 @@ if newName not in names:
   
   #unter diesem Dateinamen die KML-Datei neu erzeugen und neunen Baum reinschreiben
   filep = open(newKmlFilePath,"w")
+  filep.write('<?xml version="1.0" encoding="UTF-8"?>\n')
   filep.write(etree.tostring(root, pretty_print=True))
   filep.close()
   del filep

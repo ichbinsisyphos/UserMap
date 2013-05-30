@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 
+#external dependencies: geopy (via pip)
+
 import geopy
 import sys
 import os

@@ -1,6 +1,6 @@
 <!-- TODO: SERVERSEITIGE ÜBERPRÜFUNG UND FEHLER ABFANGEN
-      - AUCH WENN, WENN ALLES GUTGEHT JAVASCRIPT SOLCHE 
-        ANFRANGEN GAR NICHT ERST RAUS LASSEN SOLLTE
+      - AUCH WENN, WENN ALLES GUTGEHT, JAVASCRIPT SOLCHE 
+        ANFRAGEN GAR NICHT ERST RAUS LASSEN SOLLTE
 -->
 
 <!DOCTYPE html>
@@ -82,12 +82,15 @@
           <table border="0" width="100%">
             <tr>
               <td align="left">
-                <?php
-                  $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-                  $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-                  $mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
-                  echo "<a href='" . $mapUrl . "'>bisherige Karte</a>";
-                ?>
+                <a href="mapRedirect.php">bisherige Karte</a>
+
+                <!-- <?php
+                  #$hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
+                  #$kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+                  #$mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
+                  #echo "<a href='" . $mapUrl . "'>bisherige Karte</a>";
+                ?> -->
+
               </td>
               <td align="right"><input type="submit" name="formSubmit" value="Abschicken" class="button"></td>
             </tr>
