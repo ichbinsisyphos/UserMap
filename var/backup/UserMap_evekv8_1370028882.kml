@@ -141,17 +141,6 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         <true_coordinates>10.016785,53.799839,0.000000</true_coordinates>
       </Point>
     </Placemark>
-    <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-      <name>ichbinsisyphos</name>
-      <styleUrl>#single</styleUrl>
-      <type>user</type>
-      <country>Austria</country>
-      <description><![CDATA[<a href="http://www.roboternetz.de/community/members/58901-ichbinsisyphos">Link zum Profil im Roboternetz</a>]]></description>
-      <Point>
-        <coordinates>15.4395040, 47.0707140, 0.0000000</coordinates>
-        <true_coordinates>15.4395040, 47.0707140, 0.0000000</true_coordinates>
-      </Point>
-    </Placemark>
     <Placemark>
       <type>user</type>
       <name>Informati</name>
@@ -347,6 +336,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         </Polygon>
       </MultiGeometry>
       <type>country</type>
+      <visibility>0</visibility>
       <Style>
         <PolyStyle>
           <color>19222288</color>
@@ -356,6 +346,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           <color>19222288</color>
           <width>1</width>
         </LineStyle>
+        <scale>0</scale>
       </Style>
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -408,6 +399,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         </Polygon>
       </MultiGeometry>
       <type>country</type>
+      <visibility>0</visibility>
       <Style>
         <PolyStyle>
           <color>19222288</color>
@@ -417,6 +409,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           <color>19222288</color>
           <width>1</width>
         </LineStyle>
+        <scale>0</scale>
       </Style>
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -434,6 +427,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         </Polygon>
       </MultiGeometry>
       <type>country</type>
+      <visibility>0</visibility>
       <Style>
         <PolyStyle>
           <color>19222288</color>
@@ -443,6 +437,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           <color>19222288</color>
           <width>1</width>
         </LineStyle>
+        <scale>0</scale>
       </Style>
     </Placemark>
     <Placemark>
@@ -460,6 +455,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         </Polygon>
       </MultiGeometry>
       <type xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">country</type>
+      <visibility xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">0</visibility>
       <Style xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
         <PolyStyle>
           <color>19222288</color>
@@ -469,6 +465,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           <color>19222288</color>
           <width>1</width>
         </LineStyle>
+        <scale>0</scale>
       </Style>
     </Placemark>
   </Document>

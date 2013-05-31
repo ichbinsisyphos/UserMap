@@ -197,14 +197,24 @@ if newName not in nameSet(Placemarks):
       newFill.append(KML.outline("1"))
       newOutline = KML.LineStyle(linecolor)
       newOutline.append(KML.width("1"))
+      newScale = KML.IconStyle(KML.scale("0"))
+      newLabel = KML.LabelStyle(KML.scale("0"))
+      newList = KML.ListStyle(KML.scale("0"))
+      newBalloon = KML.BalloonStyle(KML.scale("0"))
       newStyle = KML.Style(newFill)
       newStyle.append(newOutline)
+      newStyle.append(newScale)
+      newStyle.append(newLabel)
+      newStyle.append(newList)
+      newStyle.append(newBalloon)
+      visibilityNode = KML.visibility("0")
       typeNode = KML.type("country")
       countryPlacemark.append(typeNode)
+      countryPlacemark.append(visibilityNode)
       countryPlacemark.append(newStyle)
+
       root.Document.append(countryPlacemark)
       #print countryPlacemark.name.text
-
 
   #neuen KML-Dateinamen erzeugen: UserMap-prefix, 6 Zufallszeichen und Zeit in Sekunden
   newKmlFilePath = getKmlFilePath()
