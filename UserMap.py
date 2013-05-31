@@ -172,10 +172,22 @@ if newName not in nameSet(Placemarks):
   singleStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"))), id = "single")
   multipleStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png"))), id = "multiple")
   highdensityStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"))), id = "highdensity")
+  countryStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://labs.google.com/ridefinder/images/mm_20_black.png"))), id = "country")
+
+  polycolor = KML.color("19222288")
+  linecolor = KML.color("19222288")
+
+  newFill = KML.PolyStyle(polycolor)
+  newFill.append(KML.outline("1"))
+  newOutline = KML.LineStyle(linecolor)
+  newOutline.append(KML.width("1"))
+  countryStyle.append(newFill)
+  countryStyle.append(newOutline)
 
   root.Document.append(singleStyle)
   root.Document.append(multipleStyle)
   root.Document.append(highdensityStyle)
+  root.Document.append(countryStyle)
 
   Placemarks.sort(key=lambda placemark: placemark.name.text.lower())
   for placemark in Placemarks:
@@ -195,28 +207,23 @@ if newName not in nameSet(Placemarks):
 
   for countryPlacemark in countryPlacemarks:
     if countryPlacemark.name.text in countryNames:
-      polycolor = KML.color("19222288")
-      linecolor = KML.color("19222288")
 
-      newFill = KML.PolyStyle(polycolor)
-      newFill.append(KML.outline("1"))
-      newOutline = KML.LineStyle(linecolor)
-      newOutline.append(KML.width("1"))
-      newScale = KML.IconStyle(KML.scale("0"))
-      newLabel = KML.LabelStyle(KML.scale("0"))
-      newList = KML.ListStyle(KML.scale("0"))
-      newBalloon = KML.BalloonStyle(KML.scale("0"))
-      newStyle = KML.Style(newFill)
-      newStyle.append(newOutline)
-      newStyle.append(newScale)
-      newStyle.append(newLabel)
-      newStyle.append(newList)
-      newStyle.append(newBalloon)
-      visibilityNode = KML.visibility("0")
+      #newScale = KML.IconStyle(KML.scale("0"))
+      #newLabel = KML.LabelStyle(KML.scale("0"))
+      #newList = KML.ListStyle(KML.scale("0"))
+      #newBalloon = KML.BalloonStyle(KML.scale("0"))
+      #newStyle = KML.Style(newFill)
+      #newStyle.append(newOutline)
+      #newStyle.append(newScale)
+      #newStyle.append(newLabel)
+      #newStyle.append(newList)
+      #newStyle.append(newBalloon)
+      newStyleUrl = KML.StyleUrl("#country")
+      countryPlacemark.append(newStyleUrl)
+      #visibilityNode = KML.visibility("0")
       typeNode = KML.type("country")
       countryPlacemark.append(typeNode)
-      countryPlacemark.append(visibilityNode)
-      countryPlacemark.append(newStyle)
+      #countryPlacemark.append(visibilityNode)
 
       root.Document.append(countryPlacemark)
       #print countryPlacemark.name.text
