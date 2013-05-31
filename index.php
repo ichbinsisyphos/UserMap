@@ -114,12 +114,7 @@
 
                 if ($outputVar == "success")
                 {
-                  $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-                  $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-                  $redirectUrl = "https://maps.google.at/maps?source=embed&q=" 
-                                    . $hostName . "/UserMap/" . $kmlFile;
-
-                  echo '<META HTTP-EQUIV="Refresh" Content="0; URL=' . $redirectUrl . '">';    
+                  echo '<META HTTP-EQUIV="Refresh" Content="0; URL=mapRedirect.php">';    
                   exit;
                 }
                 elseif ($outputVar == "name_taken")

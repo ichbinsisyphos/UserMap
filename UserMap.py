@@ -4,6 +4,7 @@
 #external dependencies: pykml (via pip)
 
 #TODO: CHAOS BESEITIGEN, EVT ZLIB STATT ZIPFILE FALLS MÖGLICH
+#TODO: EXTERNES STYLE-KML-FILE
 
 from lxml import etree
 from pykml import parser
@@ -51,6 +52,9 @@ def getKmlFilePath():
   #return "var/UserMap_%s_%i.kml" % (randString(6), time.time())
   return "var/UserMap_%s_%i.kml" % (randString(6), time.time())
 
+def getKmzFilePath():
+  """ erzeugt neuen KMZ-Dateinamen (gezippte Datei) """
+  return getKmlFilePath()[:-4] + ".kmz"
 
 #Anzahl der Argumente checken, wenn nicht 5, dann Fehlerausgabe und Abbruch
 if len(sys.argv) != 4:
@@ -60,11 +64,12 @@ if len(sys.argv) != 4:
 #Pfad zum lockfile
 lockPath = "var/UserMap.lock"
 #hier wird der Pfad zur letzten KML-Datei mitgeschrieben
-kmlFilenamePath   = "var/kmlFilename.dat"
-filep = open(kmlFilenamePath, "r")
+kmzFilenamePath   = "var/kmzFilename.dat"
+filep = open(kmzFilenamePath, "r")
 #KML-Pfad aus dieser Datei auslesen
-kmlFilePath = filep.read()
+kmzFilePath = filep.read()
 filep.close()
+kmlFilePath = kmzFilePath[:-4] + ".kml"
 
 #hostname und markers
 hostnamePath = "hostname.conf"
@@ -216,47 +221,33 @@ if newName not in nameSet(Placemarks):
       root.Document.append(countryPlacemark)
       #print countryPlacemark.name.text
 
+  #print "bimM"
+
   #neuen KML-Dateinamen erzeugen: UserMap-prefix, 6 Zufallszeichen und Zeit in Sekunden
   newKmlFilePath = getKmlFilePath()
+  newKmzFilePath = newKmlFilePath[:-4] + ".kmz"
 
   #diesen namen in Kontrolldatei schreiben
-  filep = open(kmlFilenamePath, "w")
-  filep.write(newKmlFilePath)
+  filep = open(kmzFilenamePath, "w")
+  filep.write(newKmzFilePath)
   filep.close()
   del filep
 
   filep = open(newKmlFilePath,"w")
-  #filep = StringIO.StringIO()
   xmlText = '<?xml version="1.0" encoding="UTF-8"?>\n' + etree.tostring(root, pretty_print=True)
   filep.write(xmlText)
   filep.close()
   del filep
   
-  filep = open(newKmlFilePath,"rb")
-  # gzipfilep = gzip.open(newKmlFilePath[:-4]+".kmz", 'wb')
-  # gzipfilep.writelines(filep)
-  # gzipfilep.close()
-  # del gzipfilep
-  filep.close()
-  del filep
-
-  filep = zipfile.ZipFile(newKmlFilePath[:-4]+".kmz", 'w')
+  filep = zipfile.ZipFile(newKmzFilePath, 'w')
   filep.write(newKmlFilePath, compress_type=zipfile.ZIP_DEFLATED)
   filep.close()
 
-  # filep.close()
-  # del filep
-
-
-  filep = open(newKmlFilePath,"w")
-  filep.write(xmlText)
-  filep.close()
-  del filep
-  #alte KML-Datei loeschen
+  #alte Dateien in backup-Ordner verschieben
   shutil.copy(kmlFilePath, "var/backup/" + kmlFilePath.split("/")[-1])
-  shutil.copy(kmlFilePath[:-4]+".kmz", "var/backup/" + kmlFilePath.split("/")[-1][:-4]+".kmz")
+  shutil.copy(kmzFilePath, "var/backup/" + kmzFilePath.split("/")[-1])
   os.remove(kmlFilePath)
-  os.remove(kmlFilePath[:-4]+".kmz")
+  os.remove(kmzFilePath)
   #Erfolgsmeldung ausgeben
   sys.stdout.write("success")
   

@@ -1,7 +1,7 @@
 <?php
   $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-  $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-  $redirectUrl = "https://maps.google.at/maps?q=" . $hostName . "/UserMap/" . $kmlFile;
+  $kmzFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmzFilename.dat")));
+  $redirectUrl = "https://maps.google.at/maps?q=" . $hostName . "/UserMap/" . $kmzFile;
 
   header("Location: " . $redirectUrl);
 ?>
