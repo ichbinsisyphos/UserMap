@@ -1,8 +1,3 @@
-<!-- TODO: SERVERSEITIGE ÜBERPRÜFUNG UND FEHLER ABFANGEN
-      - AUCH WENN, WENN ALLES GUTGEHT, JAVASCRIPT SOLCHE 
-        ANFRAGEN GAR NICHT ERST RAUS LASSEN SOLLTE
--->
-
 <!DOCTYPE html>
 
 <html>
@@ -40,16 +35,31 @@
 
                 $returnString = utf8_decode(shell_exec($command));
 
-                $results = explode("$&$" , $returnString, "10");
-
-                foreach($results as $result)
+                if ($returnString == "error_querynotunderstood")
                 {
-                  if($result != "None")
+                  echo('<script language=javascript>alert("Suchanfrage nicht verstanden.")</script>');
+                }
+                elseif ($returnString == "error_apicreditsusedup")
+                {
+                  echo('<script language=javascript>alert("API-credits aufgebraucht, bitte versuche es morgen noch einmal.")</script>');
+                }
+                elseif ($returnString == "error_wrong_arguments")
+                {
+                  echo('<script language=javascript>alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
+                }                
+                elseif ($returnString == "error_unknown")
+                {
+                  echo('<script language=javascript>alert("Unbekannter Fehler.")</script>');
+                }
+                else
+                {
+                  $results = explode("$&$" , $returnString, "10");
+                  foreach($results as $result)
                   {
-                    #$elements = explode("%" , $result);
-                    #$displayString = $elements[0] . " (" . $elements[1] . ", " . $elements[2] . ")";
-                    #$coordString = $elements[1] . ", " . $elements[2];
-                    echo(utf8_encode("<option value='" . $result . "'>" . $result . "</option>"));
+                    if($result != "None")
+                    {
+                      echo(utf8_encode("<option value='" . $result . "'>" . $result . "</option>"));
+                    }
                   }
                 }
               }
@@ -83,14 +93,6 @@
             <tr>
               <td align="left">
                 <a href="mapRedirect.php">bisherige Karte</a>
-
-                <!-- <?php
-                  #$hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-                  #$kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-                  #$mapUrl = "https://maps.google.at/maps?source=embed&q=" . $hostName . "/UserMap/" . $kmlFile;
-                  #echo "<a href='" . $mapUrl . "'>bisherige Karte</a>";
-                ?> -->
-
               </td>
               <td align="right"><input type="submit" name="formSubmit" value="Abschicken" class="button"></td>
             </tr>
@@ -101,18 +103,12 @@
             {
                 $varName = $_POST['nameInput'];
                 $varDescription = $_POST['descriptionInput'];
-
-                #$coords = explode(",", $_POST['locationSelect']);
-                #$varLat = $coords[0];
-                #$varLng = $coords[1];
                 $varLocation = $_POST['locationSelect'];
 
                 $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
                       . escapeshellarg($varName) . " "
                       . escapeshellarg($varDescription) . " "
                       . escapeshellarg($varLocation);
-                      #. escapeshellarg($varLat) . " "
-                      #. escapeshellarg($varLng);
 
                 $outputVar = shell_exec($command);
 

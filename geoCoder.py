@@ -20,7 +20,7 @@ while os.path.isfile(lockPath):
 open(lockPath,"w").close()
 
 
-returnString = u"None"
+returnString = ""
 
 if len(sys.argv) == 2 and sys.argv[1]:
 
@@ -35,10 +35,19 @@ if len(sys.argv) == 2 and sys.argv[1]:
         for result in results ]
 
   except geopy.geocoders.googlev3.GQueryError:
-    pass
+    returnString = "error_querynotunderstood"
+
+  except geopy.geocoders.googlev3.GTooManyQueriesError:
+    returnString = "error_apicreditsusedup"
+
+  except:
+    returnString = "error_unknown"
 
   if len(locationList) > 0:
     returnString = u"$&$".join(locationList)
+
+else:
+  returnString = "error_wrong_arguments"  
 
 sys.stdout.write(returnString.encode("utf-8"))
 

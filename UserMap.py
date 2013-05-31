@@ -3,6 +3,8 @@
 
 #external dependencies: pykml (via pip)
 
+#TODO: CHAOS BESEITIGEN, EVT ZLIB STATT ZIPFILE FALLS MÖGLICH
+
 from lxml import etree
 from pykml import parser
 from pykml.factory import KML_ElementMaker as KML
@@ -13,7 +15,8 @@ import random
 import string
 import codecs
 import hexgen
-
+import zipfile #zlib?
+import shutil
 
 def coordinateString((lat, lng)):
   """ erzeugt Koordinaten-String aus Gleitkomma-Koordinatenpaar """
@@ -24,7 +27,8 @@ def nameSet(Placemarks):
   #return [ placemark.name for placemark in Placemarks ]
   names = set()
   for placemark in Placemarks:
-    names.add(placemark.name)
+    if placemark.type.text == "user":
+      names.add(placemark.name)
 
   return names
 
@@ -33,7 +37,8 @@ def countrySet(Placemarks):
   #return [ placemark.name for placemark in Placemarks ]
   countries = set()
   for placemark in Placemarks:
-    countries.add(placemark.country.text)
+    if placemark.type.text == "user":
+      countries.add(placemark.country.text)
 
   return countries
 
@@ -43,7 +48,8 @@ def randString(length):
 
 def getKmlFilePath():
   """ erzeugt neuen KML-Dateinamen """
-  return "var/UserMap_" + randString(6) + "_" + str(int(time.time())) + ".kml"
+  #return "var/UserMap_%s_%i.kml" % (randString(6), time.time())
+  return "var/UserMap_%s_%i.kml" % (randString(6), time.time())
 
 
 #Anzahl der Argumente checken, wenn nicht 5, dann Fehlerausgabe und Abbruch
@@ -111,10 +117,11 @@ del filep
 root = parser.fromstring(KMLText)
 #print root.Document.getchildren()
 #alle placemarks
-Placemarks  = root.Document.findall("{http://www.opengis.net/kml/2.2}Placemark")
+Placemarks  = [ placemark for placemark in root.Document.findall("{http://www.opengis.net/kml/2.2}Placemark") if placemark.type.text == "user" ]
 #Abfrage ob ein Eintrag unter dem Namen bereits existiert
 if newName not in nameSet(Placemarks):
   styleNode = KML.styleUrl("#single")
+  typeNode = KML.type("user")
   newPoint = KML.Point(KML.coordinates(newCoordinates))
   newPoint.append(KML.true_coordinates(newCoordinates))
   descNode = etree.Element("description")
@@ -124,6 +131,7 @@ if newName not in nameSet(Placemarks):
   newPlacemark = KML.Placemark(
       KML.name(newName),
       styleNode,
+      typeNode,
       countryNode,
       descNode,
       newPoint
@@ -131,7 +139,7 @@ if newName not in nameSet(Placemarks):
 
   Placemarks.append(newPlacemark)
   
-  collision = [ placemark for placemark in Placemarks if placemark.Point.true_coordinates and placemark.Point.true_coordinates == newCoordinates ]
+  collision = [ placemark for placemark in Placemarks if placemark.type.text == "user" and placemark.Point.true_coordinates == newCoordinates ]
 
   if len(collision) > 1:
     style = "#multiple"
@@ -164,35 +172,38 @@ if newName not in nameSet(Placemarks):
   root.Document.append(multipleStyle)
   root.Document.append(highdensityStyle)
 
-  Placemarks.sort(key=lambda placemark: placemark.name.text)
+  Placemarks.sort(key=lambda placemark: placemark.name.text.lower())
   for placemark in Placemarks:
     root.Document.append(placemark)
 
 
-  # countryNames = countrySet(Placemarks)
-  # print countryNames
+  countryNames = countrySet(Placemarks)
 
-  # filep = open("countries.kml", "r")
-  # countryText = filep.read()
-  # filep.close()
-  # del filep
+  filep = open("countries.kml", "r")
+  countryText = filep.read()
+  filep.close()
+  del filep
 
-  # countryRoot = parser.fromstring(countryText)
-  # countryPlacemarks = countryRoot.Document.findall("{http://www.opengis.net/kml/2.2}Placemark")
-  # for countryPlacemark in countryPlacemarks:
-  #   if countryPlacemark.name in countryNames:
-  #     polycolor = KML.color("19222288")
-  #     linecolor = KML.color("19222288")
+  countryRoot = parser.fromstring(countryText)
+  countryPlacemarks = countryRoot.Document.findall("{http://www.opengis.net/kml/2.2}Placemark")
+  #print countryPlacemarks
 
-  #     oldColor = countryPlacemark.Style.PolyStyle.findall("{http://www.opengis.net/kml/2.2}color")[0]
-  #     countryPlacemark.Style.PolyStyle.remove(oldColor)
-  #     countryPlacemark.Style.PolyStyle.append(polycolor)
+  for countryPlacemark in countryPlacemarks:
+    if countryPlacemark.name.text in countryNames:
+      polycolor = KML.color("19222288")
+      linecolor = KML.color("19222288")
 
-  #     oldColor = countryPlacemark.Style.LineStyle.findall("{http://www.opengis.net/kml/2.2}color")[0]
-  #     countryPlacemark.Style.LineStyle.remove(oldColor)
-  #     countryPlacemark.Style.LineStyle.append(linecolor)
-
-  #     root.Document.append(countryPlacemark)
+      newFill = KML.PolyStyle(polycolor)
+      newFill.append(KML.outline("1"))
+      newOutline = KML.LineStyle(linecolor)
+      newOutline.append(KML.width("1"))
+      newStyle = KML.Style(newFill)
+      newStyle.append(newOutline)
+      typeNode = KML.type("country")
+      countryPlacemark.append(typeNode)
+      countryPlacemark.append(newStyle)
+      root.Document.append(countryPlacemark)
+      #print countryPlacemark.name.text
 
 
   #neuen KML-Dateinamen erzeugen: UserMap-prefix, 6 Zufallszeichen und Zeit in Sekunden
@@ -205,14 +216,37 @@ if newName not in nameSet(Placemarks):
   del filep
 
   filep = open(newKmlFilePath,"w")
-  filep.write('<?xml version="1.0" encoding="UTF-8"?>\n')
-  filep.write(etree.tostring(root, pretty_print=True))
+  #filep = StringIO.StringIO()
+  xmlText = '<?xml version="1.0" encoding="UTF-8"?>\n' + etree.tostring(root, pretty_print=True)
+  filep.write(xmlText)
+  filep.close()
+  del filep
+  
+  filep = open(newKmlFilePath,"rb")
+  # gzipfilep = gzip.open(newKmlFilePath[:-4]+".kmz", 'wb')
+  # gzipfilep.writelines(filep)
+  # gzipfilep.close()
+  # del gzipfilep
   filep.close()
   del filep
 
-  #alte KML-Datei loeschen
-  os.remove(kmlFilePath)
+  filep = zipfile.ZipFile(newKmlFilePath[:-4]+".kmz", 'w')
+  filep.write(newKmlFilePath, compress_type=zipfile.ZIP_DEFLATED)
+  filep.close()
 
+  # filep.close()
+  # del filep
+
+
+  filep = open(newKmlFilePath,"w")
+  filep.write(xmlText)
+  filep.close()
+  del filep
+  #alte KML-Datei loeschen
+  shutil.copy(kmlFilePath, "var/backup/" + kmlFilePath.split("/")[-1])
+  shutil.copy(kmlFilePath[:-4]+".kmz", "var/backup/" + kmlFilePath.split("/")[-1][:-4]+".kmz")
+  os.remove(kmlFilePath)
+  os.remove(kmlFilePath[:-4]+".kmz")
   #Erfolgsmeldung ausgeben
   sys.stdout.write("success")
   
