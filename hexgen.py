@@ -5,10 +5,10 @@ import math
 
 def hexgen(startx, starty, mindist):
   corners = [ (round(math.cos(angle*math.pi/180.),3),round(math.sin(angle*math.pi/180.),3)) for angle in range(0,360,60) ]
-  layer = 1
+  layer = 0
   interpolate = 0
-  layerstart = 1
-  index = 1
+  layerstart = 0
+  index = 0
 
   while True:
     perlayer = layer*6
@@ -27,7 +27,7 @@ def hexgen(startx, starty, mindist):
       cornerindex = layerindex/(interpolate+1)
       corner = "corner " + str(cornerindex)
       x,y = corners[cornerindex]
-      x *= mindist/2.*layer
+      x *= mindist*(2./3.)*layer
       y *= mindist*layer
 
     else:
@@ -42,7 +42,7 @@ def hexgen(startx, starty, mindist):
       diffx = nextx - prevx
       diffy = nexty - prevy
 
-      x = mindist/2.*layer*(prevx + diffx*interpolateindex/(interpolate+1))
+      x = mindist*(2./3.)*layer*(prevx + diffx*interpolateindex/(interpolate+1))
       y = mindist*layer*(prevy + diffy*interpolateindex/(interpolate+1))
 
     index += 1
