@@ -28,6 +28,15 @@ def nameSet(Placemarks):
 
   return names
 
+def countrySet(Placemarks):
+  """ erzeugt Menge aller Länder aus Liste aller Placemark-Nodes """
+  #return [ placemark.name for placemark in Placemarks ]
+  countries = set()
+  for placemark in Placemarks:
+    countries.add(placemark.country.text)
+
+  return countries
+
 def randString(length):
   """ erzeugt Zufalls-String mit angegebener Länge """
   return "".join(random.choice(string.ascii_lowercase + string.digits) for x in range(length))
@@ -38,7 +47,7 @@ def getKmlFilePath():
 
 
 #Anzahl der Argumente checken, wenn nicht 5, dann Fehlerausgabe und Abbruch
-if len(sys.argv) != 5:
+if len(sys.argv) != 4:
   sys.stdout.write("wrong_arguments")
   exit()
 
@@ -65,8 +74,14 @@ highdensityMarkerUrl = os.path.join(markersBaseUrl, "highdensity.png")
 #single quotes im Eingabeformular verbieten/filtern
 newName = sys.argv[1].decode("utf-8")
 newDescription = sys.argv[2].decode("utf-8")
-newLat = float(sys.argv[3])
-newLng = float(sys.argv[4])
+newLocation = sys.argv[3].decode("utf-8")
+
+place, coords = newLocation.split("(")
+coords = coords.replace(")","")
+newLat, newLng = coords.split(",")
+newLat = float(newLat)
+newLng = float(newLng)
+newCountry = place.split(",")[-1].replace(" ","")
 
 #die letzten beiden zum Koordinatenstring zusammenfügen, höhe wird 0 gesetzt
 #Achtung: KML verlangt umgekehrte Reihenfolge
@@ -105,17 +120,18 @@ if newName not in nameSet(Placemarks):
   descNode = etree.Element("description")
   descNode.text = etree.CDATA(newDescription)
   #CDATA überlebt das spätere einlesen und neu schreiben nicht! mal Richtung XML schauen
-
+  countryNode = KML.country(newCountry)
   newPlacemark = KML.Placemark(
       KML.name(newName),
       styleNode,
+      countryNode,
       descNode,
       newPoint
       )
 
   Placemarks.append(newPlacemark)
   
-  collision = [ placemark for placemark in Placemarks if placemark.Point.true_coordinates == newCoordinates ]
+  collision = [ placemark for placemark in Placemarks if placemark.Point.true_coordinates and placemark.Point.true_coordinates == newCoordinates ]
 
   if len(collision) > 1:
     style = "#multiple"
@@ -151,6 +167,33 @@ if newName not in nameSet(Placemarks):
   Placemarks.sort(key=lambda placemark: placemark.name.text)
   for placemark in Placemarks:
     root.Document.append(placemark)
+
+
+  # countryNames = countrySet(Placemarks)
+  # print countryNames
+
+  # filep = open("countries.kml", "r")
+  # countryText = filep.read()
+  # filep.close()
+  # del filep
+
+  # countryRoot = parser.fromstring(countryText)
+  # countryPlacemarks = countryRoot.Document.findall("{http://www.opengis.net/kml/2.2}Placemark")
+  # for countryPlacemark in countryPlacemarks:
+  #   if countryPlacemark.name in countryNames:
+  #     polycolor = KML.color("19222288")
+  #     linecolor = KML.color("19222288")
+
+  #     oldColor = countryPlacemark.Style.PolyStyle.findall("{http://www.opengis.net/kml/2.2}color")[0]
+  #     countryPlacemark.Style.PolyStyle.remove(oldColor)
+  #     countryPlacemark.Style.PolyStyle.append(polycolor)
+
+  #     oldColor = countryPlacemark.Style.LineStyle.findall("{http://www.opengis.net/kml/2.2}color")[0]
+  #     countryPlacemark.Style.LineStyle.remove(oldColor)
+  #     countryPlacemark.Style.LineStyle.append(linecolor)
+
+  #     root.Document.append(countryPlacemark)
+
 
   #neuen KML-Dateinamen erzeugen: UserMap-prefix, 6 Zufallszeichen und Zeit in Sekunden
   newKmlFilePath = getKmlFilePath()

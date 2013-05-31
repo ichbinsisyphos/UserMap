@@ -40,16 +40,16 @@
 
                 $returnString = utf8_decode(shell_exec($command));
 
-                $results = explode("$" , $returnString, "10");
+                $results = explode("$&$" , $returnString, "10");
 
                 foreach($results as $result)
                 {
                   if($result != "None")
                   {
-                    $elements = explode("%" , $result);
-                    $displayString = $elements[0] . " (" . $elements[1] . ", " . $elements[2] . ")";
-                    $coordString = $elements[1] . ", " . $elements[2];
-                    echo(utf8_encode("<option value='" . $coordString . "'>" . $displayString . "</option>"));
+                    #$elements = explode("%" , $result);
+                    #$displayString = $elements[0] . " (" . $elements[1] . ", " . $elements[2] . ")";
+                    #$coordString = $elements[1] . ", " . $elements[2];
+                    echo(utf8_encode("<option value='" . $result . "'>" . $result . "</option>"));
                   }
                 }
               }
@@ -102,15 +102,17 @@
                 $varName = $_POST['nameInput'];
                 $varDescription = $_POST['descriptionInput'];
 
-                $coords = explode(",", $_POST['locationSelect']);
-                $varLat = $coords[0];
-                $varLng = $coords[1];
+                #$coords = explode(",", $_POST['locationSelect']);
+                #$varLat = $coords[0];
+                #$varLng = $coords[1];
+                $varLocation = $_POST['locationSelect'];
 
                 $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
                       . escapeshellarg($varName) . " "
                       . escapeshellarg($varDescription) . " "
-                      . escapeshellarg($varLat) . " "
-                      . escapeshellarg($varLng);
+                      . escapeshellarg($varLocation);
+                      #. escapeshellarg($varLat) . " "
+                      #. escapeshellarg($varLng);
 
                 $outputVar = shell_exec($command);
 

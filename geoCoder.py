@@ -27,17 +27,18 @@ if len(sys.argv) == 2 and sys.argv[1]:
   locationList = []
   
   g = geopy.geocoders.GoogleV3()
-  
+
   try:
-    locationList = [ unicode(result[0]) + u"%" \
-        + unicode(result[1][0]) + u"%" + unicode(result[1][1]) \
-        for result in g.geocode(sys.argv[1].decode("utf-8"), \
-        exactly_one=False) ]
+    results = g.geocode(sys.argv[1].decode("utf-8"), exactly_one=False)
+    locationList = [ unicode(result[0]) + u" (" \
+        + unicode(result[1][0]) + u"," + unicode(result[1][1]) + u")" \
+        for result in results ]
+
   except geopy.geocoders.googlev3.GQueryError:
     pass
 
   if len(locationList) > 0:
-    returnString = u"$".join(locationList)
+    returnString = u"$&$".join(locationList)
 
 sys.stdout.write(returnString.encode("utf-8"))
 
