@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+  <Document>
+    <name xmlns:atom="http://www.w3.org/2005/Atom">Karte der Roboternetz Mitglieder</name>
+    <description xmlns:atom="http://www.w3.org/2005/Atom">Hier k&#246;nnen sich alle User des Roboternetzes eintragen.
+Markierungen bedeuten dass ein User in dieser Stadt wohnt, nicht genau an der markierten Adresse.
+Violete und rote Marker stehen f&#252;r mehrfach belegte Orte, violet &gt; 1 Benutzer, rot &gt; 5. An solchen Stellen 
+weichen die Koordinaten gegen&#252;ber den Eingaben mehr oder weniger ab, um Kollisionen zu verhindern.
+Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</description>
+    <Style xmlns:atom="http://www.w3.org/2005/Atom" id="single">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style xmlns:atom="http://www.w3.org/2005/Atom" id="multiple">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style xmlns:atom="http://www.w3.org/2005/Atom" id="highdensity">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>bammel</name>
+      <description>DAU, Noob, Geek</description>
+      <Point>
+        <coordinates>10.4093453, 47.6021822, 0.0000000</coordinates>
+        <true_coordinates>10.4093453, 47.6021822, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>ichbinsisyphos</name>
+      <styleUrl>#single</styleUrl>
+      <description><![CDATA[<a href="http://www.roboternetz.de/community/members/58901-ichbinsisyphos">Link zum Profil im Roboternetz</a>]]></description>
+      <Point>
+        <coordinates>15.4395040, 47.0707140, 0.0000000</coordinates>
+        <true_coordinates>15.4395040, 47.0707140, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>malthy</name>
+      <description>&lt;a href="http://www.roboternetz.de/community/members/1745-malthy"&gt;Link zum Profil im Roboternetz&lt;/a&gt;&lt;p&gt;&lt;/p&gt;
+&lt;a href="http://www.mtahlers.de"&gt;private Homepage&lt;/a&gt;</description>
+      <Point>
+        <coordinates>8.2106028, 53.1477390, 0.0000000</coordinates>
+        <true_coordinates>8.2106028, 53.1477390, 0.0000000</true_coordinates>
+      </Point>
+      <styleUrl>#multiple</styleUrl>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>malthy2</name>
+      <description>dies ist nur ein test</description>
+      <Point>
+        <coordinates>8.2106028, 53.1544057, 0.0000000</coordinates>
+        <true_coordinates>8.2106028, 53.1477390, 0.0000000</true_coordinates>
+      </Point>
+      <styleUrl>#multiple</styleUrl>
+    </Placemark>
+    <Placemark xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>nichtMalthy</name>
+      <styleUrl>#multiple</styleUrl>
+      <description/>
+      <Point>
+        <coordinates>8.2192628, 53.1510723, 0.0000000</coordinates>
+        <true_coordinates>8.2106028, 53.1477390, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>

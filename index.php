@@ -132,6 +132,10 @@
                 {
                   echo('<script language=javascript>alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
                 }
+                elseif ($outputVar == "lockfile_timeout")
+                {
+                  echo('<script language=javascript>alert("timeout.")</script>');
+                }
                 else
                 {
                   echo('<script language=javascript>alert("Unbekannter Fehler.")</script>');
