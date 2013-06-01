@@ -28,5 +28,26 @@ if __name__ == "__main__":
 
     unlock()
 
+  elif sys.argv[1] == "namelist" and len(sys.argv) == 2: #return a list of all names
+    kmlFilePath = getKmlFilePath()
+
+    lock()
+
+    Placemarks = getPlacemarks(parseKml(kmlFilePath))
+    sys.stdout.write("$&$".join(nameList(Placemarks)))
+
+    unlock()
+
+  elif sys.argv[1] == "forname" and len(sys.argv) == 3: #return a list of all names
+    name = sys.argv[2].decode("UTF-8")
+    kmlFilePath = getKmlFilePath()
+
+    lock()
+
+    Placemarks = getPlacemarks(parseKml(kmlFilePath))
+    #sys.stdout.write("$&$".join(nameList(Placemarks)))
+
+    unlock()
+
   else:
     sys.stdout.write("wrong_arguments")

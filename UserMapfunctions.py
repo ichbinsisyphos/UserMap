@@ -218,13 +218,17 @@ def coordinateString((lat, lng)):
 
 def nameSet(Placemarks):
   """ erzeugt Menge aller Namen aus Liste aller Placemark-Nodes """
-  #return [ placemark.name for placemark in Placemarks ]
-  names = set()
-  for placemark in Placemarks:
-    if placemark.type.text == "user":
-      names.add(placemark.name)
+  #   names = set()
+  # for placemark in Placemarks:
+  #   if placemark.type.text == "user":
+  #     names.add(placemark.name)
 
-  return names
+  # return names
+  return set(nameList(Placemarks))
+
+def nameList(Placemarks):
+  """ erzeugt Liste aller Namen aus Liste aller Placemark-Nodes """
+  return [ unicode(placemark.name) for placemark in Placemarks if placemark.type.text == "user" ]
 
 def countrySet(Placemarks):
   """ erzeugt Menge aller Länder aus Liste aller Placemark-Nodes """
