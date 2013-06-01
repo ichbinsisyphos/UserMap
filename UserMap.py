@@ -172,16 +172,16 @@ if newName not in nameSet(Placemarks):
   singleStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"))), id = "single")
   multipleStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png"))), id = "multiple")
   highdensityStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"))), id = "highdensity")
-  countryStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://labs.google.com/ridefinder/images/mm_20_black.png"))), id = "country")
+  #countryStyle = KML.Style(KML.IconStyle(KML.Icon(KML.href("http://labs.google.com/ridefinder/images/mm_20_black.png"))), id = "country")
 
   polycolor = KML.color("19222288")
   linecolor = KML.color("19222288")
-
   newFill = KML.PolyStyle(polycolor)
+  newFill.append(KML.fill("1"))
   newFill.append(KML.outline("1"))
   newOutline = KML.LineStyle(linecolor)
   newOutline.append(KML.width("1"))
-  countryStyle.append(newFill)
+  countryStyle = KML.Style((newFill), id = "country")
   countryStyle.append(newOutline)
 
   root.Document.append(singleStyle)
@@ -192,7 +192,6 @@ if newName not in nameSet(Placemarks):
   Placemarks.sort(key=lambda placemark: placemark.name.text.lower())
   for placemark in Placemarks:
     root.Document.append(placemark)
-
 
   countryNames = countrySet(Placemarks)
 
@@ -218,7 +217,7 @@ if newName not in nameSet(Placemarks):
       #newStyle.append(newLabel)
       #newStyle.append(newList)
       #newStyle.append(newBalloon)
-      newStyleUrl = KML.StyleUrl("#country")
+      newStyleUrl = KML.styleUrl("#country")
       countryPlacemark.append(newStyleUrl)
       #visibilityNode = KML.visibility("0")
       typeNode = KML.type("country")
