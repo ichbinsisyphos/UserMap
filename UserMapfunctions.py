@@ -20,7 +20,7 @@ import shutil
 
 hostnamePath    = "hostname.conf"
 lockPath        = "var/UserMap.lock"
-kmzFilenamePath = "var/kmzFilename.dat"
+kmlFilenamePath = "var/kmlFilename.dat"
 countryKMLPath  = "countries.kml"
 collisionDist   = 1e-2
 
@@ -66,40 +66,39 @@ def getMapTitle(root):
 def getMapDescription(root):
   return (root.Document.findall("{http://www.opengis.net/kml/2.2}description")[0].text).encode("UTF-8")
 
-def backup(kmlFilePath, kmzFilePath):
-  shutil.copy(kmlFilePath, "var/backup/" + kmlFilePath.split("/")[-1])
-  shutil.copy(kmzFilePath, "var/backup/" + kmzFilePath.split("/")[-1])
-  os.remove(kmlFilePath)
-  os.remove(kmzFilePath)
+def backup(kmlFilePath):
+  shutil.copy(kmlFilePath + ".kml", "var/backup/" + kmlFilePath.split("/")[-1] + ".kml")
+  shutil.copy(kmlFilePath + ".kmz", "var/backup/" + kmlFilePath.split("/")[-1] + ".kmz")
+  os.remove(kmlFilePath + ".kml")
+  os.remove(kmlFilePath + ".kmz")
 
-def writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath, kmzFilePath):
+def writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath):
   root = assembleTree(hostname, root, Placemarks)
 
-  newKmlFilePath, newKmzFilePath = getNewKmlKmz()
-  filep = open(newKmlFilePath,"w")
+  newKmlFilePath = getNewKmlFilePath()##hier auch
+  filep = open(newKmlFilePath + ".kml", "w")
   xmlText = '<?xml version="1.0" encoding="UTF-8"?>\n' + etree.tostring(root, pretty_print=True)
   filep.write(xmlText)
   filep.close()
   del filep
   
-  filep = zipfile.ZipFile(newKmzFilePath, 'w')
-  filep.write(newKmlFilePath, compress_type=zipfile.ZIP_DEFLATED)
+  filep = zipfile.ZipFile(newKmlFilePath + ".kmz", "w")
+  filep.write(newKmlFilePath + ".kml", compress_type=zipfile.ZIP_DEFLATED)
   filep.close()
   del filep
 
-  backup(kmlFilePath, kmzFilePath)
+  backup(kmlFilePath)
 
-def getNewKmlKmz():
-  newKmlFilePath = getKmlFilePath()
-  newKmzFilePath = newKmlFilePath[:-4] + ".kmz"
+def getNewKmlFilePath():
+  newKmlFilePath = "var/UserMap_%s_%i" % (randString(6), time.time())
 
   #diesen namen in Kontrolldatei schreiben
-  filep = open(kmzFilenamePath, "w")
-  filep.write(newKmzFilePath)
+  filep = open(kmlFilenamePath, "w")
+  filep.write(newKmlFilePath)
   filep.close()
   del filep
 
-  return (newKmlFilePath, newKmzFilePath)
+  return newKmlFilePath
 
 def getCountryNodes(Placemarks, hostname):
   countryNames = countrySet(Placemarks)
@@ -129,12 +128,20 @@ def getCountryNodes(Placemarks, hostname):
 def createNewPlacemark(hostname, newName, newLat, newLng, newCountry, newDescription):
   styleNode = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + "#single")
   typeNode = KML.type("user")
-  newPoint = KML.Point(KML.coordinates(coordinateString((newLat, newLng))))
+  newPoint =  KML.Point(
+                  KML.coordinates(
+                      coordinateString(
+                          (newLat, newLng)
+                      )
+                  )
+              )
+
   newPoint.append(KML.true_coordinates(coordinateString((newLat, newLng))))
   descNode = etree.Element("description")
   descNode.text = etree.CDATA(newDescription)
   #CDATA überlebt das spätere einlesen und neu schreiben nicht! mal Richtung XML schauen
   countryNode = KML.country(newCountry)
+
   newPlacemark = KML.Placemark(
       KML.name(newName),
       styleNode,
@@ -150,10 +157,9 @@ def getCollision(Placemarks, newLat, newLng):
   return [ placemark for placemark in Placemarks if placemark.type.text == "user" and placemark.Point.true_coordinates == coordinateString((newLat, newLng)) ]
 
 def parseArgs(args):
-  action = args[0].decode("utf-8")
-  newName = args[1].decode("utf-8")
-  newDescription = args[2].decode("utf-8")
-  newLocation = args[3].decode("utf-8")
+  newName = args[0].decode("utf-8")
+  newDescription = args[1].decode("utf-8")
+  newLocation = args[2].decode("utf-8")
 
   place, coords = newLocation.split("(")
   coords = coords.replace(")","")
@@ -162,26 +168,25 @@ def parseArgs(args):
   newLng = float(newLng)
   newCountry = place.split(",")[-1].replace(" ","")
   
-  return (action, newName, newDescription, newCountry, newLat, newLng)
+  return (newName, newDescription, newCountry, newLat, newLng)
 
 def getPlacemarks(root):
   return [ placemark for placemark in root.Document.findall("{http://www.opengis.net/kml/2.2}Placemark") if placemark.type.text == "user" ]
 
 def parseKml(kmlFilePath):
-  filep = open(kmlFilePath, "r")
+  filep = open(kmlFilePath + ".kml", "r")
   KMLText = filep.read()
   filep.close()
   del filep
 
   return parser.fromstring(KMLText)
 
-
-def getKmlKmz():
-  filep = open(kmzFilenamePath, "r")
-  kmzFilePath = filep.read()
+def getKmlFilePath():
+  filep = open(kmlFilenamePath, "r")
+  kmlFilePath = filep.read()
   filep.close()
 
-  return (kmzFilePath[:-4] + ".kml", kmzFilePath)
+  return kmlFilePath
 
 def getHostname():
   filep = open(hostnamePath, "r")
@@ -234,16 +239,6 @@ def countrySet(Placemarks):
 def randString(length):
   """ erzeugt Zufalls-String mit angegebener Länge """
   return "".join(random.choice(string.ascii_lowercase + string.digits) for x in range(length))
-
-def getKmlFilePath():
-  """ erzeugt neuen KML-Dateinamen """
-  #return "var/UserMap_%s_%i.kml" % (randString(6), time.time())
-  return "var/UserMap_%s_%i.kml" % (randString(6), time.time())
-
-def getKmzFilePath():
-  """ erzeugt neuen KMZ-Dateinamen (gezippte Datei) """
-  return getKmlFilePath()[:-4] + ".kmz"
-
 
 def hexgen(startx, starty, mindist):
   corners = [ (round(math.cos(angle*math.pi/180.),3),round(math.sin(angle*math.pi/180.),3)) for angle in range(0,360,60) ]

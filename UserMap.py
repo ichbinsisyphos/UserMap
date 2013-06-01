@@ -6,29 +6,27 @@
 import sys
 from UserMapfunctions import *
 
-#Anzahl der Argumente checken, wenn nicht 4, dann Fehlerausgabe und Abbruch
-if len(sys.argv) != 5:
-  sys.stdout.write("wrong_arguments")
-  exit()
+if __name__ == "__main__":
+  if sys.argv[1] == "add" and len(sys.argv) == 5: #add new user entry
+    kmlFilePath = getKmlFilePath()
+    hostname = getHostname()
+    newName, newDescription, newCountry, newLat, newLng = parseArgs(sys.argv[2:])
 
-kmlFilePath, kmzFilePath = getKmlKmz()
-hostname = getHostname()
-action, newName, newDescription, newCountry, newLat, newLng = parseArgs(sys.argv[1:])
-if action == "add":
-  lock()
+    lock()
 
-  #KML-Baum aus altem file erzeugen
-  root = parseKml(kmlFilePath)
-  Placemarks = getPlacemarks(root)
-  #Abfrage ob ein Eintrag unter dem Namen bereits existiert
-  if newName not in nameSet(Placemarks):
-    addNewPlacemark(Placemarks, hostname, newName, newLat, newLng, newCountry, newDescription)
-    #neuen KML-Dateinamen erzeugen, XML reinschreiben und alte Dateien ins backup-Verzeichnis
-    writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath, kmzFilePath)
-    #Erfolgsmeldung ausgeben
-    sys.stdout.write("success")
+    root = parseKml(kmlFilePath)
+    Placemarks = getPlacemarks(root)
+
+    if newName not in nameSet(Placemarks):
+      addNewPlacemark(Placemarks, hostname, newName, newLat, newLng, newCountry, newDescription)
+      writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath)
+      sys.stdout.write("success")
+
+    else:
+      #Benutzername hat schon einen Eintrag
+      sys.stdout.write("name_taken")
+
+    unlock()
+
   else:
-    #Benutzername hat schon einen Eintrag
-    sys.stdout.write("name_taken")
-
-  unlock()
+    sys.stdout.write("wrong_arguments")
