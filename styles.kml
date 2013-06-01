@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+
+    <Style id="single">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="multiple">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="highdensity">
+      <IconStyle>
+        <Icon>
+          <href>http://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+
+    <Style id="country">
+      <PolyStyle>
+        <color>19222288</color>
+        <fill>1</fill>
+        <outline>1</outline>
+      </PolyStyle>
+      <LineStyle>
+        <color>19222288</color>
+        <width>1</width>
+      </LineStyle>
+    </Style>
+
+  </Document>
+</kml>

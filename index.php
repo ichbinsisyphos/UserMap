@@ -106,6 +106,7 @@
                 $varLocation = $_POST['locationSelect'];
 
                 $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
+                      . escapeshellarg("add") . " "
                       . escapeshellarg($varName) . " "
                       . escapeshellarg($varDescription) . " "
                       . escapeshellarg($varLocation);
