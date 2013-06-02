@@ -64,9 +64,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
       <type>user</type>
       <name>Christian H</name>
       <country>Germany</country>
-      <description>
-
-&lt;a href="http://www.roboternetz.de/community/members/20587-Christian-H" target="_blank"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
+      <description xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">&lt;a href="http://www.roboternetz.de/community/members/20587-Christian-H" target="_blank"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
       <styleUrl>#style16</styleUrl>
       <Point>
         <coordinates>11.763783,48.089775,0.000000</coordinates>
@@ -120,6 +118,17 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         <true_coordinates>10.016785,53.799839,0.000000</true_coordinates>
       </Point>
     </Placemark>
+    <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>ichbinsisyphos</name>
+      <styleUrl>http://85.127.72.181/UserMap/styles.kml#multiple</styleUrl>
+      <type>user</type>
+      <country>Austria</country>
+      <description>&lt;a href="http://www.roboternetz.de/community/members/58901-ichbinsisyphos"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
+      <Point>
+        <coordinates>15.4395040, 47.0707140, 0.0000000</coordinates>
+        <true_coordinates>15.4395040, 47.0707140, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
     <Placemark>
       <type>user</type>
       <name>Informati</name>
@@ -135,9 +144,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
       <type>user</type>
       <name>JCrypter</name>
       <country>Germany</country>
-      <description>
-
-&lt;a href="http://www.roboternetz.de/community/members/3108-jcrypter" target="_blank"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
+      <description xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">&lt;a href="http://www.roboternetz.de/community/members/3108-jcrypter" target="_blank"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
       <styleUrl>#style4</styleUrl>
       <Point>
         <coordinates>10.007172,53.564377,0.000000</coordinates>
@@ -314,9 +321,6 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>Austria</name>
       <MultiGeometry>
-        <Point>
-          <coordinates>14.126478086200365,47.585498470128314</coordinates>
-        </Point>
         <Polygon>
           <outerBoundaryIs>
             <LinearRing>
@@ -325,15 +329,12 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl>http://85.127.147.9/UserMap/styles.kml#country</styleUrl>
+      <styleUrl>http://85.127.72.181/UserMap/styles.kml#country</styleUrl>
       <type>country</type>
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>Germany</name>
       <MultiGeometry>
-        <Point>
-          <coordinates>10.37213466292402,51.08763721286083</coordinates>
-        </Point>
         <Polygon>
           <outerBoundaryIs>
             <LinearRing>
@@ -377,15 +378,12 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl>http://85.127.147.9/UserMap/styles.kml#country</styleUrl>
+      <styleUrl>http://85.127.72.181/UserMap/styles.kml#country</styleUrl>
       <type>country</type>
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>Switzerland</name>
       <MultiGeometry>
-        <Point>
-          <coordinates>8.208660064803011,46.797852964032586</coordinates>
-        </Point>
         <Polygon>
           <outerBoundaryIs>
             <LinearRing>
@@ -394,15 +392,12 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl>http://85.127.147.9/UserMap/styles.kml#country</styleUrl>
+      <styleUrl>http://85.127.72.181/UserMap/styles.kml#country</styleUrl>
       <type>country</type>
     </Placemark>
     <Placemark>
       <name>BosniaandHerzegovina</name>
       <MultiGeometry>
-        <Point>
-          <coordinates>17.768765877833644,44.17449911868541</coordinates>
-        </Point>
         <Polygon>
           <outerBoundaryIs>
             <LinearRing>
@@ -411,7 +406,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">http://85.127.147.9/UserMap/styles.kml#country</styleUrl>
+      <styleUrl xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">http://85.127.72.181/UserMap/styles.kml#country</styleUrl>
       <type xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">country</type>
     </Placemark>
   </Document>

@@ -150,3 +150,11 @@ function readCookie() {
     delete tempArray;
   }
 }
+
+function confirmRemove(name) {
+  return confirm("Bist du sicher, dass du den Benutzer " + name + " dauerhaft löschen willst?");
+}
+
+function confirmUpdate() {
+  return confirm("Veränderte Benutzerbeschreibung wird gespeichert.");
+}

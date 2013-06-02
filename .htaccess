@@ -1,0 +1,6 @@
+AuthType Basic
+AuthName "restricted area"
+AuthUserFile /var/www/localhost/htdocs/UserMap/.htpasswd
+<Files "admin.php">
+require valid-user
+</Files>

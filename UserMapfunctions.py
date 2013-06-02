@@ -115,6 +115,8 @@ def getCountryNodes(Placemarks, hostname):
   
   for countryPlacemark in countryPlacemarks:
     if countryPlacemark.name.text in countryNames:
+      point = countryPlacemark.MultiGeometry.findall("{http://www.opengis.net/kml/2.2}Point")[0]
+      countryPlacemark.MultiGeometry.remove(point)
       newStyleUrl = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + "#country")
       countryPlacemark.append(newStyleUrl)
       typeNode = KML.type("country")

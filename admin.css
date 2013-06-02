@@ -58,7 +58,6 @@ body
 .button {
   background-color:#f0f0f0;
   width:auto;
-  float:right;
 }
 
 .italictext, .boldtext, .underlinedtext, .strikethroughtext, .plaintext {
@@ -85,7 +84,15 @@ body
 
 .country {
   font-style:italic;
-  font-weight:normal;
+  #font-weight:normal;
+}
+
+.smallFont {
+  font-size:70%;
+}
+
+.largeFont {
+  font-size:120%;
 }
 
 .odd, .even {
