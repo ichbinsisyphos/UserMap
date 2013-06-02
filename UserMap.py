@@ -94,16 +94,13 @@ if __name__ == "__main__":
 
     elif len(nameNodes) == 1:
       nameNode = nameNodes[0]
-      #name    = nameNode.name.text
       desc    = nameNode.description.text
-      if desc == None:
+      if not desc:
         desc = ""
       country = nameNode.country.text
-      coords  = nameNode.Point.true_coordinates.text
-      sys.stdout.write("$&$".join((desc, country, coords)))
+      sys.stdout.write("$&$".join((desc, country)))
     else:
       sys.stdout.write("error")
-    #sys.stdout.write("$&$".join(nameList(Placemarks)))
 
     unlock()
 
@@ -123,7 +120,10 @@ if __name__ == "__main__":
 
     elif len(nameNodes) == 1:
       nameNode = nameNodes[0]
+      lng,lat,alt = nameNode.Point.true_coordinates.text.split(",")
+
       Placemarks.remove(nameNode)
+      correctCollision(hostname, Placemarks, float(lat), float(lng))
       writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath)
       sys.stdout.write("success")
     else:

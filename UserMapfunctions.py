@@ -4,6 +4,7 @@
 #external dependencies: pykml (via pip)
 
 #TODO: CHAOS BESEITIGEN, EVT ZLIB STATT ZIPFILE FALLS MÖGLICH
+#TODO: BACKUP MUSS MAX ANZAHL FILES UND/ODER MAX SPEICHERPLATZ EINHALTEN
 
 import math
 from lxml import etree
@@ -41,6 +42,7 @@ def assembleTree(hostname, root, Placemarks):
 
 def correctCollision(hostname, Placemarks, newLat, newLng):
   collision = getCollision(Placemarks, newLat, newLng)
+  styleID = "#single"
 
   if len(collision) > 1:
     styleID = "#multiple"
@@ -48,11 +50,10 @@ def correctCollision(hostname, Placemarks, newLat, newLng):
     if len(collision) > 5:
       styleID = "#highdensity"
 
-    #kollisionskorrektur
-    coordinateGen = hexgen(newLat, newLng, collisionDist)
-    for placemark in collision:
-      placemark.styleUrl = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + styleID)
-      placemark.Point.coordinates = KML.coordinates(coordinateString(coordinateGen.next()))
+  coordinateGen = hexgen(newLat, newLng, collisionDist)
+  for placemark in collision:
+    placemark.styleUrl = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + styleID)
+    placemark.Point.coordinates = KML.coordinates(coordinateString(coordinateGen.next()))
 
 def addNewPlacemark(Placemarks, hostname, newName, newLat, newLng, newCountry, newDescription):
   newPlacemark = createNewPlacemark(hostname, newName, newLat, newLng, newCountry, newDescription)

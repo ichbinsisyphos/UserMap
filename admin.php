@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 
+<!-- TODO: PROGRAMM-AUSGABEN VERWERTEN INKL. FEHLERMELDUNGEN -->
+<!-- TODO: UNCODE-UMGANG ENDGÜLTIG ABKKLÄREN -->
+<!-- TODO: ACHTUNG NACH LÖSCHEN GIBTS PROBLEME - MEHRERE USER LÖSCHEN NUR NACH NEULADEN -->
+
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="admin.css" />
@@ -8,6 +12,7 @@
     <script language="JavaScript" src="UserMap.js" type="text/javascript"></script>
   </head>
   <body>
+    <div id="all">
     <div id="head">UserMap Admin</div>
     <div id="mainForm">
       <table border="0">
@@ -38,18 +43,20 @@
 
             else {
               $forNameCommand = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
-                        . escapeshellarg(utf8_encode("forname")) . " " . escapeshellarg($name);
-              $forNameReturnString = shell_exec($forNameCommand);
-              $forNameResults = explode("$&$" , utf8_encode($forNameReturnString), "10");//wieviele tatsächlich?
-              $desc = utf8_decode($forNameResults[0]);
-              $country = utf8_encode($forNameResults[1]);
-              //$coords = utf8_encode($forNameResults[2]);
-              //$coordArray = explode(",", $coords, "10");//nur 3
-              //$lng = $coordArray[0];
-              //$lat = $coordArray[1];
-              //$coords = "lng: " . $lng . "<br>" . "lat: " . $lat;
+                        . escapeshellarg(utf8_encode("forname")) . " "
+                        . escapeshellarg($name);
 
-              if($nameCount%2 == 0) { $oddEvenClass = "even"; } else { $oddEvenClass = "odd"; }
+              $forNameReturnString = shell_exec($forNameCommand);
+              $forNameResults = explode("$&$" , $forNameReturnString, "10");//wieviele tatsächlich?
+              $desc = $forNameResults[0];
+              $country = $forNameResults[1];
+
+              if($nameCount%2 == 0) {
+                $oddEvenClass = "even";
+              }
+              else {
+                $oddEvenClass = "odd";
+              }
 
               echo("<tr align='center' class='" . $oddEvenClass . "'>\n"
                  . "  <form name='updateForm' action='" . $_SERVER['PHP_SELF'] . "' method='post' onSubmit='return confirmUpdate();'>\n"
@@ -61,11 +68,11 @@
                  . "        " . $name . "\n"
                  . "      </text>\n"
                  . "    </td>\n"
-                 . "    <td rowspan='2' width='100%' height='100%'>\n"
+                 . "    <td rowspan='2' width='100%' height='100%' align='center'>\n"
                  . "      <textarea name='userDescription" . $nameCount . "'>" . $desc . "</textarea>\n"
                  . "    </td>\n"
                  . "    <td width=100%>\n"
-                 . "      <input type='submit' class='button' name='updateSubmit" . $nameCount . "' value='Beschreibung\nspeichern'></input>\n"
+                 . "      <input type='submit' class='button' name='updateSubmit" . $nameCount . "' value='speichern'></input>\n"
                  . "    </td>\n"
                  . "  </form>\n"
                  . "</tr>\n"
@@ -99,6 +106,7 @@
           }
         ?>
     </table>
+    </div>
     </div>
   </body>
 </html>

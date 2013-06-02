@@ -120,10 +120,10 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>ichbinsisyphos</name>
-      <styleUrl>http://85.127.72.181/UserMap/styles.kml#multiple</styleUrl>
+      <styleUrl>http://85.127.72.181/UserMap/styles.kml#single</styleUrl>
       <type>user</type>
       <country>Austria</country>
-      <description>&lt;a href="http://www.roboternetz.de/community/members/58901-ichbinsisyphos"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
+      <description>&lt;a href="http://www.roboternetz.de/community/members/58901-ichbinsisyphos"&gt;Link zum Profil im Roboternetz&lt;/a&gt;&lt;br&gt;ver&#228;nderte Beschreibung gespeichert.</description>
       <Point>
         <coordinates>15.4395040, 47.0707140, 0.0000000</coordinates>
         <true_coordinates>15.4395040, 47.0707140, 0.0000000</true_coordinates>
@@ -278,7 +278,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
       <type>user</type>
       <name>Staind</name>
       <country>Germany</country>
-      <description>http://www.roboternetz.de/community/members/50130-Staind</description>
+      <description xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">&lt;a href="http://www.roboternetz.de/community/members/50130-Staind"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
       <styleUrl>#style22</styleUrl>
       <Point>
         <coordinates>7.718925,52.278450,0.000000</coordinates>
