@@ -1,47 +1,54 @@
+html {
+  position:absolute;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+}
+
 body
 {
+  position:absolute;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
   color:#3e3e3e;
   background-color:#f3f3f3;
   font-size:90%;
-  margin-left:auto;
-  margin-right:auto;
+  min-width:540px;
 }
 
 #all
 {
   background-color:#e9e9e9;
-  margin-left:auto;
-  margin-right:auto;
-  margin-top:auto;
-  margin-bottom:auto; 
-  width:98%;
-  height:98%;
   border-radius:20px;
-  padding-bottom:20px;
-  padding-top:20px;
+  position:absolute;
+  top:0px;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  min-width:520px;
 }
 
 #mainForm, #head
 {
   border-radius:10px;
-  margin-left:auto;
-  margin-right:auto;
-}
-
-#mainForm
-{
-  background-color:#f3f3f3;
-  padding:20px;
-  width:460px;
-  #border-style:solid;
-  #border-color:#606065;
-  #border-width:1px;
+  padding:10px;
 }
 
 #head
 {
-  background-color:#bccce1;
+  position:absolute;
+  top:10px;
   width:500px;
+  height:60px;
+
+  position:relative;
+  margin-left:auto;
+  margin-right:auto;
+
+  background-color:#bccce1;
   color:#425769;
   text-align:center;
   font-family:"Times New Roman", serif;
@@ -49,12 +56,20 @@ body
   font-weight:bold;
   text-shadow:2px 2px 3px #999;
   font-size:300%;
-  margin-bottom:20px;
-  padding-top:10px;
-  padding-bottom:10px;
-  #border-style:solid;
-  #border-color:#555560;
-  #border-width:1px;
+}
+
+#mainForm
+{
+  position:absolute;
+  top:20px;
+  width:500px;
+  height:auto;
+
+  position:relative;
+  margin-left:auto;
+  margin-right:auto;
+
+  background-color:#f3f3f3;
 }
 
 #locationInput, #nameInput {
@@ -121,7 +136,7 @@ textarea, select
 
 textarea
 {
-  width:454px;
+  width:494px;
 }
 
 p

@@ -105,7 +105,7 @@ if __name__ == "__main__":
     unlock()
 
   elif sys.argv[1] == "removename" and len(sys.argv) == 3: #return a list of all names
-#    exit() #vorübergehend deaktiviert
+    exit() #vorübergehend deaktiviert
     requestName = sys.argv[2].decode("UTF-8")
     kmlFilePath = getKmlFilePath()
     hostname = getHostname()

@@ -3,17 +3,16 @@
 <html>
 
   <head>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="register.css" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
-    <title>UserMap</title>
+    <title>UserMap Register</title>
     <script language="JavaScript" src="UserMap.js" type="text/javascript"></script>
   </head>
 
   <body onload="readCookie()">
     <div id="all">
-      <div id="head">UserMap</div>
+      <div id="head">UserMap Register</div>
       <div id="mainForm">
-
         <form name="locationForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validateLocationString();">
           <table border="0" width="100%">
             <tr>
