@@ -12,6 +12,7 @@
     <div id="all">
       <div id="head">UserMap</div>
       <div id="mainForm">
+        <div id="map">
         <table border="0">
           <tr>
             <td>
@@ -28,21 +29,34 @@
             </td>
           </tr>
           <tr>
-            <td width='100%' height='100%' align='center' colspan="3">
-              <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=http:%2F%2F85.127.72.181%2FUserMap%2Fvar%2FUserMap_gem6bl_1370242301.kmz&amp;ie=UTF8&amp;ll=48.809243,12.720624&amp;spn=12.49903,13.726243&amp;t=m&amp;output=embed">
+
+
+    <?php
+    $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
+    $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+    $redirectUrl = "https://maps.google.at/maps?q="
+                    . $hostName
+                    . "/UserMap/"
+                    . $kmlFile
+                    . ".kmz";
+
+            echo '<td width="100%" height="100%" align="center" colspan="3">
+              <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="' . $redirectUrl . '&amp;ie=UTF8&amp;ll=48.809243,12.720624&amp;spn=12.49903,13.726243&amp;t=m&amp;output=embed">
               </iframe>
             </td>
           </tr>
           <tr>
             <td colspan="3">
               <small>
-                <a href="https://maps.google.com/maps?q=http:%2F%2F85.127.72.181%2FUserMap%2Fvar%2FUserMap_gem6bl_1370242301.kmz&amp;ie=UTF8&amp;ll=48.809243,12.720624&amp;spn=12.49903,13.726243&amp;t=m&amp;source=embed" target="_blank">
+                <a href="' . $redirectUrl . '&amp;ie=UTF8&amp;ll=48.809243,12.720624&amp;spn=12.49903,13.726243&amp;t=m&amp;source=embed" target="_blank">
                   Ansicht auf maps.google.com
                 </a>
               </small>
-            </td>
+            </td>'
+?>
           </tr>
         </table>
+      </div>
       </div>
     </div>
   </body>
