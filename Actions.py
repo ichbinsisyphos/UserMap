@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*- 
 
 #TODO: SET ACTION UNDEFINED IF INSUFFICIENT OR WRONG TYPE OF ARGUMENTS
+#AND INCLUDE A DESCRIPTIVE ERROR MESSAGE
 
 def enum(*sequential, **named):
     enums = dict(zip(sequential, range(len(sequential))), **named)
@@ -15,6 +16,17 @@ Actions = enum("add",
 			   "namelist",
 			   "forname",
 			   "undefined")
+
+def cleanAction(action):
+	return {
+		"add":Actions.add,
+		"overwrite":Actions.overwrite,
+		"updateDescription":Actions.updateDescription,
+		"removename":Actions.removename,
+		"rebuild":Actions.rebuild,
+		"namelist":Actions.namelist,
+		"forname":Actions.forname
+	}.get(action, Actions.undefined)
 
 def coordSplit(locationString):
 	place, coords = locationString.replace(")","").split("(")
@@ -48,13 +60,22 @@ class Action():
 	 						 Actions.removename,
 	 						 Actions.forname,
 	 						 Actions.updateDescription):
-		 		self.name = args[2].decode("UTF-8")
+	 			if len(args) > 2:
+			 		self.name = args[2].decode("UTF-8")
+			 	else:
+			 		self.type = Actions.undefined
 	 		if self.type in (Actions.add,
 	 			 			 Actions.overwrite,
 	 			 			 Actions.updateDescription):
-		 		self.desc = args[3].decode("UTF-8")
+	 			if len(args) > 3:
+			 		self.desc = args[3].decode("UTF-8")
+			 	else:
+			 		self.type = Actions.undefined
 			if self.type in (Actions.add, Actions.overwrite):
-		 		self.countryOnly, self.country, self.lat, self.lng = coordSplit(args[4])
+				if len(args) > 4:
+			 		self.countryOnly, self.country, self.lat, self.lng = coordSplit(args[4])
+			 	else:
+			 		self.type = Actions.undefined
 			if self.type in (Actions.add,
 							 Actions.overwrite,
 							 Actions.removename,
@@ -63,14 +84,3 @@ class Action():
 				self.readOnly = False
 			else:
 				self.readOnly = True
-
-def cleanAction(action):
-	return {
-		"add":Actions.add,
-		"overwrite":Actions.overwrite,
-		"updateDescription":Actions.updateDescription,
-		"removename":Actions.removename,
-		"rebuild":Actions.rebuild,
-		"namelist":Actions.namelist,
-		"forname":Actions.forname
-	}.get(action, Actions.undefined)
