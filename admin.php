@@ -23,8 +23,9 @@
           $nameListReturnString = shell_exec($nameListCommand);
           $nameListResults = explode("$&$" , $nameListReturnString, "100");//auch hier kann man die anzahl mehr einschränken
           $nameCount = 1;
+          $done = false;
           foreach($nameListResults as $name) {
-            if(isset($_POST['updateSubmit' . $nameCount])) { //AND $_POST['updateSubmit' . $nameCount] == "Beschreibung\nspeichern") {
+            if(isset($_POST['updateSubmit' . $nameCount]) AND $done == false) { //AND $_POST['updateSubmit' . $nameCount] == "Beschreibung\nspeichern") {
               $userName = escapeshellarg($name);
               $newDescription = escapeshellarg($_POST['userDescription' . $nameCount]);
 
@@ -32,13 +33,15 @@
               //echo $command;
               $outputVar = shell_exec($command);
               //echo $outputVar;//Fehlerbehandlung noch einfügen
+              $done = true;
             }
 
-            if(isset($_POST['removeSubmit' . $nameCount])) {//} AND $_POST['removeSubmit' . $nameCount] == "Benutzer\nentfernen") {
+            if(isset($_POST['removeSubmit' . $nameCount]) AND $done == false) {//} AND $_POST['removeSubmit' . $nameCount] == "Benutzer\nentfernen") {
               $userName = escapeshellarg($name);
               $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py removename " . $userName;
               $outputVar = shell_exec($command);
               //echo $outputVar;//Fehlerbehandlung noch einfügen
+              $done = true;
             }
 
             else {
@@ -101,8 +104,9 @@
                  // . "  </td>\n"
                  //. "</tr>\n"
               );
+              $nameCount += 1;
             }
-            $nameCount += 1;
+//            $nameCount += 1;
           }
         ?>
     </table>

@@ -28,33 +28,6 @@ if __name__ == "__main__":
 
     unlock()
 
-  elif sys.argv[1] == "updateDescription" and len(sys.argv) == 4: #add new user entry
-    kmlFilePath = getKmlFilePath()
-    hostname = getHostname()
-    requestName = sys.argv[2].decode("UTF-8")
-    newDescription = sys.argv[3].decode("UTF-8")
-
-    lock()
-
-    root = parseKml(kmlFilePath)
-    Placemarks = getPlacemarks(root)
-
-
-    nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == requestName ]
-    if len(nameNodes) == 0:
-     sys.stdout.write("name_not_found")
-
-    elif len(nameNodes) == 1:
-      nameNode = nameNodes[0]
-      nameNode.description = KML.description(newDescription)
-      #Placemarks.remove(nameNode)
-      #addNewPlacemark(Placemarks, hostname, requestName, newLat, newLng, newCountry, newDescription)
-      writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath)
-      sys.stdout.write("success")
-
-    unlock()
-
-
   elif sys.argv[1] == "namelist" and len(sys.argv) == 2: #return a list of all names
     kmlFilePath = getKmlFilePath()
 
@@ -104,8 +77,35 @@ if __name__ == "__main__":
 
     unlock()
 
+  elif sys.argv[1] == "updateDescription" and len(sys.argv) == 4: #add new user entry
+    exit() #vorübergehend deaktiviert
+    kmlFilePath = getKmlFilePath()
+    hostname = getHostname()
+    requestName = sys.argv[2].decode("UTF-8")
+    newDescription = sys.argv[3].decode("UTF-8")
+
+    lock()
+
+    root = parseKml(kmlFilePath)
+    Placemarks = getPlacemarks(root)
+
+
+    nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == requestName ]
+    if len(nameNodes) == 0:
+     sys.stdout.write("name_not_found")
+
+    elif len(nameNodes) == 1:
+      nameNode = nameNodes[0]
+      nameNode.description = KML.description(newDescription)
+      #Placemarks.remove(nameNode)
+      #addNewPlacemark(Placemarks, hostname, requestName, newLat, newLng, newCountry, newDescription)
+      writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath)
+      sys.stdout.write("success")
+
+    unlock()
 
   elif sys.argv[1] == "removename" and len(sys.argv) == 3: #return a list of all names
+#    exit() #vorübergehend deaktiviert
     requestName = sys.argv[2].decode("UTF-8")
     kmlFilePath = getKmlFilePath()
     hostname = getHostname()
