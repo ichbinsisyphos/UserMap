@@ -39,13 +39,13 @@ if __name__ == "__main__":
 
         sys.stdout.write("success")
 
-    elif action.type == Actions.Actions.namelist:#sys.argv[1] == "namelist" and len(sys.argv) == 2: #return a list of all names
+    elif action.type == Actions.Actions.namelist:
       sys.stdout.write("$&$".join(nameList(Placemarks)))
 
-    elif action.type == Actions.Actions.rebuild:#sys.argv[1] == "rebuild" and len(sys.argv) == 2: #rebuild kml as it is - effectively just giving it a new name that google maps accepts
+    elif action.type == Actions.Actions.rebuild:
         sys.stdout.write("success")
 
-    elif action.type == Actions.Actions.forname:#sys.argv[1] == "forname" and len(sys.argv) == 3: #return a list of all names
+    elif action.type == Actions.Actions.forname:
       nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == action.name ]
       if len(nameNodes) == 0:
        sys.stdout.write("name_not_found") 
@@ -60,8 +60,8 @@ if __name__ == "__main__":
       else:
         sys.stdout.write("error")
 
-    elif action.type == Actions.Actions.updateDescription:# sys.argv[1] == "updateDescription" and len(sys.argv) == 4: #add new user entry
-      #exit() #vorübergehend deaktiviert
+    elif action.type == Actions.Actions.updateDescription:
+      exit() #vorübergehend deaktiviert
 
       nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == action.name ]
       if len(nameNodes) == 0:
@@ -72,8 +72,8 @@ if __name__ == "__main__":
         nameNode.description = KML.description(action.desc)
         sys.stdout.write("success")
 
-    elif action.type == Actions.Actions.removename:#sys.argv[1] == "removename" and len(sys.argv) == 3: #return a list of all names
-      #exit() #vorübergehend deaktiviert
+    elif action.type == Actions.Actions.removename:
+      exit() #vorübergehend deaktiviert
       nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == action.name ]
       if len(nameNodes) == 0:
        sys.stdout.write("name_not_found") 
