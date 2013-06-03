@@ -7,63 +7,95 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
     <title>UserMap Register</title>
     <script language="JavaScript" src="UserMap.js" type="text/javascript"></script>
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAV0Nn3tQ2R4ECUmItAruwylO-CzZrjEUQ&sensor=false">
+    </script>
+    <script language="JavaScript" type="text/javascript">
+      var geocoder;
+      var map;
+      var marker = null;
+      function initialize() {
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(47.8571,12.1181);
+        var mapOptions = {
+          zoom: 5,
+          center: latlng,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      }
+
+      function codeAddress() {
+        var address = document.getElementById("locationInput").value;
+        if (address.length < 3) {
+          alert("Bitte gib einen Suchbegriff mit mindestens 3 Zeichen ein.");
+        }
+        else {
+          var select = document.submitForm.locationSelect;
+
+          for(i = select.options.length-1; i >= 0; i--) {
+            select.remove(i);
+          }
+
+          geocoder.geocode( { 'address': address }, function(results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              for(i=0;i<results.length;i++) {
+                var place = results[i].formatted_address;
+                var lat = results[i].geometry.location.lat().toFixed(7);
+                var lng = results[i].geometry.location.lng().toFixed(7);
+                var locstring = place + " (" + lat + "," + lng + ")";
+
+                var option = document.createElement('option');
+                option.setAttribute("value", locstring);
+                option.innerHTML = locstring;
+                select.options[i] = option
+              }
+              map.setCenter(results[0].geometry.location);
+              // marker = new google.maps.Marker({
+              //   map: map,
+              //   position: results[0].geometry.location
+              // });
+              setMarker();
+            } else {
+              alert("Geocode was not successful for the following reason: " + status);
+            }
+          });
+        }
+      }
+
+      function setMarker() {
+        if(marker != null) {
+         marker.setMap(null);
+        }
+        locstring = document.submitForm.locationSelect.value;
+        locarray = locstring.split("(");
+        place = locarray[0];
+        latlng = locarray[1].replace(")","").split(",");
+        lat = parseFloat(latlng[0]);
+        lng = parseFloat(latlng[1]);
+        var latlng = new google.maps.LatLng(lat,lng);
+        map.setCenter(latlng);
+        marker = new google.maps.Marker({
+          map: map,
+          position: latlng
+        });
+      }
+    </script>
   </head>
 
-  <body onload="readCookie()">
+  <body onload="initialize()">
     <div id="all">
       <div id="head">UserMap Register</div>
       <div id="mainForm">
-        <form name="locationForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validateLocationString();">
           <table border="0" width="100%">
             <tr>
               <td align="left">Ort</td>
               <td width="100%" align="center"><input type="text" id="locationInput" name="locationInput"></td>
-              <td align="right"><input type="submit" name="locationSearch" value="Ort suchen" class="button"></td>
+              <td align="right"><input type="button" name="locationSearch" value="Ort suchen" class="button" onClick="codeAddress()"></td>
             </tr>
           </table>
-        </form>
-
         <form name="submitForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validate();">
-          <select name="locationSelect">
-            <?php
-              if(isset($_POST['locationSearch']) AND $_POST['locationSearch'] == "Ort suchen")
-              {
-                $varSearchString = escapeshellarg($_POST["locationInput"]);
-
-                $command = "export PYTHONIOENCODING=UTF-8; python ./geoCoder.py " . $varSearchString;
-
-                $returnString = utf8_decode(shell_exec($command));
-
-                if ($returnString == "error_querynotunderstood")
-                {
-                  echo('<script language=javascript>alert("Suchanfrage nicht verstanden.")</script>');
-                }
-                elseif ($returnString == "error_apicreditsusedup")
-                {
-                  echo('<script language=javascript>alert("API-credits aufgebraucht, bitte versuche es morgen noch einmal.")</script>');
-                }
-                elseif ($returnString == "error_wrong_arguments")
-                {
-                  echo('<script language=javascript>alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
-                }                
-                elseif ($returnString == "error_unknown")
-                {
-                  echo('<script language=javascript>alert("Unbekannter Fehler.")</script>');
-                }
-                else
-                {
-                  $results = explode("$&$" , $returnString, "10");
-                  foreach($results as $result)
-                  {
-                    if($result != "None")
-                    {
-                      echo(utf8_encode("<option value='" . $result . "'>" . $result . "</option>"));
-                    }
-                  }
-                }
-              }
-            ?>
-          </select>
+          <select name="locationSelect" id="locationSelect" onChange="setMarker()"></select>
           <br>
           <br>
 
@@ -100,44 +132,44 @@
           <?php
             if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Abschicken")
             {
-                $varName = $_POST['nameInput'];
-                $varDescription = $_POST['descriptionInput'];
-                $varLocation = $_POST['locationSelect'];
+              $varName = $_POST['nameInput'];
+              $varDescription = $_POST['descriptionInput'];
+              $varLocation = $_POST['locationSelect'];
 
-                $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
-                      . escapeshellarg("add") . " "
-                      . escapeshellarg($varName) . " "
-                      . escapeshellarg($varDescription) . " "
-                      . escapeshellarg($varLocation);
+              $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
+                    . escapeshellarg("add") . " "
+                    . escapeshellarg($varName) . " "
+                    . escapeshellarg($varDescription) . " "
+                    . escapeshellarg($varLocation);
 
-                $outputVar = shell_exec($command);
+              $outputVar = shell_exec($command);
 
-                if ($outputVar == "success")
-                {
-                  echo '<META HTTP-EQUIV="Refresh" Content="0; URL=mapRedirect.php">';    
-                  exit;
-                }
-                elseif ($outputVar == "name_taken")
-                {
-                  echo('<script language=javascript>alert("Dieser Benutzername ist bereits eingetragen.")</script>');
-                }
-                elseif ($outputVar == "wrong_arguments")
-                {
-                  echo('<script language=javascript>alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
-                }
-                elseif ($outputVar == "lockfile_timeout")
-                {
-                  echo('<script language=javascript>alert("timeout.")</script>');
-                }
-                else
-                {
-                  echo('<script language=javascript>alert("Unbekannter Fehler.")</script>');
-                }
+              if ($outputVar == "success")
+              {
+                echo '<META HTTP-EQUIV="Refresh" Content="0; URL=mapRedirect.php">';    
+                exit;
+              }
+              elseif ($outputVar == "name_taken")
+              {
+                echo('<script language=javascript>alert("Dieser Benutzername ist bereits eingetragen.")</script>');
+              }
+              elseif ($outputVar == "wrong_arguments")
+              {
+                echo('<script language=javascript>alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
+              }
+              elseif ($outputVar == "lockfile_timeout")
+              {
+                echo('<script language=javascript>alert("timeout.")</script>');
+              }
+              else
+              {
+                echo('<script language=javascript>alert("Unbekannter Fehler.")</script>');
+              }
             }
           ?>
         </form>
-
       </div>
+      <div id="map"></div>
     </div>
   </body>
 </html>

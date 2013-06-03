@@ -38,9 +38,11 @@ def coordSplit(locationString):
 		countryOnly = False
 
 	country = (placelist[-1]).strip().decode("UTF-8")
-	lat,lng = ( float(coord) for coord in coords.split(",") )
-	
-	return (countryOnly, country, lat, lng)
+	try:
+		lat,lng = ( float(coord) for coord in coords.split(",") )
+		return (countryOnly, country, lat, lng)
+	except:
+		return [None]
 
 class Action():
  	def __init__(self, args):
@@ -52,6 +54,7 @@ class Action():
 		self.lat = None
 		self.lng = None
 		self.readOnly = None
+		self.error = None
 
  		self.type = cleanAction(args[1])
  		if self.type != Actions.undefined:
@@ -64,6 +67,7 @@ class Action():
 			 		self.name = args[2].decode("UTF-8")
 			 	else:
 			 		self.type = Actions.undefined
+			 		self.error = "insufficient_arguments"
 	 		if self.type in (Actions.add,
 	 			 			 Actions.overwrite,
 	 			 			 Actions.updateDescription):
@@ -71,11 +75,18 @@ class Action():
 			 		self.desc = args[3].decode("UTF-8")
 			 	else:
 			 		self.type = Actions.undefined
+			 		self.error = "insufficient_arguments"
 			if self.type in (Actions.add, Actions.overwrite):
 				if len(args) > 4:
-			 		self.countryOnly, self.country, self.lat, self.lng = coordSplit(args[4])
+			 		coordList = coordSplit(args[4])
+			 		if len(coordList) == 4:
+			 			self.countryOnly, self.country, self.lat, self.lng = coordList
+			 		else:
+			 			self.type = Actions.undefined
+			 			self.error = "location_not_understood"
 			 	else:
 			 		self.type = Actions.undefined
+			 		self.error = "insufficient_arguments"
 			if self.type in (Actions.add,
 							 Actions.overwrite,
 							 Actions.removename,
@@ -84,3 +95,5 @@ class Action():
 				self.readOnly = False
 			else:
 				self.readOnly = True
+		else:
+			self.error = "action_undefined"

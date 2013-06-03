@@ -22,12 +22,12 @@ if __name__ == "__main__":
       if action.name not in nameSet(Placemarks):
         addNewPlacemark(Placemarks, hostname, action.name, action.lat, action.lng, action.country, action.desc)
       else:
-        sys.stdout.write("name_taken")
+        action.error = "name_taken"
 
     elif action.type == Actions.Actions.overwrite:
       nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == action.name ]
       if len(nameNodes) == 0:
-       sys.stdout.write("name_not_found") 
+       action.error = "name_not_found"
 
       elif len(nameNodes) == 1:
         nameNode = nameNodes[0]
@@ -37,18 +37,15 @@ if __name__ == "__main__":
         correctCollision(hostname, Placemarks, float(lat), float(lng))
         addNewPlacemark(Placemarks, hostname, action.name, action.lat, action.lng, action.country, action.desc)
 
-        sys.stdout.write("success")
-
     elif action.type == Actions.Actions.namelist:
       sys.stdout.write("$&$".join(nameList(Placemarks)))
 
     elif action.type == Actions.Actions.rebuild:
-        sys.stdout.write("success")
-
+      pass
     elif action.type == Actions.Actions.forname:
       nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == action.name ]
       if len(nameNodes) == 0:
-       sys.stdout.write("name_not_found") 
+       action.error = "name_not_found"
 
       elif len(nameNodes) == 1:
         nameNode = nameNodes[0]
@@ -58,25 +55,24 @@ if __name__ == "__main__":
         country = nameNode.country.text
         sys.stdout.write("$&$".join((desc, country)))
       else:
-        sys.stdout.write("error")
+        action.error = "error"
 
     elif action.type == Actions.Actions.updateDescription:
       exit() #vorübergehend deaktiviert
 
       nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == action.name ]
       if len(nameNodes) == 0:
-       sys.stdout.write("name_not_found")
+       action.error = "name_not_found"
 
       elif len(nameNodes) == 1:
         nameNode = nameNodes[0]
         nameNode.description = KML.description(action.desc)
-        sys.stdout.write("success")
 
     elif action.type == Actions.Actions.removename:
       exit() #vorübergehend deaktiviert
       nameNodes  = [ placemark for placemark in Placemarks if unicode(placemark.name.text) == action.name ]
       if len(nameNodes) == 0:
-       sys.stdout.write("name_not_found") 
+       action.error = "name_not_found"
 
       elif len(nameNodes) == 1:
         nameNode = nameNodes[0]
@@ -85,13 +81,14 @@ if __name__ == "__main__":
         Placemarks.remove(nameNode)
         correctCollision(hostname, Placemarks, float(lat), float(lng))
 
-        sys.stdout.write("success")
       else:
-        sys.stdout.write("error")
+        action.error = "error"
 
     if not action.readOnly:
       writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath)
       unlock()
 
-  else:
-    sys.stdout.write("wrong_arguments")
+if action.error:
+  sys.stdout.write(action.error)
+elif not action.readOnly:
+    sys.stdout.write("success")

@@ -16,38 +16,33 @@ body
   color:#3e3e3e;
   background-color:#f3f3f3;
   font-size:90%;
-  min-width:540px;
 }
 
 #all
 {
   background-color:#e9e9e9;
-  border-radius:20px;
+  border-radius:25px;
   position:absolute;
   top:0px;
   bottom:0px;
   left:0px;
   right:0px;
-  min-width:520px;
+  /*width:500px;*/
 }
 
 #mainForm, #head
 {
-  border-radius:10px;
+  border-radius:15px;
   padding:10px;
 }
 
 #head
 {
-  position:absolute;
+  position:relative;
   top:10px;
+  left:10px;
   width:500px;
   height:60px;
-
-  position:relative;
-  margin-left:auto;
-  margin-right:auto;
-
   background-color:#bccce1;
   color:#425769;
   text-align:center;
@@ -61,16 +56,25 @@ body
 #mainForm
 {
   position:absolute;
-  top:20px;
+  top:100px;
+  left:10px;
   width:500px;
+  //bottom:10px;
   height:auto;
-
-  position:relative;
-  margin-left:auto;
-  margin-right:auto;
-
   background-color:#f3f3f3;
 }
+
+#map {
+  position:absolute;
+  /*padding:10px;*/
+  top:25px;
+  left:555px;
+  right:25px;
+  bottom:25px;
+  background-color:#ffffff;
+  /*margin:10px;*/
+}
+
 
 #locationInput, #nameInput {
   width:95%;
