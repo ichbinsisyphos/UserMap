@@ -113,7 +113,7 @@ body
   vertical-align:middle;
 }
 
-#nameInput {
+#nameInputArea {
   display:table-cell;
   width:100%;
   vertical-align:middle;
@@ -173,6 +173,10 @@ a:active
 
 #locationInput, #nameInput {
   width:95%;
+}
+
+#plaintext, #newlinetext {
+
 }
 
 #italictext {
