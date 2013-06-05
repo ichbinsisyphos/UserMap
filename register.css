@@ -76,72 +76,7 @@ body
 }
 
 
-#locationInput, #nameInput {
-  width:95%;
-}
 
-.button {
-  background-color:#f0f0f0;
-  width:auto;
-  float:right;
-}
-
-.italictext, .boldtext, .underlinedtext, .strikethroughtext, .plaintext {
-  width:auto;
-  font-size:75%;
-}
-.italictext {
-  font-style:italic;
-}
-.boldtext {
-  font-weight:bold;
-}
-.underlinedtext {
-  text-decoration:underline;
-}
-.strikethroughtext {
-  text-decoration:line-through;
-}
-
-.preview {
-  font-size:75%;
-  background-color:#f0f0f0;
-  width:auto;
-  float:right;
-}
-
-.error {
-  font-size:100%;
-  color:#aa0000;
-}
-
-input, textarea, select
-{
-  background-color:#f5f5f5;
-  border-style:solid;
-  border-color:#777777;
-  border-width:1px;
-  border-radius:5px;
-
-  width:72%;
-
-  padding:2px;
-  margin-left:auto;
-  margin-right:auto;
-  margin-top:1px;
-  margin-bottom:1px;
-}
-
-textarea, select
-{
-  width:100%;
-  resize:none;
-}
-
-textarea
-{
-  width:494px;
-}
 
 p
 {
