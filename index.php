@@ -20,15 +20,15 @@
 
     <div id="all">
       <div id="head">UserMap</div>
-      <div id="mainForm">
+      <div id="mainForm" style="overflow:hidden;">
         <table style="width:100%;height:100%">
           <tr>
             <td colspan="2">
               <div id="controls">
-                <div id="registerbutton">
+                <div id="registerbutton" style="float:left;">
                   <input type="button" class="button" id="registerButton" value=" " onClick="toggleHidden()"/>
                 </div>
-                <div id="maplink">
+                <div id="maplink" style="float:right;">
                   <?php
                     $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
                     $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));

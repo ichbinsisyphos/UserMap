@@ -3,7 +3,7 @@
 /* TODO: Vorschlag/Vorgabe für Beschreibung: forumlink, Ortsangabe auch im Text, etc etc */
 
 function validateLocationString() {
-  setCookie();
+  // setCookie();
 
   returnValue = (window.document.locationForm.locationInput.value.length > 2);
   
@@ -13,7 +13,7 @@ function validateLocationString() {
 }
 
 function validate() {
-  setCookie();
+  // setCookie();
 
   nameValid = (window.document.submitForm.nameInput.value != "");
   locationValid = (window.document.submitForm.locationSelect.length > 0);
@@ -114,42 +114,42 @@ function previewDescription() {
   }
 }
 
-function setCookie() { //duration in Sekunden, also gegebenenfalls multiplizieren
-  duration = 60000; // milliseconds -> 1 Minute
-  now = new Date();
-  diesAt = new Date(now.getTime() + duration);
-  name = "formValues";
+// function setCookie() { //duration in Sekunden, also gegebenenfalls multiplizieren
+//   duration = 60000; // milliseconds -> 1 Minute
+//   now = new Date();
+//   diesAt = new Date(now.getTime() + duration);
+//   name = "formValues";
 
-  userName = window.document.submitForm.nameInput.value;
-  userLocation = window.document.locationForm.locationInput.value;
-  userDescription = window.document.submitForm.descriptionInput.value;
+//   userName = window.document.submitForm.nameInput.value;
+//   userLocation = window.document.locationForm.locationInput.value;
+//   userDescription = window.document.submitForm.descriptionInput.value;
 
-  value = userName + "$&$" + userLocation + "$&$" + userDescription;
-  document.cookie = name + "=" + value + ";expires=" + diesAt.toGMTString() + ";";
+//   value = userName + "$&$" + userLocation + "$&$" + userDescription;
+//   document.cookie = name + "=" + value + ";expires=" + diesAt.toGMTString() + ";";
   
-  delete now;
-}
+//   delete now;
+// }
 
-function readCookie() {
-  value = "";
+// function readCookie() {
+//   value = "";
 
-  if(document.cookie) {
-    valueStart = document.cookie.indexOf("=") + 1;
-    valueEnd = document.cookie.indexOf(";");
-    if(valueEnd == -1) {
-      valueEnd = document.cookie.length;
-    }
-    value = document.cookie.substring(valueStart, valueEnd);
+//   if(document.cookie) {
+//     valueStart = document.cookie.indexOf("=") + 1;
+//     valueEnd = document.cookie.indexOf(";");
+//     if(valueEnd == -1) {
+//       valueEnd = document.cookie.length;
+//     }
+//     value = document.cookie.substring(valueStart, valueEnd);
     
-    tempArray = value.split("$&$");
+//     tempArray = value.split("$&$");
 
-    window.document.submitForm.nameInput.value = tempArray[0];
-    window.document.locationForm.locationInput.value = tempArray[1];
-    window.document.submitForm.descriptionInput.value = tempArray[2];
+//     window.document.submitForm.nameInput.value = tempArray[0];
+//     window.document.locationForm.locationInput.value = tempArray[1];
+//     window.document.submitForm.descriptionInput.value = tempArray[2];
 
-    delete tempArray;
-  }
-}
+//     delete tempArray;
+//   }
+// }
 
 function confirmRemove(name) {
   return confirm("Bist du sicher, dass du den Benutzer " + name + " dauerhaft löschen willst?");

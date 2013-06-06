@@ -1,38 +1,71 @@
+<form name="submitForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validate();">
+  
   <table style="width:100%;">
     <tr>
-      <td style="text-align:left;">Ort</td>
-      <td style="width:100%;text-align:center;"><input type="text" id="locationInput" name="locationInput"></td>
-      <td style="text-align:right;"><input type="button" name="locationSearch" value="Ort suchen" class="button" onClick="codeAddress()"></td>
+      <td style="text-align:left;width:auto;"><div class="register_text">Ort</div></td>
+      <td style="width:100%;" colspan="2">
+        <input type="text" id="locationInput" name="locationInput" class="register_input">
+      </td>
+      <td style="width:auto;">
+        <input type="button" name="locationSearch" value="Ort suchen" class="register_button" onClick="codeAddress()">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <select name="locationSelect" id="locationSelect" class="register_input" onChange="setMarker()"></select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <div class="register_text">
+          <output name="markerposition" id="markerposition"></output>
+        </div>
+      </td>
+    </tr>
+    <tr style="height:10px;"><td colspan="4"></td>
+    </tr>
+    <tr>
+      <td style="width:auto;">
+        <div class="register_text">Benutzername</div>
+      </td>
+      <td colspan="3" style="width:100%;">
+        <input type="text" id="nameInput" name="nameInput" class="register_input">
+      </td>
+    </tr>
+    <tr style="height:10px;"><td colspan="4"></td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        <div class="register_text">Beschreibungstext (optional, HTML möglich)</div>
+      </td>
+      <td style="wdith:auto; vertical-align:bottom;" rowspan="2">
+        <input name="preview" type="button" value="Vorschau" class="register_button" id="preview" onClick="previewDescription()">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" style="vertical-align:bottom;">
+        <input name="link" type="button" value="link" class="formatbutton" id="plaintext" onClick="addLink()">
+        <input name="bold" type="button" value="bold" class="formatbutton" id="boldtext" onClick="addBold()">
+        <input name="italic" type="button" value="italic" class="formatbutton" id="italictext" onClick="addItalic()">
+        <input name="underline" type="button" value="underline" class="formatbutton" id="underlinedtext" onClick="addUnderline()">
+        <input name="strikethrough" type="button" value="strikethrough" class="formatbutton" id="strikethroughtext" onClick="addStrikethrough()">
+        <input name="newline" type="button" value="newline" class="formatbutton" id="newlinetext" onClick="addNewLine()">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <textarea name="descriptionInput" rows="10" class="register_input"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+      </td>
+      <td style="width:auto;">
+        <input type="submit" name="formSubmit" value="Abschicken" class="register_button">
+      </td>
     </tr>
   </table>
 
-<form name="submitForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" onSubmit="return validate();">
-  <select name="locationSelect" id="locationSelect" onChange="setMarker()"></select>
-  <br>
-  <output name="markerposition" id="markerposition"></output>
-  <br>
-  <div id="name">
-      <div id="nameLabel">Benutzername</div>
-      <div id="nameInputArea"><input type="text" id="nameInput" name="nameInput"></div>
-  </div>
-  <br>
-  <div id="description">
-  Beschreibungstext (optional, HTML möglich)
-  <br>
-  <input name="link" type="button" value="link" class="formatbutton" id="plaintext" onClick="addLink()">
-  <input name="bold" type="button" value="bold" class="formatbutton" id="boldtext" onClick="addBold()">
-  <input name="italic" type="button" value="italic" class="formatbutton" id="italictext" onClick="addItalic()">
-  <input name="underline" type="button" value="underline" class="formatbutton" id="underlinedtext" onClick="addUnderline()">
-  <input name="strikethrough" type="button" value="strikethrough" class="formatbutton" id="strikethroughtext" onClick="addStrikethrough()">
-  <input name="newline" type="button" value="newline" class="formatbutton" id="newlinetext" onClick="addNewLine()">
-  <input name="preview" type="button" value="Vorschau" class="button" id="preview" onClick="previewDescription()">
-  <div id="descriptionInput">
-  <textarea name="descriptionInput" rows="12"></textarea>
-  </div> <!-- descriptioninput ende -->
-  </div> <!-- description ende -->
-  <div id="submitArea">
-  <input type="submit" name="formSubmit" value="Abschicken" class="button">
-  </div>
   <?php
     if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Abschicken")
     {
@@ -48,22 +81,21 @@
 
       $outputVar = shell_exec($command);
 
-      if ($outputVar == "success") {
-        echo '<META HTTP-EQUIV="Refresh" Content="0; URL=mapRedirect.php">';    
-        exit;
-      }
-      elseif ($outputVar == "name_taken") {
-        echo('<script type="text/javascript">alert("Dieser Benutzername ist bereits eingetragen.")</script>');
-      }
-      elseif ($outputVar == "wrong_arguments") {
-        echo('<script type="text/javascript">alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
-      }
-      elseif ($outputVar == "lockfile_timeout") {
-        echo('<script type="text/javascript">alert("timeout.")</script>');
-      }
-      else {
-        echo('<script type="text/javascript">alert("Unbekannter Fehler.")</script>');
+      if ($outputVar != "success") {
+        if ($outputVar == "name_taken") {
+          echo('<script type="text/javascript">alert("Dieser Benutzername ist bereits eingetragen.")</script>');
+        }
+        elseif ($outputVar == "wrong_arguments") {
+          echo('<script type="text/javascript">alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
+        }
+        elseif ($outputVar == "lockfile_timeout") {
+          echo('<script type="text/javascript">alert("timeout.")</script>');
+        }
+        else {
+          echo('<script type="text/javascript">alert("Unbekannter Fehler.")</script>');
+        }
       }
     }
   ?>
+
 </form>
