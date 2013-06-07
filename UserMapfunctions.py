@@ -219,14 +219,17 @@ def coordinateString((lat, lng)):
   """ erzeugt Koordinaten-String aus Gleitkomma-Koordinatenpaar """
   return "%0.7f, %0.7f, %0.7f" % (lng, lat, 0.0)
 
+def getNameNode(name, Placemarks):
+  if nameExists(name, Placemarks):
+    return [ placemark for placemark in Placemarks if unicode(placemark.name.text) == name ][0]
+  else:
+    return None
+
+def nameExists(name, Placemarks):
+  return ( name in nameSet(Placemarks) )
+
 def nameSet(Placemarks):
   """ erzeugt Menge aller Namen aus Liste aller Placemark-Nodes """
-  #   names = set()
-  # for placemark in Placemarks:
-  #   if placemark.type.text == "user":
-  #     names.add(placemark.name)
-
-  # return names
   return set(nameList(Placemarks))
 
 def nameList(Placemarks):
