@@ -14,6 +14,7 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript" src="register.js"></script>
+
   </head>
 
   <body onload="initialize()">
@@ -28,6 +29,15 @@
                 <div id="registerbutton" style="float:left;">
                   <input type="button" class="button" id="registerButton" value=" " onClick="toggleHidden()"/>
                 </div>
+
+                <div id="overwritebutton" style="float:left;">
+                  <input type="button" class="button" value="bearbeiten" onClick="toggleHidden()"/>
+                </div>
+
+                <div id="deletebutton" style="float:left;">
+                  <input type="button" class="button" value="löschen" onClick="toggleHidden()"/>
+                </div>
+
                 <div id="maplink" style="float:right;">
                   <?php
                     $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));

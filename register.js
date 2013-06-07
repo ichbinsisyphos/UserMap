@@ -28,7 +28,7 @@ function initialize() {
 
   var latlng = new google.maps.LatLng(47.8571,12.1181);
   var mapOptions = {
-    zoom: 5,
+    zoom: 6,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
