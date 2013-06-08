@@ -37,7 +37,7 @@ def coordSplit(locationString):
 	else:
 		countryOnly = False
 
-	country = (placelist[-1]).strip().decode("UTF-8")
+	country = (placelist[-1]).strip()
 	try:
 		lat,lng = ( float(coord) for coord in coords.split(",") )
 		return (countryOnly, country, lat, lng)
@@ -55,6 +55,7 @@ class Action():
 		self.lng = None
 		self.readOnly = None
 		self.error = None
+		self.locationString = None
 
  		self.type = cleanAction(args[1])
  		if self.type != Actions.undefined:
@@ -78,7 +79,8 @@ class Action():
 			 		self.error = "insufficient_arguments"
 			if self.type in (Actions.add, Actions.overwrite):
 				if len(args) > 4:
-			 		coordList = coordSplit(args[4])
+					self.locationString = args[4].decode("UTF-8")
+			 		coordList = coordSplit(self.locationString)
 			 		if len(coordList) == 4:
 			 			self.countryOnly, self.country, self.lat, self.lng = coordList
 			 		else:

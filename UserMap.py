@@ -20,16 +20,17 @@ if __name__ == "__main__":
 
     if action.type == Actions.Actions.add:
       if not nameExists(action.name, Placemarks):
-        addNewPlacemark(Placemarks, hostname, action.name, action.lat, action.lng, action.country, action.desc)
+        addNewPlacemark(Placemarks, hostname, action.name, action.locationString, action.lat, action.lng, action.country, action.desc)
       else:
         action.error = "name_taken"
 
     elif action.type == Actions.Actions.overwrite:
       nameNode = getNameNode(action.name, Placemarks)
-      lng,lat,alt = nameNode.Point.true_coordinates.text.split(",")
-      Placemarks.remove(nameNode)
-      correctCollision(hostname, Placemarks, float(lat), float(lng))
-      addNewPlacemark(Placemarks, hostname, action.name, action.lat, action.lng, action.country, action.desc)
+      if nameNode is not None:
+        # lng,lat,alt = nameNode.Point.true_coordinates.text.split(",")
+        Placemarks.remove(nameNode)
+      # correctCollision(hostname, Placemarks, float(lat), float(lng))
+      addNewPlacemark(Placemarks, hostname, action.name, action.locationString, action.lat, action.lng, action.country, action.desc)
 
     elif action.type == Actions.Actions.namelist:
       sys.stdout.write("$&$".join(nameList(Placemarks)))
@@ -44,10 +45,15 @@ if __name__ == "__main__":
         action.error = "name_not_found"
       else:
         desc = nameNode.description.text
+        locationString = ""
+        try:
+          locationString = nameNode.locationString.text
+        except:
+          pass
         if not desc:
           desc = ""
-        country = nameNode.country.text
-        sys.stdout.write("$&$".join((desc, country)))
+        #country = nameNode.country.text
+        sys.stdout.write("$&$".join((locationString, desc)))
 
     elif action.type == Actions.Actions.updateDescription:
       exit() #vorübergehend deaktiviert
@@ -58,7 +64,7 @@ if __name__ == "__main__":
         nameNode.description = KML.description(action.desc)
 
     elif action.type == Actions.Actions.removename:
-      exit() #vorübergehend deaktiviert
+      #exit() #vorübergehend deaktiviert
       nameNode = getNameNode(action.name, Placemarks)
       if nameNode is None:
         action.error = "name_not_found"

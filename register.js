@@ -158,7 +158,7 @@ function toggleButton() {
   restorePos();
   button = document.getElementById("registerButton");
   if (hidden) {
-    button.value=">> eintragen"
+    button.value=">> bearbeiten"
   }
   else {
     button.value="<<            "

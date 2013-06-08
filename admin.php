@@ -51,8 +51,8 @@
 
               $forNameReturnString = shell_exec($forNameCommand);
               $forNameResults = explode("$&$" , $forNameReturnString, "10");//wieviele tatsächlich?
-              $desc = $forNameResults[0];
-              $country = $forNameResults[1];
+              $locationString = $forNameResults[0];
+              $desc = $forNameResults[1];
 
               if($nameCount%2 == 0) {
                 $oddEvenClass = "even";
@@ -82,7 +82,7 @@
                  . "<tr align='center' class='" . $oddEvenClass . "'>\n"
                  . "  <td class='country'>\n"
                  . "    <text name='userCountry'>\n"
-                 . "      " . $country . "\n"
+                 . "      " . $locationString . "\n"
                  . "    </text>\n"
                  . "  </td>\n"
                  . "  <form name='removeForm' action='" . $_SERVER['PHP_SELF'] . "' method='post' onSubmit='return confirmRemove(".'"'. $name .'"'.");'>\n"

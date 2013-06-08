@@ -12,7 +12,20 @@
     </tr>
     <tr>
       <td colspan="4">
-        <select name="locationSelect" id="locationSelect" class="register_input" onChange="setMarker()"></select>
+
+
+<!-- varLocationString -->
+
+
+        <select name="locationSelect" id="locationSelect" class="register_input" onChange="setMarker()">
+          <?php
+
+          if($varLocationString != "") {
+            echo '<option>' . $varLocationString . '</option>';
+          }
+
+          ?>
+        </select>
       </td>
     </tr>
     <tr>
@@ -29,7 +42,16 @@
         <div class="register_text">Benutzername</div>
       </td>
       <td colspan="3" style="width:100%;">
-        <input type="text" id="nameInput" name="nameInput" class="register_input">
+        <?php
+          if($varName == "")
+          {
+            echo '<input type="text" id="nameInput" name="nameInput" class="register_input">';
+          }
+          else {
+            echo '<input type="text" id="nameInput" name="nameInput" class="register_input" readonly="1" value="' . $varName . '">';
+          }
+        ?>
+        <!-- <input type="text" id="nameInput" name="nameInput" class="register_input"> -->
       </td>
     </tr>
     <tr style="height:10px;"><td colspan="4"></td>
@@ -54,7 +76,20 @@
     </tr>
     <tr>
       <td colspan="4">
-        <textarea name="descriptionInput" rows="10" class="register_input"></textarea>
+
+        <?php
+          if($varDescription == "")
+          {
+            echo '<textarea name="descriptionInput" rows="10" class="register_input"></textarea>';
+          }
+          else {
+            echo '<textarea name="descriptionInput" rows="10" class="register_input">'. $varDescription . '</textarea>';
+          }
+        ?>
+
+
+
+        
       </td>
     </tr>
     <tr>
@@ -67,19 +102,23 @@
   </table>
 
   <?php
+
     if(isset($_POST['formSubmit']) AND $_POST['formSubmit'] == "Abschicken")
     {
       $varName = $_POST['nameInput'];
       $varDescription = $_POST['descriptionInput'];
       $varLocation = $_POST['locationSelect'];
+      $varAction = "overwrite";
 
       $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
-            . escapeshellarg("add") . " "
+            . escapeshellarg($varAction) . " "
             . escapeshellarg($varName) . " "
             . escapeshellarg($varDescription) . " "
             . escapeshellarg($varLocation);
 
       $outputVar = shell_exec($command);
+      echo "command: " . $command;
+      echo "output: " . $outputVar;
 
       if ($outputVar != "success") {
         if ($outputVar == "name_taken") {

@@ -55,8 +55,8 @@ def correctCollision(hostname, Placemarks, newLat, newLng):
     placemark.styleUrl = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + styleID)
     placemark.Point.coordinates = KML.coordinates(coordinateString(coordinateGen.next()))
 
-def addNewPlacemark(Placemarks, hostname, newName, newLat, newLng, newCountry, newDescription):
-  newPlacemark = createNewPlacemark(hostname, newName, newLat, newLng, newCountry, newDescription)
+def addNewPlacemark(Placemarks, hostname, newName, newLocationString, newLat, newLng, newCountry, newDescription):
+  newPlacemark = createNewPlacemark(hostname, newName, newLocationString, newLat, newLng, newCountry, newDescription)
   Placemarks.append(newPlacemark)
   Placemarks.sort(key=lambda placemark: placemark.name.text.lower())
   correctCollision(hostname, Placemarks, newLat, newLng)
@@ -128,7 +128,7 @@ def getCountryNodes(Placemarks, hostname):
   return countryNodeList
 
 
-def createNewPlacemark(hostname, newName, newLat, newLng, newCountry, newDescription):
+def createNewPlacemark(hostname, newName, newLocationString, newLat, newLng, newCountry, newDescription):
   styleNode = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + "#single")
   typeNode = KML.type("user")
   newPoint =  KML.Point(
@@ -144,11 +144,13 @@ def createNewPlacemark(hostname, newName, newLat, newLng, newCountry, newDescrip
   descNode.text = etree.CDATA(newDescription)
   #CDATA überlebt das spätere einlesen und neu schreiben nicht! mal Richtung XML schauen
   countryNode = KML.country(newCountry)
+  locationStringNode = KML.locationString(newLocationString)
 
   newPlacemark = KML.Placemark(
       KML.name(newName),
       styleNode,
       typeNode,
+      locationStringNode,
       countryNode,
       descNode,
       newPoint
