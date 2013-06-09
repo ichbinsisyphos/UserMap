@@ -208,15 +208,16 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         <true_coordinates>18.413086,43.862259,0.000000</true_coordinates>
       </Point>
     </Placemark>
-    <Placemark>
-      <type>user</type>
+    <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>radbruch</name>
-      <country>Germany</country>
-      <description>&lt;div dir="ltr"&gt;KISS ist mein Prinzip beim Basteln mit AVRs und Minirobotern. Trotz aller guten Vors&#228;tze ist es mir bisher leider noch nicht gelungen, eines meiner Projekte zu beenden.&lt;br&gt;&lt;br&gt;Nach dem "Monoleg" und dem "Kippler" war wohl die "Kamera am AVR" mein unterhaltsamster Thread im RN-Forum.&lt;br&gt;&lt;br&gt;Da ich aus beruflichen und gesundheitlichen Gr&#252;nden beim Basteln und Programmieren etwas zur&#252;cktreten mu&#223;te, unterst&#252;tze ich das RN zur Zeit nur noch durch moderate Moderation im Hintergrund in den Rubriken "Roboterbaus&#228;tze" und "Programmieren von Mikrokontrollern".&lt;/div&gt;</description>
-      <styleUrl>#style15</styleUrl>
+      <styleUrl>http://85.127.61.204/UserMap/styles.kml#single</styleUrl>
+      <type>user</type>
+      <locationString>Stuttgart, Deutschland (48.7571174,9.1901414)</locationString>
+      <country>Deutschland</country>
+      <description>&lt;div dir="ltr"&gt;KISS ist mein Prinzip beim Basteln mit AVRs und Minirobotern. Trotz aller guten Vors&amp;#228;tze ist es mir bisher leider noch nicht gelungen, eines meiner Projekte zu beenden.&lt;br&gt;&lt;br&gt;Nach dem "Monoleg" und dem "Kippler" war wohl die "Kamera am AVR" mein unterhaltsamster Thread im RN-Forum.&lt;br&gt;&lt;br&gt;Da ich aus beruflichen und gesundheitlichen Gr&amp;#252;nden beim Basteln und Programmieren etwas zur&amp;#252;cktreten mu&amp;#223;te, unterst&amp;#252;tze ich das RN zur Zeit nur noch durch moderate Moderation im Hintergrund in den Rubriken "Roboterbaus&amp;#228;tze" und "Programmieren von Mikrokontrollern".&lt;/div&gt;</description>
       <Point>
-        <coordinates>9.190141,48.757118,0.000000</coordinates>
-        <true_coordinates>9.190141,48.757118,0.000000</true_coordinates>
+        <coordinates>9.1901414, 48.7571174, 0.0000000</coordinates>
+        <true_coordinates>9.1901414, 48.7571174, 0.0000000</true_coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -253,15 +254,16 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         <true_coordinates>10.690384,53.867916,0.000000</true_coordinates>
       </Point>
     </Placemark>
-    <Placemark>
-      <type>user</type>
+    <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>silas</name>
-      <country>Germany</country>
+      <styleUrl>http://85.127.61.204/UserMap/styles.kml#single</styleUrl>
+      <type>user</type>
+      <locationString>Lauter/Sachsen, Deutschland (50.5632322,12.7118239)</locationString>
+      <country>Deutschland</country>
       <description>&lt;a href="http://www.roboternetz.de/community/members/39603-silas" target="_blank"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
-      <styleUrl>#style25</styleUrl>
       <Point>
-        <coordinates>12.711825,50.563232,0.000000</coordinates>
-        <true_coordinates>12.711825,50.563232,0.000000</true_coordinates>
+        <coordinates>12.7118239, 50.5632322, 0.0000000</coordinates>
+        <true_coordinates>12.7118239, 50.5632322, 0.0000000</true_coordinates>
       </Point>
     </Placemark>
     <Placemark>

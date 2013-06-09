@@ -62,10 +62,10 @@ def addNewPlacemark(Placemarks, hostname, newName, newLocationString, newLat, ne
   correctCollision(hostname, Placemarks, newLat, newLng)
 
 def getMapTitle(root):
-  return (root.Document.findall("{http://www.opengis.net/kml/2.2}name")[0].text).decode("UTF-8")
+  return root.Document.find("{http://www.opengis.net/kml/2.2}name").text.decode("UTF-8")
 
 def getMapDescription(root):
-  return (root.Document.findall("{http://www.opengis.net/kml/2.2}description")[0].text).encode("UTF-8")
+  return root.Document.find("{http://www.opengis.net/kml/2.2}description").text.encode("UTF-8")
 
 def backup(kmlFilePath):
   shutil.copy(kmlFilePath + ".kml", "var/backup/" + kmlFilePath.split("/")[-1] + ".kml")
@@ -116,7 +116,7 @@ def getCountryNodes(Placemarks, hostname):
   
   for countryPlacemark in countryPlacemarks:
     if countryPlacemark.name.text in countryNames:
-      point = countryPlacemark.MultiGeometry.findall("{http://www.opengis.net/kml/2.2}Point")[0]
+      point = countryPlacemark.MultiGeometry.find("{http://www.opengis.net/kml/2.2}Point")
       countryPlacemark.MultiGeometry.remove(point)
       newStyleUrl = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + "#country")
       countryPlacemark.append(newStyleUrl)
@@ -222,13 +222,11 @@ def coordinateString((lat, lng)):
   return "%0.7f, %0.7f, %0.7f" % (lng, lat, 0.0)
 
 def getNameNode(name, Placemarks):
-  if nameExists(name, Placemarks):
-    return [ placemark for placemark in Placemarks if unicode(placemark.name.text) == name ][0]
-  else:
-    return None
+    return next( (placemark for placemark in Placemarks if unicode(placemark.name.text) == name), None )
 
 def nameExists(name, Placemarks):
-  return ( name in nameSet(Placemarks) )
+  #return ( name in nameSet(Placemarks) )
+  return (getNameNode(name, Placemarks) is not None)
 
 def nameSet(Placemarks):
   """ erzeugt Menge aller Namen aus Liste aller Placemark-Nodes """
@@ -241,12 +239,12 @@ def nameList(Placemarks):
 def countrySet(Placemarks):
   """ erzeugt Menge aller Länder aus Liste aller Placemark-Nodes """
   #return [ placemark.name for placemark in Placemarks ]
-  countries = set()
-  for placemark in Placemarks:
-    if placemark.type.text == "user":
-      countries.add(placemark.country.text)
-
-  return countries
+  # countries = set()
+  # for placemark in Placemarks:
+  #  if placemark.type.text == "user":
+  #    countries.add(placemark.country.text)
+  # return countries
+  return set([ placemark.country.text for placemark in Placemarks if placemark.type.text == "user" ])
 
 def randString(length):
   """ erzeugt Zufalls-String mit angegebener Länge """

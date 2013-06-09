@@ -193,6 +193,12 @@ a:active
   padding:3px;
 }
 
+.register_input[readonly] {
+  background-color:#f3f3f3;
+  color:#3e3e3e;
+  width:100%;
+}
+
 .register_text {
   -moz-box-sizing: border-box; 
   box-sizing:border-box;
