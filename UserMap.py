@@ -81,3 +81,5 @@ if action.error:
   sys.stdout.write(action.error)
 elif not action.readOnly:
     sys.stdout.write("success")
+
+writeLog(action)

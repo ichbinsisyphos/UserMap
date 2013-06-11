@@ -5,6 +5,7 @@
 
 #TODO: CHAOS BESEITIGEN, EVT ZLIB STATT ZIPFILE FALLS MÖGLICH
 #TODO: BACKUP MUSS MAX ANZAHL FILES UND/ODER MAX SPEICHERPLATZ EINHALTEN
+#TODO: DAS SELBE FÜR DIE LOGDATEI
 
 import math
 from lxml import etree
@@ -21,9 +22,16 @@ import shutil
 
 hostnamePath    = "hostname.conf"
 lockPath        = "var/UserMap.lock"
+logPath         = "var/UserMap.log"
 kmlFilenamePath = "var/kmlFilename.dat"
 countryKMLPath  = "countries.kml"
 collisionDist   = 1e-2
+
+def writeLog(action):
+  filep = open(logPath, "a")
+  filep.write(action.logMessage().encode("UTF-8", "replace") + "\n")
+  filep.close()
+  del filep
 
 def assembleTree(hostname, root, Placemarks):
   mapTitle = getMapTitle(root)

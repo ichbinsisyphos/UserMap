@@ -152,6 +152,18 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         <true_coordinates>10.007172,53.564377,0.000000</true_coordinates>
       </Point>
     </Placemark>
+    <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+      <name>leibiflo</name>
+      <styleUrl>http://85.127.61.204/UserMap/styles.kml#single</styleUrl>
+      <type>user</type>
+      <locationString>4202 Kirchschlag bei Linz, &#214;sterreich (48.4129959,14.2763981)</locationString>
+      <country>&#214;sterreich</country>
+      <description/>
+      <Point>
+        <coordinates>14.2763981, 48.4129959, 0.0000000</coordinates>
+        <true_coordinates>14.2763981, 48.4129959, 0.0000000</true_coordinates>
+      </Point>
+    </Placemark>
     <Placemark>
       <type>user</type>
       <name>m.a.r.v.i.n</name>

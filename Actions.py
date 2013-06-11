@@ -4,6 +4,8 @@
 #TODO: SET ACTION UNDEFINED IF INSUFFICIENT OR WRONG TYPE OF ARGUMENTS
 #AND INCLUDE A DESCRIPTIVE ERROR MESSAGE
 
+import time
+
 def enum(*sequential, **named):
     enums = dict(zip(sequential, range(len(sequential))), **named)
     return type('Enum', (), enums)
@@ -99,3 +101,29 @@ class Action():
 				self.readOnly = True
 		else:
 			self.error = "action_undefined"
+
+	def logMessage(self):
+		logStr = time.strftime("%Y-%m-%d %H:%M:%S : ", time.localtime())
+		if self.type == Actions.add:
+			logStr += u"Benutzername %s hinzugefügt" % self.name
+		elif self.type == Actions.overwrite:
+			logStr += u"Information für Benutzername %s überschrieben" % self.name
+		elif self.type == Actions.updateDescription:
+			logStr += u"Beschreibung für Benutzername %s geändert" % self.name
+		elif self.type == Actions.removename:
+			logStr += u"Benutzername %s entfernt" % self.name
+		elif self.type == Actions.rebuild:
+			logStr += u"KML-Datei neu erstellt"
+		elif self.type == Actions.namelist:
+			logStr += u"Namensliste ausgegeben"
+		elif self.type == Actions.forname:
+			logStr += u"Information für Benutzername %s ausgegeben" % self.name
+		elif self.type == Actions.undefined:
+			logStr += u"Unbekannte Aktion angefordert"
+
+		if self.error == None:
+			logStr += u" : Erfolg"
+		else:
+			logStr += u" : Fehler: " + self.error
+
+		return logStr
