@@ -23,15 +23,33 @@ import shutil
 hostnamePath    = "hostname.conf"
 lockPath        = "var/UserMap.lock"
 logPath         = "var/UserMap.log"
+maxLogFilesize  = 1024*1024
+maxLogLines     = 1000
 kmlFilenamePath = "var/kmlFilename.dat"
 countryKMLPath  = "countries.kml"
 collisionDist   = 1e-2
 
 def writeLog(action):
-  filep = open(logPath, "a")
-  filep.write(action.logMessage().encode("UTF-8", "replace") + "\n")
+  lock() #hmm... blockt auch Aktionen mit Schreibzugriff
+
+  if os.path.isfile(logPath):
+    filep = open(logPath, "r")
+    logLines = filep.readlines()
+    filep.close()
+    del filep
+  else:
+    logLines = []
+
+  if (len(logLines) >= maxLogLines) or (os.path.isfile(logPath) and (os.path.getsize(logPath) >= maxLogFilesize)):
+    logLines = logLines[1:]
+  logLines.append(action.logMessage().encode("UTF-8", "replace") + "\n")
+
+  filep = open(logPath, "w")
+  filep.writelines(logLines)
   filep.close()
   del filep
+
+  unlock()
 
 def assembleTree(hostname, root, Placemarks):
   mapTitle = getMapTitle(root)
