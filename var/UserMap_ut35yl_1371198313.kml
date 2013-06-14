@@ -95,16 +95,16 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
         <true_coordinates>10.443649,51.920555,0.000000</true_coordinates>
       </Point>
     </Placemark>
-    <Placemark>
-      <type>user</type>
+    <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>G&#252;nter49</name>
-      <country>Germany</country>
-      <description>&lt;div dir="ltr"&gt;Service-Roboter, Python-Programmierung&lt;/div&gt;&lt;div dir="ltr"&gt;&amp;nbsp;&lt;/div&gt;
-&lt;a href="http://www.roboternetz.de/community/members/1202-G%C3%BCnter49" target="_blank"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
-      <styleUrl>#style8</styleUrl>
+      <styleUrl>http://85.127.237.90/UserMap/styles.kml#single</styleUrl>
+      <type>user</type>
+      <locationString>Kassel, Deutschland (51.3221529,9.5085852)</locationString>
+      <country>Deutschland</country>
+      <description>&lt;div dir="ltr"&gt;Service-Roboter, Python-Programmierung&lt;/div&gt;&lt;div dir="ltr"&gt; &lt;/div&gt; &lt;a href="http://www.roboternetz.de/community/members/1202-G&amp;#252;nter49" target="_blank"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
       <Point>
-        <coordinates>9.510695,51.322544,0.000000</coordinates>
-        <true_coordinates>9.510695,51.322544,0.000000</true_coordinates>
+        <coordinates>9.5085852, 51.3221529, 0.0000000</coordinates>
+        <true_coordinates>9.5085852, 51.3221529, 0.0000000</true_coordinates>
       </Point>
     </Placemark>
     <Placemark>
@@ -120,11 +120,11 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>ichbinsisyphos</name>
-      <styleUrl>http://85.127.61.204/UserMap/styles.kml#single</styleUrl>
+      <styleUrl>http://85.127.237.90/UserMap/styles.kml#single</styleUrl>
       <type>user</type>
       <locationString>Graz, &#214;sterreich (47.0707140,15.4395040)</locationString>
       <country>&#214;sterreich</country>
-      <description>&lt;a href="http://www.roboternetz.de/community/members/58901-ichbinsisyphos"&gt;Link zum Profil im Roboternetz&lt;/a&gt;</description>
+      <description>&lt;a href="http://www.roboternetz.de/community/members/58901-ichbinsisyphos"&gt;Link zum Profil im Roboternetz&lt;/a&gt;&lt;br&gt;Beschreibung ver&amp;#228;ndert.</description>
       <Point>
         <coordinates>15.4395040, 47.0707140, 0.0000000</coordinates>
         <true_coordinates>15.4395040, 47.0707140, 0.0000000</true_coordinates>
@@ -344,7 +344,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl>http://85.127.61.204/UserMap/styles.kml#country</styleUrl>
+      <styleUrl>http://85.127.237.90/UserMap/styles.kml#country</styleUrl>
       <type>country</type>
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -393,7 +393,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl>http://85.127.61.204/UserMap/styles.kml#country</styleUrl>
+      <styleUrl>http://85.127.237.90/UserMap/styles.kml#country</styleUrl>
       <type>country</type>
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -407,7 +407,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl>http://85.127.61.204/UserMap/styles.kml#country</styleUrl>
+      <styleUrl>http://85.127.237.90/UserMap/styles.kml#country</styleUrl>
       <type>country</type>
     </Placemark>
     <Placemark>
@@ -421,7 +421,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
           </outerBoundaryIs>
         </Polygon>
       </MultiGeometry>
-      <styleUrl xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">http://85.127.61.204/UserMap/styles.kml#country</styleUrl>
+      <styleUrl xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">http://85.127.237.90/UserMap/styles.kml#country</styleUrl>
       <type xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">country</type>
     </Placemark>
   </Document>

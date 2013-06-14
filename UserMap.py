@@ -33,7 +33,7 @@ if __name__ == "__main__":
       addNewPlacemark(Placemarks, hostname, action.name, action.locationString, action.lat, action.lng, action.country, action.desc)
 
     elif action.type == Actions.Actions.namelist:
-      sys.stdout.write("$&$".join(nameList(Placemarks)))
+      sys.stdout.write( ("$&$".join(nameList(Placemarks))).encode("UTF-8"))
 
     elif action.type == Actions.Actions.rebuild:
       pass #tree tatsächlich neu aufbauen (inkl. Kollisionskorrektur etc.)
@@ -53,7 +53,7 @@ if __name__ == "__main__":
         if not desc:
           desc = ""
         #country = nameNode.country.text
-        sys.stdout.write("$&$".join((locationString, desc)))
+        sys.stdout.write( ("$&$".join((locationString, desc))).encode("UTF-8") )
 
     elif action.type == Actions.Actions.updateDescription:
       exit() #vorübergehend deaktiviert
@@ -78,8 +78,8 @@ if __name__ == "__main__":
       unlock()
 
 if action.error:
-  sys.stdout.write(action.error)
+  sys.stdout.write((action.error).encode("UTF-8"))
 elif not action.readOnly:
-    sys.stdout.write("success")
+    sys.stdout.write(("success").encode("UTF-8"))
 
 writeLog(action)

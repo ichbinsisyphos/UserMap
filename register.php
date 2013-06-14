@@ -110,28 +110,26 @@
       $varLocation = $_POST['locationSelect'];
       $varAction = "overwrite";
 
-      $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
+      $command = "python ./UserMap.py "
             . escapeshellarg($varAction) . " "
             . escapeshellarg($varName) . " "
             . escapeshellarg($varDescription) . " "
             . escapeshellarg($varLocation);
 
       $outputVar = shell_exec($command);
-      echo "command: " . $command;
-      echo "output: " . $outputVar;
 
       if ($outputVar != "success") {
         if ($outputVar == "name_taken") {
-          echo('<script type="text/javascript">alert("Dieser Benutzername ist bereits eingetragen.")</script>');
+          echo '<script type="text/javascript">alert("Dieser Benutzername ist bereits eingetragen.")</script>';
         }
         elseif ($outputVar == "wrong_arguments") {
-          echo('<script type="text/javascript">alert("Unzulässige Anzahl an Argumenten übergeben.")</script>');
+          echo '<script type="text/javascript">alert("Unzulässige Anzahl an Argumenten übergeben.")</script>';
         }
         elseif ($outputVar == "lockfile_timeout") {
-          echo('<script type="text/javascript">alert("timeout.")</script>');
+          echo '<script type="text/javascript">alert("timeout.")</script>';
         }
         else {
-          echo('<script type="text/javascript">alert("Unbekannter Fehler.")</script>');
+          echo '<script type="text/javascript">alert("Unbekannter Fehler.")</script>';
         }
       }
     }

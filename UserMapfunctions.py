@@ -55,8 +55,8 @@ def assembleTree(hostname, root, Placemarks):
   mapTitle = getMapTitle(root)
   mapDescription = getMapDescription(root)
   root.Document.clear()
-  root.Document.append(KML.name(mapTitle))
-  root.Document.append(KML.description(mapDescription.decode("UTF-8")))
+  root.Document.append(KML.name(mapTitle.encode("UTF-8")))
+  root.Document.append(KML.description(mapDescription))
 
   for placemark in Placemarks:
     root.Document.append(placemark)
@@ -91,7 +91,7 @@ def getMapTitle(root):
   return root.Document.find("{http://www.opengis.net/kml/2.2}name").text.decode("UTF-8")
 
 def getMapDescription(root):
-  return root.Document.find("{http://www.opengis.net/kml/2.2}description").text.encode("UTF-8")
+  return root.Document.find("{http://www.opengis.net/kml/2.2}description").text
 
 def backup(kmlFilePath):
   shutil.copy(kmlFilePath + ".kml", "var/backup/" + kmlFilePath.split("/")[-1] + ".kml")

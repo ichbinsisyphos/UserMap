@@ -46,15 +46,18 @@
                     }
 
                     if($varName != "") {
-                      $forNameCommand = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
-                                . escapeshellarg(utf8_encode("forname")) . " "
+                      $forNameCommand = "python ./UserMap.py "
+                                . escapeshellarg("forname") . " "
                                 . escapeshellarg($varName);
 
-                      $forNameReturnString = utf8_encode(shell_exec($forNameCommand));
+                      // echo $forNameCommand;
+
+                      $forNameReturnString = shell_exec($forNameCommand);
+                      // echo "RETURN " . $forNameReturnString;
                       if ($forNameReturnString != "name_not_found") {
                         $forNameResults = explode("$&$" , $forNameReturnString, "10");//wieviele tatsächlich?
-                        $varLocationString = utf8_decode($forNameResults[0]);
-                        $varDescription = utf8_decode($forNameResults[1]);
+                        $varLocationString = $forNameResults[0];
+                        $varDescription = $forNameResults[1];
                       }
                     }
 

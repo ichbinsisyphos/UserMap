@@ -17,7 +17,7 @@
     <div id="mainForm">
       <table border="0">
         <?php
-          $nameListCommand = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
+          $nameListCommand = "python ./UserMap.py "
                 . escapeshellarg("namelist");
 
           $nameListReturnString = shell_exec($nameListCommand);
@@ -29,7 +29,7 @@
               $userName = escapeshellarg($name);
               $newDescription = escapeshellarg($_POST['userDescription' . $nameCount]);
 
-              $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py updateDescription " . $userName . " " . $newDescription;
+              $command = "python ./UserMap.py updateDescription " . $userName . " " . $newDescription;
               //echo $command;
               $outputVar = shell_exec($command);
               //echo $outputVar;//Fehlerbehandlung noch einfügen
@@ -38,15 +38,16 @@
 
             if(isset($_POST['removeSubmit' . $nameCount]) AND $done == false) {//} AND $_POST['removeSubmit' . $nameCount] == "Benutzer\nentfernen") {
               $userName = escapeshellarg($name);
-              $command = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py removename " . $userName;
+              $command = "python ./UserMap.py removename " . $userName;
               $outputVar = shell_exec($command);
               //echo $outputVar;//Fehlerbehandlung noch einfügen
               $done = true;
             }
 
             else {
-              $forNameCommand = "export PYTHONIOENCODING=UTF-8; python ./UserMap.py "
-                        . escapeshellarg(utf8_encode("forname")) . " "
+              $forNameCommand = "python ./UserMap.py "
+                        . escapeshellarg("forname")
+                        . " "
                         . escapeshellarg($name);
 
               $forNameReturnString = shell_exec($forNameCommand);
@@ -61,7 +62,7 @@
                 $oddEvenClass = "odd";
               }
 
-              echo("<tr align='center' class='" . $oddEvenClass . "'>\n"
+              echo "<tr align='center' class='" . $oddEvenClass . "'>\n"
                  . "  <form name='updateForm' action='" . $_SERVER['PHP_SELF'] . "' method='post' onSubmit='return confirmUpdate();'>\n"
                  . "    <td rowspan='2' class='counter'>\n"
                  . "      " . $nameCount . "\n"
@@ -103,7 +104,7 @@
                  // . "    </text>\n"
                  // . "  </td>\n"
                  //. "</tr>\n"
-              );
+                 ;
               $nameCount += 1;
             }
 //            $nameCount += 1;

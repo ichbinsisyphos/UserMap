@@ -17,7 +17,7 @@
     <br>
     <br>
     <small>
-      Ein erster Versuch, den Namen von außen vorzugeben.
+      Ein erster Versuch den Namen von außen vorzugeben.
       <br>
       Überhaupt nicht abgesichert, jeder kann alles ändern.
     </small>
