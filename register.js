@@ -24,7 +24,9 @@ function initialize() {
 
   geocoder = new google.maps.Geocoder();
   hidden = true;
-  $("#register").hide();
+  if ($("#register").length > 0) {
+   $("#register").hide();
+  }
 
   var latlng = new google.maps.LatLng(47.8571,12.1181);
   var mapOptions = {
@@ -153,14 +155,16 @@ function toggleHidden() {
 }
 
 function toggleButton() {
-  savePos();
-  google.maps.event.trigger(map, "resize");
-  restorePos();
-  button = document.getElementById("registerButton");
-  if (hidden) {
-    button.value=">> bearbeiten"
-  }
-  else {
-    button.value="<<            "
+  if ($("#register").length > 0) {
+    savePos();
+    google.maps.event.trigger(map, "resize");
+    restorePos();
+    button = document.getElementById("registerButton");
+    if (hidden) {
+      button.value=">> bearbeiten"
+    }
+    else {
+      button.value="<<"
+    }
   }
 }

@@ -43,7 +43,6 @@
                       echo '<div id="registerbutton" style="float:left;">';
                       echo '  <input type="button" class="controls_button" id="registerButton" value=" " onClick="toggleHidden()"/>';
                       echo '</div>';
-                      echo '<div id="maplink" style="float:right;">';
 
                       $forNameCommand = "python ./UserMap.py "
                                 . escapeshellarg("forname") . " "
@@ -70,11 +69,15 @@
                                       // . "&amp;spn=12.49903,13.726243"
                                       . "&amp;t=m"
                                       . "&amp;source=embed";
-                    $link = '<a href="' . $redirectUrl . '" target="_blank">Ansicht auf maps.google.com</a>';
+                    
+                    $link = '<a href="'
+                            . $redirectUrl
+                            . '" target="_blank">Ansicht auf maps.google.com</a>';
+                    
+                    echo '<div id="maplink" style="float:right;">';
                     echo($link);
+                    echo '</div>';
                   ?>
-
-                </div>
               </div>
             </td>
           </tr>
