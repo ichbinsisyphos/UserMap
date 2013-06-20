@@ -56,6 +56,7 @@ if __name__ == "__main__":
         sys.stdout.write( ("$&$".join((locationString, desc))).encode("UTF-8") )
 
     elif action.type == Actions.Actions.updateDescription:
+      #wird in admin.php noch benutzt, muss aber weg -> ersetzen mit overwrite
       exit() #vorübergehend deaktiviert
       nameNode = getNameNode(action.name, Placemarks)
       if nameNode is None:
@@ -64,7 +65,7 @@ if __name__ == "__main__":
         nameNode.description = KML.description(action.desc)
 
     elif action.type == Actions.Actions.removename:
-      #exit() #vorübergehend deaktiviert
+      exit() #vorübergehend deaktiviert
       nameNode = getNameNode(action.name, Placemarks)
       if nameNode is None:
         action.error = "name_not_found"

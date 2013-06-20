@@ -30,13 +30,14 @@ countryKMLPath  = "countries.kml"
 collisionDist   = 1e-2
 
 def writeLog(action):
+  """ schreibt logfile mit neuem Eintrag neu, unter Einhaltung der maximalen Anzahl an Einträgen und der maximalen Dateigröße """
   lock() #hmm... blockt auch Aktionen mit Schreibzugriff
 
   if os.path.isfile(logPath):
-    filep = open(logPath, "r")
-    logLines = filep.readlines()
-    filep.close()
-    del filep
+    fileobj = open(logPath, "r")
+    logLines = fileobj.readlines()
+    fileobj.close()
+    del fileobj
   else:
     logLines = []
 
@@ -44,14 +45,15 @@ def writeLog(action):
     logLines = logLines[1:]
   logLines.append(action.logMessage().encode("UTF-8", "replace") + "\n")
 
-  filep = open(logPath, "w")
-  filep.writelines(logLines)
-  filep.close()
-  del filep
+  fileobj = open(logPath, "w")
+  fileobj.writelines(logLines)
+  fileobj.close()
+  del fileobj
 
   unlock()
 
 def assembleTree(hostname, root, Placemarks):
+  """ erstellt den KML-tree neu, inklusive Mapnamen, -beschreibung, user- und country-placemarks """
   mapTitle = getMapTitle(root)
   mapDescription = getMapDescription(root)
   root.Document.clear()
@@ -67,6 +69,7 @@ def assembleTree(hostname, root, Placemarks):
   return root
 
 def correctCollision(hostname, Placemarks, newLat, newLng):
+  """ korrigiert Kollisionen für die angegebenen Koordinaten """
   collision = getCollision(Placemarks, newLat, newLng)
   styleID = "#single"
 
@@ -82,58 +85,65 @@ def correctCollision(hostname, Placemarks, newLat, newLng):
     placemark.Point.coordinates = KML.coordinates(coordinateString(coordinateGen.next()))
 
 def addNewPlacemark(Placemarks, hostname, newName, newLocationString, newLat, newLng, newCountry, newDescription):
+  """ fügt neue Benutzer-placemark mit angegebenen Parametern hinzu, Kollisionscheck inklusive """
   newPlacemark = createNewPlacemark(hostname, newName, newLocationString, newLat, newLng, newCountry, newDescription)
   Placemarks.append(newPlacemark)
   Placemarks.sort(key=lambda placemark: placemark.name.text.lower())
   correctCollision(hostname, Placemarks, newLat, newLng)
 
 def getMapTitle(root):
+  """ extrahiert den Namen der Map aus KML-tree """
   return root.Document.find("{http://www.opengis.net/kml/2.2}name").text.decode("UTF-8")
 
 def getMapDescription(root):
+  """ extrahiert Kartenbeschreibung aus KML-tree """
   return root.Document.find("{http://www.opengis.net/kml/2.2}description").text
 
 def backup(kmlFilePath):
+  """ kopiert alte .kml und .kmz-Datei ins backup-Verzeichnis und löscht die Originale """
   shutil.copy(kmlFilePath + ".kml", "var/backup/" + kmlFilePath.split("/")[-1] + ".kml")
   shutil.copy(kmlFilePath + ".kmz", "var/backup/" + kmlFilePath.split("/")[-1] + ".kmz")
   os.remove(kmlFilePath + ".kml")
   os.remove(kmlFilePath + ".kmz")
 
 def writeNewKmlKmz(hostname, root, Placemarks, kmlFilePath):
+  """ schreibt den neuen KML-tree in neue *.kml-Datei, komprimiert ihn zu *.kmz und ruft backup-Funktion auf """
   root = assembleTree(hostname, root, Placemarks)
 
   newKmlFilePath = getNewKmlFilePath()##hier auch
-  filep = open(newKmlFilePath + ".kml", "w")
+  fileobj = open(newKmlFilePath + ".kml", "w")
   xmlText = '<?xml version="1.0" encoding="UTF-8"?>\n' + etree.tostring(root, pretty_print=True)
-  filep.write(xmlText)
-  filep.close()
-  del filep
+  fileobj.write(xmlText)
+  fileobj.close()
+  del fileobj
   
-  filep = zipfile.ZipFile(newKmlFilePath + ".kmz", "w")
-  filep.write(newKmlFilePath + ".kml", compress_type=zipfile.ZIP_DEFLATED)
-  filep.close()
-  del filep
+  fileobj = zipfile.ZipFile(newKmlFilePath + ".kmz", "w")
+  fileobj.write(newKmlFilePath + ".kml", compress_type=zipfile.ZIP_DEFLATED)
+  fileobj.close()
+  del fileobj
 
   backup(kmlFilePath)
 
 def getNewKmlFilePath():
+  """ erstellt neunen *.kml-Dateinamen aus Zeit und Zufallsstring """
   newKmlFilePath = "var/UserMap_%s_%i" % (randString(6), time.time())
 
   #diesen namen in Kontrolldatei schreiben
-  filep = open(kmlFilenamePath, "w")
-  filep.write(newKmlFilePath)
-  filep.close()
-  del filep
+  fileobj = open(kmlFilenamePath, "w")
+  fileobj.write(newKmlFilePath)
+  fileobj.close()
+  del fileobj
 
   return newKmlFilePath
 
 def getCountryNodes(Placemarks, hostname):
+  """ extrahiert für in der Karte verwendete Länder die Country-Placemarks (Polygone) aus countryKMLPath aus, passt sie an und liefert sie als Liste zurück """
   countryNames = countrySet(Placemarks)
 
-  filep = open(countryKMLPath, "r")
-  countryText = filep.read()
-  filep.close()
-  del filep
+  fileobj = open(countryKMLPath, "r")
+  countryText = fileobj.read()
+  fileobj.close()
+  del fileobj
 
   countryNodeList = []
 
@@ -155,6 +165,8 @@ def getCountryNodes(Placemarks, hostname):
 
 
 def createNewPlacemark(hostname, newName, newLocationString, newLat, newLng, newCountry, newDescription):
+  """ erzeugt neue Benutzer-placemark mit angegebenen Parametern und liefert sie zur weiteren Verwendung zurück """
+
   styleNode = KML.styleUrl(hostname + "/UserMap/" + "styles.kml" + "#single")
   typeNode = KML.type("user")
   newPoint =  KML.Point(
@@ -185,9 +197,11 @@ def createNewPlacemark(hostname, newName, newLocationString, newLat, newLng, new
   return newPlacemark
 
 def getCollision(Placemarks, newLat, newLng):
+  """ liefert die Benutzer-placemarks zurück, die an den angegebenen Koordinaten kollidieren """
   return [ placemark for placemark in Placemarks if placemark.type.text == "user" and placemark.Point.true_coordinates == coordinateString((newLat, newLng)) ]
 
 def parseArgs(args):
+  """ sys.argv-Kommandozeilenargumente auslesen und aufbereiten, als Tupel zurückliefern """
   newName = args[0].decode("utf-8")
   newDescription = args[1].decode("utf-8")
   newLocation = args[2].decode("utf-8")
@@ -202,36 +216,43 @@ def parseArgs(args):
   return (newName, newDescription, newCountry, newLat, newLng)
 
 def getPlacemarks(root):
+  """ liefert eine Liste mit allen Benutzer-placemarks """
   return [ placemark for placemark in root.Document.findall("{http://www.opengis.net/kml/2.2}Placemark") if placemark.type.text == "user" ]
 
 def parseKml(kmlFilePath):
-  filep = open(kmlFilePath + ".kml", "r")
-  KMLText = filep.read()
-  filep.close()
-  del filep
+  """ liest *.kml-Datei aus und liefert geparsten KML-tree zurück """
+  fileobj = open(kmlFilePath + ".kml", "r")
+  KMLText = fileobj.read()
+  fileobj.close()
+  del fileobj
 
   return parser.fromstring(KMLText)
 
 def getKmlFilePath():
-  filep = open(kmlFilenamePath, "r")
-  kmlFilePath = filep.read()
-  filep.close()
+  """ liest alten *.kml-Dateinamen as kmlFilenamePath aus und liefert ihn zurück """
+  fileobj = open(kmlFilenamePath, "r")
+  kmlFilePath = fileobj.read()
+  fileobj.close()
 
   return kmlFilePath
 
 def getHostname():
-  filep = open(hostnamePath, "r")
-  hostname = filep.read()
-  filep.close()
+  """ liest hostname aus hostnamePath aus und lierfert ihn zurück """
+  fileobj = open(hostnamePath, "r")
+  hostname = fileobj.read()
+  fileobj.close()
+  del fileobj
 
   return hostname
 
 def unlock():
+  """ löscht lockfile falls vorhanden """
   #Am Schluss lockfile loeschen
-  os.remove(lockPath)
+  if os.path.isfile(lockPath):  
+    os.remove(lockPath)
 
 def lock():
-  #wenn lockfile existiert, 1 Sekunde warten und nochmal checken, sonst weiter
+  """ erstellt lockfile wenn es nicht existiert, sonst 1 Sekunde warten und erneut checken """
   loopcount = 0
   while os.path.isfile(lockPath):
     if loopcount > 15:
@@ -240,7 +261,6 @@ def lock():
     time.sleep(1)
     loopcount += 1
 
-  #lockfile erstellen
   open(lockPath,"w").close()
 
 def coordinateString((lat, lng)):
@@ -264,12 +284,6 @@ def nameList(Placemarks):
 
 def countrySet(Placemarks):
   """ erzeugt Menge aller Länder aus Liste aller Placemark-Nodes """
-  #return [ placemark.name for placemark in Placemarks ]
-  # countries = set()
-  # for placemark in Placemarks:
-  #  if placemark.type.text == "user":
-  #    countries.add(placemark.country.text)
-  # return countries
   return set([ placemark.country.text for placemark in Placemarks if placemark.type.text == "user" ])
 
 def randString(length):
@@ -277,6 +291,7 @@ def randString(length):
   return "".join(random.choice(string.ascii_lowercase + string.digits) for x in range(length))
 
 def hexgen(startx, starty, mindist):
+  """ generator zum erzeugen von Koordinaten in einem Hexagonalgitter rund um die originalen Koordinaten im Falle von Kollisionen """
   corners = [ (round(math.cos(angle*math.pi/180.),3),round(math.sin(angle*math.pi/180.),3)) for angle in range(0,360,60) ]
   layer = 0
   interpolate = 0

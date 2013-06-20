@@ -12,11 +12,6 @@
     </tr>
     <tr>
       <td colspan="4">
-
-
-<!-- varLocationString -->
-
-
         <select name="locationSelect" id="locationSelect" class="register_input" onChange="setMarker()">
           <?php
 
@@ -86,9 +81,6 @@
             echo '<textarea name="descriptionInput" rows="10" class="register_input">'. $varDescription . '</textarea>';
           }
         ?>
-
-
-
         
       </td>
     </tr>
@@ -133,6 +125,7 @@
         }
       }
     }
+
   ?>
 
 </form>

@@ -26,12 +26,6 @@
           <tr>
             <td colspan="2">
               <div id="controls">
-                <div id="registerbutton" style="float:left;">
-                  <input type="button" class="button" id="registerButton" value=" " onClick="toggleHidden()"/>
-                </div>
-
-                <div id="maplink" style="float:right;">
-
                   <?php
                     $varName = "";
                     $varDescription = "";
@@ -46,14 +40,17 @@
                     }
 
                     if($varName != "") {
+                      echo '<div id="registerbutton" style="float:left;">';
+                      echo '  <input type="button" class="controls_button" id="registerButton" value=" " onClick="toggleHidden()"/>';
+                      echo '</div>';
+                      echo '<div id="maplink" style="float:right;">';
+
                       $forNameCommand = "python ./UserMap.py "
                                 . escapeshellarg("forname") . " "
                                 . escapeshellarg($varName);
 
-                      // echo $forNameCommand;
-
                       $forNameReturnString = shell_exec($forNameCommand);
-                      // echo "RETURN " . $forNameReturnString;
+
                       if ($forNameReturnString != "name_not_found") {
                         $forNameResults = explode("$&$" , $forNameReturnString, "10");//wieviele tatsächlich?
                         $varLocationString = $forNameResults[0];
@@ -62,15 +59,15 @@
                     }
 
                     $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-                    $kmlFile = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+                    $kmlFile  = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
                     $redirectUrl = "https://maps.google.com/maps?q="
                                       . $hostName
                                       . "/UserMap/"
                                       . $kmlFile
                                       . ".kmz"
                                       . "&amp;ie=UTF8"
-                                      . "&amp;ll=48.809243,12.720624"
-                                      . "&amp;spn=12.49903,13.726243"
+                                      // . "&amp;ll=48.809243,12.720624"
+                                      // . "&amp;spn=12.49903,13.726243"
                                       . "&amp;t=m"
                                       . "&amp;source=embed";
                     $link = '<a href="' . $redirectUrl . '" target="_blank">Ansicht auf maps.google.com</a>';
@@ -82,13 +79,15 @@
             </td>
           </tr>
           <tr>
-            <td style="vertical-align:top;">
-              <div id="register">
-                <?php
-                  require("./register.php");
-                ?>
-              </div> <!-- register endet hier -->
-            </td>
+            <?php
+              if ($varName != "") {
+                echo '<td style="vertical-align:top;">';
+                echo '  <div id="register">';
+                require("./register.php");
+                echo '  </div>';
+                echo '</td>';
+              }
+            ?>
             <td style="width:100%;height:100%">
               <div id="map"></div>
             </td>

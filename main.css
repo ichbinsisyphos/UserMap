@@ -160,6 +160,23 @@ a:active
 
 }*/
 
+
+.controls_button {
+  -moz-box-sizing: border-box; 
+  box-sizing:border-box;
+  background-color:#f3f3f3;
+  color:#444444;
+  width:120px;
+  text-align:center;
+  /*width:auto;*/
+  border-style:none;
+  /*border-color:#444444;*/
+  /*border-width:1px;*/
+  border-radius:5px;
+  padding:3px;
+  float:left;
+}
+
 .register_button {
   -moz-box-sizing: border-box; 
   box-sizing:border-box;
