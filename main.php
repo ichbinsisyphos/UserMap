@@ -31,11 +31,27 @@
                     $varDescription = "";
                     $varCountry = "";
 
+
+                    $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
+                    $kmzFile  = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+
+                    echo '<script type="text/javascript">
+                          kmzLink = "'. $hostName . "/UserMap/" . $kmzFile . '.kmz";
+                          </script>';
+
+
                   // username kommt hier über externes Formular rein, gegebenenfalls anpassen
                     if(isset($_POST['nameSendSubmit']))
                       {
                         if(isset($_POST['nameSendInput'])) {
                           $varName = $_POST['nameSendInput'];
+                      }
+                    }
+
+                    else if(isset($_POST['formSubmit']))
+                      {
+                        if(isset($_POST['nameInput'])) {
+                          $varName = $_POST['nameInput'];
                       }
                     }
 

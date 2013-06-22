@@ -2,6 +2,8 @@
 /* TODO: MENÜAUSWAHL AUCH IN COOKIE SCHREIBEN */
 /* TODO: Vorschlag/Vorgabe für Beschreibung: forumlink, Ortsangabe auch im Text, etc etc */
 
+var kmzLink;
+
 function validateLocationString() {
   // setCookie();
 

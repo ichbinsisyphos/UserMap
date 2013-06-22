@@ -23,13 +23,6 @@
         </select>
       </td>
     </tr>
-    <tr>
-      <td colspan="4">
-        <div class="register_text">
-          <output name="markerposition" id="markerposition"></output>
-        </div>
-      </td>
-    </tr>
     <tr style="height:10px;"><td colspan="4"></td>
     </tr>
     <tr>
@@ -109,6 +102,14 @@
             . escapeshellarg($varLocation);
 
       $outputVar = shell_exec($command);
+
+      $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
+      $kmzFile  = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
+
+      echo '<script type="text/javascript">
+            kmzLink = "'. $hostName . "/UserMap/" . $kmzFile . '.kmz";
+            </script>';
+
 
       if ($outputVar != "success") {
         if ($outputVar == "name_taken") {

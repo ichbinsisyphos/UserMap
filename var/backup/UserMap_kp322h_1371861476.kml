@@ -120,7 +120,7 @@ Als Titel bitte den Username, als Beschreibung eine kurze Vorstellung.</descript
     </Placemark>
     <Placemark xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
       <name>ichbinsisyphos</name>
-      <styleUrl>http://85.127.163.15/UserMap/styles.kml#single</styleUrl>
+      <styleUrl>http://85.127.233.14/UserMap/styles.kml#single</styleUrl>
       <type>user</type>
       <locationString>Graz, &#214;sterreich (47.0707140,15.4395040)</locationString>
       <country>&#214;sterreich</country>
