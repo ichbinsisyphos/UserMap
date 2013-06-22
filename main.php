@@ -26,6 +26,7 @@
           <tr>
             <td colspan="2">
               <div id="controls">
+
                   <?php
                     $varName = "";
                     $varDescription = "";
@@ -60,8 +61,10 @@
                       echo '  <input type="button" class="controls_button" id="registerButton" value=" " onClick="toggleHidden()"/>';
                       echo '</div>';
 
-                      $forNameCommand = "python ./UserMap.py "
-                                . escapeshellarg("forname") . " "
+                      $forNameCommand = "python ./UserMap.py"
+                                . " "
+                                . escapeshellarg("forname")
+                                . " "
                                 . escapeshellarg($varName);
 
                       $forNameReturnString = shell_exec($forNameCommand);
@@ -73,31 +76,19 @@
                       }
                     }
 
-                    $hostName = trim(preg_replace('/\s+/', ' ', file_get_contents("hostname.conf")));
-                    $kmlFile  = trim(preg_replace('/\s+/', ' ', file_get_contents("var/kmlFilename.dat")));
-                    $redirectUrl = "https://maps.google.com/maps?q="
-                                      . $hostName
-                                      . "/UserMap/"
-                                      . $kmlFile
-                                      . ".kmz"
-                                      . "&amp;ie=UTF8"
-                                      // . "&amp;ll=48.809243,12.720624"
-                                      // . "&amp;spn=12.49903,13.726243"
-                                      . "&amp;t=m"
-                                      . "&amp;source=embed";
-                    
-                    $link = '<a href="'
-                            . $redirectUrl
-                            . '" target="_blank">Ansicht auf maps.google.com</a>';
-                    
-                    echo '<div id="maplink" style="float:right;">';
-                    echo($link);
-                    echo '</div>';
+                    echo "<div id='maplink' style='float:right;'>\n";
+                    echo "  <a href='googleRedirect.php' target='_blank'>"
+                              . "Ansicht auf maps.google.com"
+                              . "</a>\n";
+                    echo "</div>\n";
+
                   ?>
+
               </div>
             </td>
           </tr>
           <tr>
+
             <?php
               if ($varName != "") {
                 echo '<td style="vertical-align:top;">';
@@ -107,6 +98,7 @@
                 echo '</td>';
               }
             ?>
+
             <td style="width:100%;height:100%">
               <div id="map"></div>
             </td>
